@@ -1,3 +1,4 @@
+% !TeX program = xelatex 
 %  LaTeX support: latex@mdpi.com 
 %  For support, please attach all files needed for compiling as well as the log file, and specify your operating system, LaTeX version, and LaTeX editor.
 
@@ -337,6 +338,7 @@ Moreover, considering that users typically limit their exploration to the initia
 where $|S|$ represents the total number of samples, $r_i$ denotes the ranking of the true target corresponding to the $i$-th query in the retrieved  results, and $N$ is the window size. 
 
 \subsection{Comparison Results}
+
 In this section, we compare the performance of pretrained models, single-task fine-tuned models, and multitask fine-tuned models on the automotive domain QA retrieval task. By thoroughly examining the experimental results, we identify the most effective multitask fine-tuning strategy.
 
 
@@ -647,6 +649,9 @@ In this paper, we first focus on constructing QA corpora, document sets, and mul
 % To cite two works by the same author: \citeauthor{ref-journal-1a} (\citeyear{ref-journal-1a}, \citeyear{ref-journal-1b}). This produces: Whittaker (1967, 1975)
 % To cite two works by the same author with specific pages: \citeauthor{ref-journal-3a} (\citeyear{ref-journal-3a}, p. 328; \citeyear{ref-journal-3b}, p.475). This produces: Wong (1999, p. 328; 2000, p. 475)
 
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% for journal Sci
 %\reviewreports{\\
@@ -656,6 +661,155 @@ In this paper, we first focus on constructing QA corpora, document sets, and mul
 %}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \PublishersNote{}
+
+
+
+\begin{table}[H] 
+	\caption{Approach performance on complete MultiSpanQA valid set based on $\text{BERT}_{base}$.} \label{tab:single}
+	\newcolumntype{C}{>{\centering\arraybackslash}X}
+	\begin{tabularx}{\textwidth}{p{1.5cm}CCCCCCCC}
+		\toprule
+		\multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
+		\cline{2-7} 
+		\addlinespace
+		& P           & R          & F           & P          & R           & F           \\
+		\midrule
+		Tase   & 60.28         & 55.59         & 65.83         & 78.16         & 78.27         & 78.06         \\ 
+		Liquid & 61.44         & 58.39         & 64.84         & 78.56         & 78.65         & 78.46         \\
+		C-rand & 63.05         & 58.51         & 68.34         & 79.42         & 78.70         & 80.14         \\
+		ER-EEins  & 63.93          & 60.22         & 68.13          & 77.50         & 77.07          & 77.94         \\
+		C-ER-EE & 62.90          & 61.02        & 64.89          & 76.72         & 78.56          & 74.97         \\
+		Bagging & 64.44          & 61.63        & 67.50          & 79.52         & 80.49          & 78.57         \\
+		\bottomrule
+	\end{tabularx}
+	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
+\end{table}
+
+\begin{table}[H] 
+	\caption{Approach performance on complete MultiSpanQA valid set based on $\text{RoBERTa}_{base}$.} \label{tab:single}
+	\newcolumntype{C}{>{\centering\arraybackslash}X}
+	\begin{tabularx}{\textwidth}{p{1.5cm}CCCCCCC}
+		\toprule
+		\multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
+		\cline{2-7} 
+		\addlinespace
+		& P & R & F & P & R & F \\
+		\midrule
+		Tase & 68.00 & 65.06 & 71.22 & 83.13 & 83.05 & 83.22 \\ 
+		Liquid & 68.33 & 66.68 & 70.07 & 82.71 & 82.45 & 82.98 \\
+		C-rand & 70.35 & 67.35 & 73.63 & 84.06 & 83.38 & 84.76 \\
+		ER-EEins & 69.15 & 67.81 & 70.54 & 82.85 & 83.90 & 81.83 \\
+		C-ER-EE & 70.44 & 67.813 & 73.26 & 82.80 & 82.45 & 83.15 \\
+		Bagging & 70.86 & 69.03 & 72.79 & 84.82 & 85.53 & 84.12 \\
+		\bottomrule
+	\end{tabularx}
+	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
+\end{table}
+
+\begin{table}[ht]
+	\caption{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text{BERT}_{base}$.}
+	\label{tab:single}
+	\newcolumntype{C}{>{\centering\arraybackslash}X}
+	\begin{tabularx}{\textwidth}{Cp{1.5cm}CCCCCCC}
+		\toprule
+		\multirow{2}{*}{\textbf{Type}} & \multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match} \\
+		\cmidrule{3-8} 
+		& & P & R & F & P & R & F \\
+		\midrule
+		\multirow{6}{*}{DESC} & Tase & 32.76 & 27.33 & 40.87 & 64.46 & 68.61 & 60.79 \\ 
+		& Liquid & 36.69 & 31.10 & 44.71 & 66.05 & 65.95 & 66.15 \\
+		& C-rand & 38.74 & 32.89 & 47.12 & 68.31 & 70.32 & 66.42 \\
+		& ER-EEins & 44.69 & 40.71 & 49.52 & 63.12 & 67.16 & 59.53 \\
+		& C-ER-EE & 40.63 & 38.30 & 43.27 & 64.25 & 71.15 & 58.57 \\
+		& Bagging & 39.91 & 36.69 & 43.75 & 66.70 & 73.68 & 60.93 \\
+		\midrule
+		\multirow{6}{*}{NUM} & Tase & 33.33 & 30.23 & 37.14 & 60.98 & 71.99 & 52.89 \\ 
+		& Liquid & 34.33 & 31.25 & 38.10 & 60.68 & 68.15 & 54.69 \\
+		& C-rand & 35.96 & 33.33 & 39.05 & 64.47 & 71.56 & 58.65 \\
+		& ER-EEins & 36.20 & 34.48 & 38.10 & 59.02 & 65.63 & 53.62 \\
+		& C-ER-EE & 36.71 & 37.25 & 36.19 & 57.09 & 69.04 & 48.67 \\
+		& Bagging & 35.94 & 34.82 & 37.14 & 60.73 & 71.15 & 52.97 \\
+		\midrule
+		\multirow{6}{*}{HUM} & Tase & 70.68 & 67.64 & 74.00 & 83.09 & 83.93 & 82.28 \\ 
+		& Liquid & 72.59 & 71.35 & 73.88 & 84.16 & 85.77 & 82.61 \\
+		& C-rand & 73.80 & 71.17 & 76.63 & 84.36 & 85.30 & 83.43 \\
+		& ER-EEins & 73.61 & 70.63 & 76.86 & 82.75 & 82.64 & 82.85 \\
+		& C-ER-EE & 73.43 & 72.33 & 74.57 & 82.33 & 84.13 & 80.61 \\
+		& Bagging & 75.22 & 73.66 & 76.86 & 84.56 & 86.36 & 82.83 \\
+		\midrule
+		\multirow{6}{*}{LOC} & Tase & 59.52 & 54.65 & 65.34 & 78.91 & 76.57 & 81.40 \\ 
+		& Liquid & 60.75 & 57.58 & 64.29 & 79.03 & 77.85 & 80.25 \\
+		& C-rand & 63.07 & 57.68 & 69.58 & 80.58 & 76.73 & 84.85 \\
+		& ER-EEins & 62.36 & 57.79 & 67.72 & 80.13 & 77.03 & 83.48 \\
+		& C-ER-EE & 61.54 & 57.14 & 66.67 & 78.30 & 76.18 & 80.55 \\
+		& Bagging & 64.36 & 60.47 & 68.78 & 80.92 & 78.29 & 83.72 \\
+		\midrule
+		\multirow{6}{*}{ENTY} & Tase & 63.17 & 57.93 & 69.45 & 78.95 & 76.32 & 81.77 \\ 
+		& Liquid & 60.89 & 59.08 & 62.82 & 78.29 & 76.07 & 80.64 \\
+		& C-rand & 61.68 & 56.63 & 67.72 & 77.60 & 74.07 & 81.48 \\
+		& ER-EEins & 62.12 & 58.00 & 66.86 & 75.64 & 73.46 & 77.95 \\
+		& C-ER-EE & 59.63 & 59.04 & 60.23 & 73.74 & 75.03 & 72.50 \\
+		& Bagging & 61.98 & 58.42 & 65.99 & 78.34 & 76.22 & 80.59 \\
+		\midrule
+		\multirow{6}{*}{All Entities} & Tase & 66.30 & 62.21 & 70.96 & 81.16 & 80.37 & 81.96 \\ 
+		& Liquid & 67.17 & 65.25 & 69.21 & 81.66 & 81.69 & 81.63 \\
+		& C-rand & 68.47 & 64.44 & 73.03 & 81.93 & 80.57 & 83.34 \\
+		& ER-EEins & 68.36 & 64.64 & 72.53 & 80.55 & 79.21 & 81.93 \\
+		& C-ER-EE & 67.54 & 65.60 & 69.59 & 79.49 & 80.16 & 78.83 \\
+		& Bagging & 69.65 & 66.94 & 72.59 & 82.31 & 82.07 & 82.55 \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+\begin{table}[ht]
+	\caption{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text{RoBERTa}_{base}$.}
+	\label{tab:single}
+	\newcolumntype{C}{>{\centering\arraybackslash}X}
+	\begin{tabularx}{\textwidth}{Cp{1.5cm}CCCCCCC}
+		\toprule
+		\multirow{2}{*}{\textbf{Type}} & \multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match} \\
+		\cmidrule{3-8} 
+		& & P & R & F & P & R & F \\
+		\midrule
+		\multirow{6}{*}{DESC} & Tase & 45.53 & 40.84 & 51.44 & 75.44 & 76.61 & 74.31 \\ 
+		& Liquid & 48.68 & 44.76 & 53.37 & 73.27 & 71.57 & 75.04 \\
+		& C-rand & 49.02 & 44.66 & 54.33 & 76.33 & 77.85 & 74.86 \\
+		& ER-EEins & 50.99 & 46.96 & 55.77 & 76.87 & 78.07 & 75.71 \\
+		& C-ER-EE & 49.24 & 44.71 & 54.81 & 71.87 & 73.03 & 70.74 \\
+		& Bagging & 47.70 & 43.78 & 52.40 & 77.43 & 80.63 & 74.47 \\
+		\midrule
+		\multirow{6}{*}{NUM} & Tase & 46.23 & 45.79 & 46.67 & 71.89 & 78.42 & 66.36 \\ 
+		& Liquid & 40.19 & 39.45 & 40.95 & 67.56 & 72.28 & 63.42 \\
+		& C-rand & 50.69 & 49.11 & 52.38 & 72.86 & 80.22 & 66.74 \\
+		& ER-EEin & 42.40 & 41.07 & 43.81 & 66.67 & 73.51 & 61.00 \\
+		& C-ER-EE & 45.58 & 44.55 & 46.67 & 65.86 & 73.19 & 59.87 \\
+		& Bagging & 44.65 & 43.64 & 45.71 & 70.11 & 78.49 & 63.35 \\
+		\midrule
+		\multirow{6}{*}{HUM} & Tase & 76.40 & 74.14 & 78.81 & 86.83 & 87.67 & 86.00 \\ 
+		& Liquid & 76.70 & 76.30 & 77.09 & 85.85 & 87.16 & 84.59 \\
+		& C-rand & 78.36 & 76.00 & 80.87 & 87.41 & 87.30 & 87.53 \\
+		& ER-EEins & 77.11 & 76.12 & 78.12 & 86.44 & 87.56 & 85.35 \\
+		& C-ER-EE & 78.42 & 77.37 & 79.50 & 85.88 & 87.49 & 86.28 \\
+		& Bagging & 78.51 & 77.33 & 79.73 & 87.90 & 88.66 & 87.15 \\
+		\midrule
+		\multirow{6}{*}{LOC} & Tase & 64.85 & 60.93 & 69.31 & 81.73 & 79.37 & 84.23 \\ 
+		& Liquid & 68.51 & 65.38 & 71.96 & 85.48 & 82.58 & 88.58 \\
+		& C-rand & 66.25 & 62.18 & 70.90 & 83.11 & 79.33 & 87.26 \\
+		& ER-EEins & 68.48 & 67.18 & 69.84 & 83.09 & 82.45 & 83.73 \\
+		& C-ER-EE & 69.03 & 66.10 & 72.22 & 83.88 & 81.97 & 85.88 \\
+		& Bagging & 69.47 & 66.91 & 72.22 & 84.44 & 82.77 & 86.19 \\
+		\midrule
+		\multirow{6}{*}{ENTY} & Tase & 71.63 & 69.86 & 73.49 & 83.54 & 81.62 & 85.55 \\ 
+		& Liquid & 68.57 & 67.99 & 69.16 & 82.37 & 81.27 & 83.49 \\
+		& C-rand & 74.54 & 72.80 & 76.37 & 84.68 & 83.00 & 86.44 \\
+		& ER-EEins & 69.87 & 70.59 & 69.16 & 82.19 & 83.58 & 80.84 \\
+		& C-ER-EE & 73.37 & 69.41 & 77.81 & 83.33 & 80.13 & 86.79 \\
+		& Bagging & 76.26 & 76.15 & 76.37 & 86.35 & 86.39 & 86.30 \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+
 \end{adjustwidth}
 \end{document}
 
