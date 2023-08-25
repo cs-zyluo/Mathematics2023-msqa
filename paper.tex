@@ -177,6 +177,9 @@ $^{1}$ \quad School of Computer Science and Technology and the Key Laboratory of
 \usepackage{xeCJK}
 \setCJKmainfont{STKaiti}
 
+
+
+
 \begin{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -257,187 +260,158 @@ We construct a QA dataset specific to the automotive domain by gathering questio
 \end{table}
 
 \section{Experiments}
-In this section, we first create an evaluation dataset for the automotive domain. Next, we introduce evaluation metrics utilized in our experiments. Finally, we conduct a comparative analysis against competing models to substantiate the effectiveness of our system.
+In this section, we compare our information augmentation approach with multiple strong baseline on multi-span question answering. We first introduce the datasets and experiment setup, then show the experimental results and analysis for different model.
 
 \subsection{Evaluation Dataset}
-Firstly, we create a retrieval corpus (shown in \tableref{tab:question_set}) utilizing the question set outlined  in \secref{sec:corpus_construction}. 
-Then, we randomly sample 100 questions from the retrieval corpus. These selected questions are then subjected to synonymous rephrasing using ChatGPT, which ultimately leads to the creation of the evaluation dataset (shown in \tableref{tab:eval_dataset}).
+\label{sec:datasets}
+	 We conducted experiments on MultiSpanQA(Li et al., 2022), a recently introduced Reading Comprehension dataset designed for multi-span question answering. This dataset comprises 6.5K multi-span examples in which the questions represent user queries issued to the Google search engine, and the contexts are extracted from the English Wikipedia. It's worth noting that there is a expand variant of MultiSpanQA known as MultispanQA(expand), which intakes single-span and answerable questions. However, we did not perform a comparison with the expanded dataset due to its relatively lower proportion of multi-span QA pairs.
 
-\begin{table}[H] 
-	\caption{The retrieval corpus consisted of all questions in QA dataset.} \label{tab:question_set}
-	\newcolumntype{C}{>{\centering\arraybackslash}X}
-	\begin{tabularx}{\textwidth}{C}
-		\toprule
-		\textbf{Questions}	\\
-		\midrule
-		\{ 未来车门会是什么样？\} \\({\color{blue} What will the car doors of the future look like?})\\
-		\midrule
-		\{ WEY是什么品牌的车？\} \\({\color{blue} Which automobile brand is WEY?}) \\ \midrule
-		\{ 长安沃尔沃和吉利沃尔沃有什么区别？\} \\ ({\color{blue} What is the difference between Changan Volvo and Geely Volvo?})\\
-		%		\midrule
-		%		Entry 1		\\
-		%		Entry 2	Dat \textsuperscript{1}\\
-		\bottomrule
-	\end{tabularx}
-	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
-\end{table}
+\subsection{Experimental Setup}
+	For all competing models and our model, we use the HuggingFace implementation of $\text{BERT}_{base}$ or $\text{RoBERTa}_{base}$ as the \textit{encoder} with $\textit{max\_len}$ = 512. We set the initial learning rate as $3 \times 10^{-5}$ and  $\textit{batch\_size}$ = 4, and use the BERTAdam optimizer with a weight decay of 0.01. Our approach does not involve tuning the parameters on the validation set. Instead, we rely on the model checkpoints obtained after 5 epochs. Next, we introduce the comparison model and evaluation metrics in our experiments.
+	
+	\subsubsection{\textit{Model Under Comparison}}
+	\label{sec:baselines}
+	We introduce two comstracting models approaches to multi-span answer extraction : \textbf{TASE} (Segal et al., 2020) and \textbf{LIQUID}(Lee et al., 2023). TASE utilizes a tag-based span extraction model which identifies multi-span answers though the assigning a tag to every input token with BIO tagging scheme. On the other hand, LIQUID serves as a framework for generating multi-span QA datasets to improve model performance.
+	
+	To enhance the context with auxiliary information, we employ two distinct   approaches: \textbf{$\text{AUG}_{c}$} and \textbf{$\text{AUG}_{eree}$}, where \textbf{AUG} is our automatic data augmentation framework,and the suffix indicates which kind of information is injected into the context. \textbf{$\text{AUG}_{C}$} enriches the context with continue writing, while \textbf{$\text{AUG}_{EREE}$} supplements context with entities information including explanation and relationship analysis.
+	Specifically, we leverage ChatGPT as a knowledge source to linearize the relevant information from large language models. in texts format and seamlessly integrate into the original contexts, thus reinforces the information of model inputs.
 
-Specifically, we transform the rephrasing task description and the question text into prompts, which are fed into ChatGPT to generate the rephrased results. These results are then subject to manual screening to create the final evaluation dataset. The prompts are designed following specific principles: (1) Role assignment: ChatGPT assumes the role of an automotive engineer, for instance, with a prompt like ``Imagine you are an automotive engineer''. (2) Rephrasing task description: a detailed explanation of the rephrasing task requirements is provided, such as ``You will receive a text related to the automotive domain and your task is to rewrite it, ensuring that the length remains similar to the original while preserving its meaning''. (3) Result requirements: the desired outcomes of ChatGPT's generation are described, for example, with a prompt like ``Please provide 6 rephrased results for each data point and rank them in descending order based on their quality''. Subsequently, human annotators manually review the rephrased results generated by ChatGPT, carefully examining each question's rephrased versions, and selecting the top 4 synonyms with the highest quality. This process yields a dataset comprising 400 user queries, as depicted in Table 4. Each query corresponds to a question in the {\em queries} field and has a corresponding reference question in the retrieval corpus, indicated by the {\em reference} field. This user query dataset is utilized to evaluate the performance of the retrieval-based question answering model.
+	
+	\subsubsection{\textit{Evaluation Metrics}}
+	\label{sec:metrics}
+	We use two automatic metrics for evaluation: Exact Match and Overlap F1 score.
+	\begin{itemize}
+		\item \textbf{Exact Match}. An exact match occurs when a predicted span fully matches one of the ground-truth
+		answer spans. We calculate the micro-average precision, recall and f1 score for the extract match
+		metric.
+		
+		\item \textbf{Overlap F1 score}. Overlap F1 score is the macro-average f1 score, where the f1 score for each
+		example is computed by treating the prediction and gold as a bag of tokens.
+	\end{itemize}
 
-\begin{table}[H] 
-	\caption{The evaluation dataset in our experiments.} \label{tab:eval_dataset}
-	\newcolumntype{C}{>{\centering\arraybackslash}X}
-	\begin{tabularx}{\textwidth}{L}
-	\toprule
-		\textbf{An illustration Example}	\\
-		\midrule
-		\{ ``reference'': ``长安cs75plus车型热销背后的几点思考'',~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
-		~~~~~~~~~~~~~~~~~~~({\color{blue} Some thoughts behind the hot sales of the Changan CS75 Plus model.}) \\ 
-		~~~``queries'': [\\
-		~~~~~~``长安cs75plus车型热销背后原因解析'', \\
-		~~~~~~~({\color{blue} Analysis of the reasons behind the high sales of the Changan CS75 Plus model.}) \\ 
-		~~~~~~``购买长安cs75plus车型的几点原因'', \\
-		~~~~~~ ({\color{blue} Several reasons for purchasing the Changan CS75 Plus model.}) \\ 
-		~~~~~~``长安cs75plus车型为什么能够热销，列出几点原因'', \\
-		~~~~~~~({\color{blue} Please list a few reasons to explain why the Changan CS75 Plus model sells well.}) \\ 
-		~~~~~~~``长安cs75plus车型，热销背后的原因思考'',~~~~ \\
-		~~~~~~ ({\color{blue} Reflection on the reasons behind the popularity of the Changan CS75 Plus model.}) \\ 
-		~~~~] ~~~~~~~~~~~~~~~~~~~~~~~~~~~\\
-		\}~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\\
-		\bottomrule
-	\end{tabularx}
-	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
-\end{table}
+\subsection{Experimental Results and Analysis}
+	In this section, we compare $\text{AUG}$ with all competing models described above \textcolor{red}{both quantitatively and qualitatively}.
+	
+	\subsubsection{\textit{Comparison Results}}
+	We evaluate our model as well as baselines 
+	\(( Section ~\ref{sec:baselines} )\) on the development splits of multi-span datasets \(( Section  ~\ref{sec:datasets})\) using automatic metrics \(( Section ~\ref{sec:datasets})\). The comparison results are shown in Table \ref{tab:bertall}, Table \ref{tab:robertaall}.
+	
+	\begin{table}[H] 
+		\caption{Approach performance on complete MultiSpanQA valid set based on $\text{BERT}_{base}$.} 
+		\label{tab:bertall}
+		\newcolumntype{C}{>{\centering\arraybackslash}X}
+		\begin{tabularx}{\textwidth}{p{1.5cm}CCCCCCCC}
+			\toprule
+			\multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
+			\cline{2-7} 
+			\addlinespace
+			& F\((\%)\)           & P\((\%)\)          & R\((\%)\)           & F\((\%)\)          & P\((\%)\)           & R\((\%)\)           \\
+			\midrule
+			TASE   & 60.28         & 55.59         & 65.83         & 78.16         & 78.27         & 78.06         \\ 
+			LIQUID & 61.44         & 58.39         & 64.84         & 78.56         & 78.65         & 78.46         \\
+			$\text{AUG}_{c}$ & 63.05         & 58.51         & 68.34         & 79.42         & 78.70         & 80.14         \\
+			$\text{AUG}_{eree}$  & 63.93          & 60.22         & 68.13          & 77.50         & 77.07          & 77.94         \\
+			$\text{AUG}_{ereec}$ & 62.90          & 61.02        & 64.89          & 76.72         & 78.56          & 74.97         \\
+			Bagging & 64.44          & 61.63        & 67.50          & 79.52         & 80.49          & 78.57         \\
+			\bottomrule
+		\end{tabularx}
+		%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
+	\end{table}
+	
+	\begin{table}[H] 
+		\caption{Approach performance on complete MultiSpanQA valid set based on $\text{RoBERTa}_{base}$.} 
+		\label{tab:robertaall}
+		\newcolumntype{C}{>{\centering\arraybackslash}X}
+		\begin{tabularx}{\textwidth}{p{1.5cm}CCCCCCC}
+			\toprule
+			\multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
+			\cline{2-7} 
+			\addlinespace
+			& F\((\%)\) & P\((\%)\) & R\((\%)\) & F\((\%)\) & P\((\%)\) & R\((\%)\) \\
+			\midrule
+			TASE & 68.00 & 65.06 & 71.22 & 83.13 & 83.05 & 83.22 \\ 
+			LIQUID & 68.33 & 66.68 & 70.07 & 82.71 & 82.45 & 82.98 \\
+			$\text{AUG}_{c}$ & 70.35 & 67.35 & 73.63 & 84.06 & 83.38 & 84.76 \\
+			$\text{AUG}_{eree}$ & 69.15 & 67.81 & 70.54 & 82.85 & 83.90 & 81.83 \\
+			$\text{AUG}_{ereec}$ & 70.44 & 67.813 & 73.26 & 82.80 & 82.45 & 83.15 \\
+			Bagging & 70.86 & 69.03 & 72.79 & 84.82 & 85.53 & 84.12 \\
+			\bottomrule
+		\end{tabularx}      
+		%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
+	\end{table}
+	
+\subsubsection{\textit{Discussion}}
 
-
-\subsection{Evaluation Metrics}
-\label{sec:metrics}
-The hit rate at K (Hit@K) is a widely used evaluation metric for assessing the performance of retrieval systems. It measures the capability to rank the correct target of user queries among the top K retrieval results. When conducting Hit@K for evaluation, a query is considered a hit if the true target is included in the top K retrieval results; otherwise, it is categorized as a miss. In our experiments, we utilize Hit@1, Hit@3, and Hit@5 as evaluation metrics for the retrieval model. Formally, the Hit@K is computed as:
-\begin{linenomath}
-	\begin{equation}\label{eq:hit}
-		Hit@K = \frac{N_K}{|\mathcal{Q}|}, 
-	\end{equation}
-\end{linenomath}
-where $N_K$ represents the total number of hits for $N$ retrieval tasks, and $|\mathcal{Q}|$ is the total number of true targets across all queries.
-
-While Hit@K is a straightforward metric, it solely focuses on the top-ranked results, disregarding other potentially valuable outcomes. To account for the ranking of all results, we utilize the Mean Reciprocal Rank (MRR) as an evaluation metric. MRR is computed as follows:
-\begin{linenomath}
-	\begin{equation}\label{eq:mrr}
-		MRR = \frac{1}{|S|}\sum_{i=1}^{|S|}\frac{1}{r_i}, 
-	\end{equation}
-\end{linenomath}
-where $|S|$ represents the total number of queries, and $r_i$ denotes the ranking of the true target corresponding to the $i$-th query in the retrieved  results.
-
-In addition, we present a novel evaluation metric designed based on real user behavior. Considering that the result page of the QA system  has the capability to display multiple results, the difference between the top-ranked and fifth-ranked feedback results holds minimal significance in terms of user experience. However, the MRR metric assigns a score difference of 0.8 between the first and fifth ranks (with a maximum score of 1). 
-Moreover, considering that users typically limit their exploration to the initial pages of retrieval results, if a rank exceeds a certain threshold, it indicates a failure of the query sample to produce the correct result within the system. Despite a low ranking, MRR still provides a positive evaluation score when used for assessment. To address these concerns, we propose a new evaluation metric called Mean Linear Window Rank (MLWR). MLWR linearly adjusts the impact of ranking on the evaluation metric and incorporates a window size to exclude query samples with rankings beyond the predefined window. This approach better aligns with the user experience requirements of the system and provides a comprehensive assessment of retrieval system performance. Formally, MLWR is computed as follows:
-\begin{linenomath}
-	\begin{equation}\label{eq:mlwr}
-		MLWR = \sum_{i=1}^{|S|}\frac{\max\{0, N-r_i+1\}}{N\times |S|}, 
-	\end{equation}
-\end{linenomath}
-where $|S|$ represents the total number of samples, $r_i$ denotes the ranking of the true target corresponding to the $i$-th query in the retrieved  results, and $N$ is the window size. 
-
-\subsection{Comparison Results}
-
-In this section, we compare the performance of pretrained models, single-task fine-tuned models, and multitask fine-tuned models on the automotive domain QA retrieval task. By thoroughly examining the experimental results, we identify the most effective multitask fine-tuning strategy.
-
-
-\begin{table}[H] 
-	\caption{Comparison of Hit@K, MRR, MLWR using single-task fine-tuning models based on $\text{BERT}_{base}$.} \label{tab:single}
-	\newcolumntype{C}{>{\centering\arraybackslash}X}
-	\begin{tabularx}{\textwidth}{p{1.5cm}CCCCCCCCCC}
-		\toprule
-		\multirow{2}{*}{\textbf{Model}} & \multicolumn{2}{c}{Hit@1(\%)} & \multicolumn{2}{c}{Hit@3(\%)} & \multicolumn{2}{c}{Hit@5(\%)} & \multicolumn{2}{c}{MRR(\%)} & \multicolumn{2}{c}{MLWR(\%)} \\
-		\cline{2-11} 
-		\addlinespace
-		& CLS           & MEAN          & CLS           & MEAN          & CLS           & MEAN          & CLS          & MEAN         & CLS           & MEAN         \\
-		\midrule
-		$\text{BERT}_{base}$   & 30.00         & 64.50         & 39.50         & 72.25         & 43.25         & 77.25         & 36.57        & 70.21        & 47.37         & 79.97   \\ 
-%		BERT   & 30.00         & 64.50         & 39.50         & 72.25         & 43.25         & 77.25         & 36.57        & 70.21        & 47.37         & 79.97        \\
-		FT-MLM & 47.25         & 77.00         & 55.50         & 83.50         & 57.00         & 85.75         & 52.19        & 80.94        & 58.96         & 86.76        \\
-		FT-STS & 13.00         & 60.25         & 18.50         & 71.25         & 22.25         & 74.75         & 17.73        & 66.58        & 26.21         & 76.19        \\
-		FT-TE  & 5.00          & 24.75         & 8.50          & 30.25         & 9.00          & 32.75         & 7.27         & 28.89        & 10.73         & 35.41        \\
-		FT-NSP & 14.75         & 59.00         & 14.75         & 67.75         & 20.75         & 71.00         & 18.53        & 64.53        & 24.56         & 73.29  \\ 
-%		$\text{BERT}_{large}$   & 26.50         & 64.50         & 39.50         & 72.25         & 43.25         & 77.25         & 36.57        & 70.21        & 47.37         & 79.97   \\ 
-		\bottomrule
-	\end{tabularx}
-	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
-\end{table}
-
-
-
-\begin{table}[H] 
-	\caption{Comparison of Hit@K, MRR, MLWR using multitask fine-tuning models based on $\text{BERT}_{base}$.} \label{tab:multi}
-	\newcolumntype{C}{>{\centering\arraybackslash}X}
-	\begin{tabularx}{\textwidth}{p{3.0cm}CCCCCC}
-	\toprule
-	\multicolumn{1}{c}{Model}                & Hit@1(\%) & Hit@3(\%) & Hit@5(\%) & MRR(\%) & MLWR(\%) \\
-	\midrule
-	STS+MLM {[}CLS{]}  & 74.25     & 84.00     & 85.25     & 79.54   & 87.12    \\
-	NSP+MLM {[}CLS{]}  & 8.25      & 15.00     & 18.75     & 13.08   & 21.65    \\
-	STS+MLM {[}MEAN{]} & 77.50     & 84.75     & 87.00     & 81.60   & 87.71    \\
-	NSP+MLM {[}MEAN{]} & 73.25     & 78.75     & 80.50     & 76.77   & 82.17   \\
-	\bottomrule
-	\end{tabularx}
-	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
-\end{table}
-
-\begin{table}[H] 
-	\caption{Comparison of Hit@K, MRR, MLWR using the best single-task and multitask fine-tuning models based on $\text{BERT}_{large}$ and $\text{RoBERTa}$.} \label{tab:sup}
-	\newcolumntype{C}{>{\centering\arraybackslash}X}
-	\begin{tabularx}{\textwidth}{p{1.5cm}CCCCCCCCCC}
-		\toprule
-		\multirow{2}{*}{\textbf{Model}} & \multicolumn{2}{c}{Hit@1(\%)} & \multicolumn{2}{c}{Hit@3(\%)} & \multicolumn{2}{c}{Hit@5(\%)} & \multicolumn{2}{c}{MRR(\%)} & \multicolumn{2}{c}{MLWR(\%)} \\
-		\cline{2-11} 
-		\addlinespace
-		& CLS           & MEAN          & CLS           & MEAN          & CLS           & MEAN          & CLS          & MEAN         & CLS           & MEAN         \\
-		\toprule
-		$\text{BERT}_{large}$   & 26.50         & 64.50         & 39.50         & 72.25         & 43.25         & 77.25         & 36.57        & 70.21        & 47.37         & 79.97   \\ 
-		FT-MLM & 29.25         & 76.75         & 36.50         & 82.00         & 39.50         & 85.25        & 33.88        & 80.42        & 41.56        & 86.19        \\
-		MLM+STS & 18.50        & 78.00        & 22.20         & 83.50        & 23.50         & 85.75         & 21.13       & 81.67     & 25.16       & 88.42      \\ \toprule[0.2mm]
-		$\text{RoBERTa}$   & 69.00         & 73.00         & 77.75      & 79.50        & 79.25        & 82.75        & 74.16        & 77.41       & 81.59         & 84.61   \\ 
-		FT-MLM & 73.25        & 75.75        & 79.25        & 81.75        & 83.25         & 84.00         &  77.63        & 79.79        & 85.31         & 86.81        \\
-		MLM+STS & 37.50         & 78.75        & 48.25         & 84.50       & 51.75        & 87.75         & 44.46     & 82.50       & 55.16         & 88.79       \\
-		\bottomrule[0.2mm]
-	\end{tabularx}
-	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
-\end{table}
-
-
-To illustrate the generalization capability of our framework in mitigating bias within pretrained models, we extend our evaluation beyond the BERT-base model to also include the BERT-large and RoBERTa models. As shown in \tableref{tab:sup}, our framework exhibits effective generalization   across a variety of pretrained models. It is worth nothing that RoBERTa, which is solely pretrained using the MLM task, demonstrates good performance with the CLS encoding, achieving a Hit@1 score of 69\%. However, in pretraining models such as BERT-base and BERT-large, the CLS representation primarily learns from the NSP task, resulting in sub-optimal performance when directly utilizing the  CLS encoding. These findings highlight the negative impact of the NSP task as a training objective on QA tasks, while emphasizing the benefits of the MLM task as a training objective for downstream QA tasks. 
-
-%Furthermore, in order to showcase the effectiveness of the retriever module in our proposed system, we compare its performance using different indexing structures as described in Section 3.2. Specifically, we evaluate the retriever module using brute force, IndexPQ index, IndexHNSWFlat, and IndexFlatL2. 
-%As shown in 
-\subsection{Case Study}
-In this section,  we conduct a case study to qualitatively analyze competing models. 
-\tableref{tab:case} presents the results obtained when inputting an example user query, 
-namely ``如何对高尔夫7系列车型进行自我检修？'' ({\color{blue} How to perform self-maintenance on Volkswagen Golf7 series?}), and showcases the responses retrieved by the competing models utilizing $\text{BERT}_{base}$ in proposed framework.
-The baseline BERT model provides a historical overview of the 7th Generation Volkswagen Golf, while the single-task FT-MLM model compares the 308S and Golf 7 models. However, neither of these models is capable of providing an accurate answer to the query. In contrast, the STS+MLM joint fine-tuning model effectively responds with the precise and specific steps to perform maintenance on the FAW-Volkswagen Golf7, thereby correctly addressing the query.
-The STS+MLM joint model demonstrates its effectiveness in capturing the query intentions, surpassing other competing models in terms of qualitative performance.
-
-
-\begin{table}[H] 
-	\caption{Retrieved answers from baseline $\text{BERT}_{base}$ model, single-task FT-MLM model, and multitask STS+MLM model.} \label{tab:case}
-	\newcolumntype{C}{>{\centering\arraybackslash}X}
-	\begin{tabularx}{\textwidth}{cp{10cm}}
-		\toprule
-		\multicolumn{2}{p{12cm}}{\hangindent=2.2cm \hangafter=1 \textbf{Input Query}: ``如何对高尔夫7系列车型进行自我检修？'' ({\color{blue} How to perform self-maintenance on Volkswagen Golf7 series?})}   \\
-		\midrule
-		\textbf{Model} & \textbf{Retrieved answers} \\ \midrule
-		$\text{BERT}_{base}$  &  1. 高尔夫Mk1：1974年5月，第一代高尔夫... 2. 高尔夫Mk2:1983年8月，大众推出第二代... ({\color{blue} 1. Golf Mk1: In May 1974, the first generation Golf was introduced..  2. Golf Mk2: In August 1983, Volkswagen unveiled the second generation...})  \\\midrule
-		FT-MTM  &       1. 动力组合对比：高尔夫一共有三种排量...	 2. 质保政策对比：高尔夫官方保修周期为3年或者...
-		  ({\color{blue} 1. Powertrain Comparison: The Golf is available in three different engine displacements... 2. Warranty Policy Comparison: The official warranty period for the Golf is 3 years or...})   \\ \midrule
-		MLM+STS  &   1. 更换4.5升5w40美孚全合成机油、博世机滤、博世空气滤芯、博世空调滤芯、博世汽油滤芯、3m燃油添加剂、免拆三元催化清洗剂
-2. 动平衡、更换原厂轮毂盖
-		 ({\color{blue} 1. Replace 4.5 liters of 5w40 Mobil fully synthetic engine oil, Bosch oil filter, Bosch air filter, Bosch cabin air filter, Bosch fuel filter, 3M fuel additive, and non-dismantle catalytic converter cleaner.  2. Dynamic balancing and replace original wheel hub covers. }) \\
-		\bottomrule
-	\end{tabularx}
-	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
-\end{table}
-
+	\begin{table}[ht]
+		\caption{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text{BERT}_{base}$.}
+		\label{tab:bertsub}
+		\newcolumntype{C}{>{\centering\arraybackslash}X}
+		\begin{tabularx}{\textwidth}{Cp{1.5cm}CCCCCCC}
+			\toprule
+			\multirow{2}{*}{\textbf{Type}} & \multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match} \\
+			\cmidrule{3-8} 
+			& & F\((\%)\) & P\((\%)\) & R\((\%)\) & F\((\%)\) & P\((\%)\) & R\((\%)\) \\
+			\midrule
+			\multirow{6}{*}{DESC} & TASE & 32.76 & 27.33 & 40.87 & 64.46 & 68.61 & 60.79 \\ 
+			& LIQUID & 36.69 & 31.10 & 44.71 & 66.05 & 65.95 & 66.15 \\
+			& $\text{AUG}_{c}$ & 38.74 & 32.89 & 47.12 & 68.31 & 70.32 & 66.42 \\
+			& $\text{AUG}_{eree}$ & 44.69 & 40.71 & 49.52 & 63.12 & 67.16 & 59.53 \\
+			& $\text{AUG}_{ereec}$ & 40.63 & 38.30 & 43.27 & 64.25 & 71.15 & 58.57 \\
+			& Bagging & 39.91 & 36.69 & 43.75 & 66.70 & 73.68 & 60.93 \\
+			\midrule
+			\multirow{6}{*}{NUM} & TASE & 33.33 & 30.23 & 37.14 & 60.98 & 71.99 & 52.89 \\ 
+			& LIQUID & 34.33 & 31.25 & 38.10 & 60.68 & 68.15 & 54.69 \\
+			& $\text{AUG}_{c}$ & 35.96 & 33.33 & 39.05 & 64.47 & 71.56 & 58.65 \\
+			& $\text{AUG}_{eree}$ & 36.20 & 34.48 & 38.10 & 59.02 & 65.63 & 53.62 \\
+			& $\text{AUG}_{ereec}$ & 36.71 & 37.25 & 36.19 & 57.09 & 69.04 & 48.67 \\
+			& Bagging & 35.94 & 34.82 & 37.14 & 60.73 & 71.15 & 52.97 \\
+			\midrule
+			\multirow{6}{*}{ENTYS} & TASE & 66.30 & 62.21 & 70.96 & 81.16 & 80.37 & 81.96 \\ 
+			& LIQUID & 67.17 & 65.25 & 69.21 & 81.66 & 81.69 & 81.63 \\
+			& $\text{AUG}_{c}$ & 68.47 & 64.44 & 73.03 & 81.93 & 80.57 & 83.34 \\
+			& $\text{AUG}_{eree}$ & 68.36 & 64.64 & 72.53 & 80.55 & 79.21 & 81.93 \\
+			& $\text{AUG}_{ereec}$ & 67.54 & 65.60 & 69.59 & 79.49 & 80.16 & 78.83 \\
+			& Bagging & 69.65 & 66.94 & 72.59 & 82.31 & 82.07 & 82.55 \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+	
+	\begin{table}[ht]
+		\caption{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text{RoBERTa}_{base}$.}
+		\label{tab:robertasub}
+		\newcolumntype{C}{>{\centering\arraybackslash}X}
+		\begin{tabularx}{\textwidth}{Cp{1.5cm}CCCCCCC}
+			\toprule
+			\multirow{2}{*}{\textbf{Type}} & \multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match} \\
+			\cmidrule{3-8} 
+			& & F\((\%)\) & P\((\%)\) & R\((\%)\) & F\((\%)\) & P\((\%)\) & R\((\%)\) \\
+			\midrule
+			\multirow{6}{*}{DESC} & TASE & 45.53 & 40.84 & 51.44 & 75.44 & 76.61 & 74.31 \\ 
+			& LIQUID & 48.68 & 44.76 & 53.37 & 73.27 & 71.57 & 75.04 \\
+			& $\text{AUG}_{c}$ & 49.02 & 44.66 & 54.33 & 76.33 & 77.85 & 74.86 \\
+			& $\text{AUG}_{eree}$ & 50.99 & 46.96 & 55.77 & 76.87 & 78.07 & 75.71 \\
+			& $\text{AUG}_{ereec}$ & 49.24 & 44.71 & 54.81 & 71.87 & 73.03 & 70.74 \\
+			& Bagging & 47.70 & 43.78 & 52.40 & 77.43 & 80.63 & 74.47 \\
+			\midrule
+			\multirow{6}{*}{NUM} & TASE & 46.23 & 45.79 & 46.67 & 71.89 & 78.42 & 66.36 \\ 
+			& LIQUID & 40.19 & 39.45 & 40.95 & 67.56 & 72.28 & 63.42 \\
+			& $\text{AUG}_{c}$ & 50.69 & 49.11 & 52.38 & 72.86 & 80.22 & 66.74 \\
+			& $\text{AUG}_{eree}$ & 42.40 & 41.07 & 43.81 & 66.67 & 73.51 & 61.00 \\
+			& $\text{AUG}_{ereec}$ & 45.58 & 44.55 & 46.67 & 65.86 & 73.19 & 59.87 \\
+			& Bagging & 44.65 & 43.64 & 45.71 & 70.11 & 78.49 & 63.35 \\
+			\midrule
+			\multirow{6}{*}{ENTYS} & TASE & 72.57 & 69.94 & 75.41 & 84.90 & 84.32 & 85.48 \\ 
+			& LIQUID & 72.95 & 71.77 & 74.16 & 85.02 & 84.75 & 85.29 \\
+			& $\text{AUG}_{c}$ & 74.59 & 71.87 & 77.53 & 85.79 & 84.40 & 87.23 \\
+			& $\text{AUG}_{eree}$ & 73.50 & 72.81 & 74.22 & 84.74 & 85.49 & 83.99 \\
+			& $\text{AUG}_{ereec}$ & 75.04 & 72.81 & 77.41 & 85.37 & 84.46 & 86.29 \\
+			& Bagging & 75.85 & 74.52 & 77.22 & 86.73 & 86.73 & 86.74 \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
 
 \section{Conclusion}
-In this paper, we first focus on constructing QA corpora, document sets, and multitask fine-tuning datasets specifically tailored to the automotive domain. Then, we propose a pretraining-multitask fine-tuning learning framework to develop an encoder model that incorporates domain knowledge, enhancing the semantic representation of texts and enabling effective retrieval QA applications. The experimental results reveal that within the multitask fine-tuning framework (based on $\text{BERT}_{base}$), the joint fine-tuned model MLM+STS achieves the highest performance. It attains Hit@1 and Hit@3 accuracies of 77.5\% and 84.75\%, respectively, along with an MLWR of 87.71\%. These outcomes signify substantial improvements of 12.5, 12.5, and 28.16 percentage points, respectively, compared to the baseline BERT model. Additionally, when compared to the best-performing single-task fine-tuned model, FT-MLM, the observed enhancements amount to 0.5, 1.25, and 0.95 percentage points, respectively.
+
 
 %All figures and tables should be cited in the main text as Figure~\ref{fig1}, Table~\ref{tab1}, etc.
 
@@ -661,154 +635,6 @@ In this paper, we first focus on constructing QA corpora, document sets, and mul
 %}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \PublishersNote{}
-
-
-
-\begin{table}[H] 
-	\caption{Approach performance on complete MultiSpanQA valid set based on $\text{BERT}_{base}$.} \label{tab:single}
-	\newcolumntype{C}{>{\centering\arraybackslash}X}
-	\begin{tabularx}{\textwidth}{p{1.5cm}CCCCCCCC}
-		\toprule
-		\multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
-		\cline{2-7} 
-		\addlinespace
-		& P           & R          & F           & P          & R           & F           \\
-		\midrule
-		Tase   & 60.28         & 55.59         & 65.83         & 78.16         & 78.27         & 78.06         \\ 
-		Liquid & 61.44         & 58.39         & 64.84         & 78.56         & 78.65         & 78.46         \\
-		C-rand & 63.05         & 58.51         & 68.34         & 79.42         & 78.70         & 80.14         \\
-		ER-EEins  & 63.93          & 60.22         & 68.13          & 77.50         & 77.07          & 77.94         \\
-		C-ER-EE & 62.90          & 61.02        & 64.89          & 76.72         & 78.56          & 74.97         \\
-		Bagging & 64.44          & 61.63        & 67.50          & 79.52         & 80.49          & 78.57         \\
-		\bottomrule
-	\end{tabularx}
-	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
-\end{table}
-
-\begin{table}[H] 
-	\caption{Approach performance on complete MultiSpanQA valid set based on $\text{RoBERTa}_{base}$.} \label{tab:single}
-	\newcolumntype{C}{>{\centering\arraybackslash}X}
-	\begin{tabularx}{\textwidth}{p{1.5cm}CCCCCCC}
-		\toprule
-		\multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
-		\cline{2-7} 
-		\addlinespace
-		& P & R & F & P & R & F \\
-		\midrule
-		Tase & 68.00 & 65.06 & 71.22 & 83.13 & 83.05 & 83.22 \\ 
-		Liquid & 68.33 & 66.68 & 70.07 & 82.71 & 82.45 & 82.98 \\
-		C-rand & 70.35 & 67.35 & 73.63 & 84.06 & 83.38 & 84.76 \\
-		ER-EEins & 69.15 & 67.81 & 70.54 & 82.85 & 83.90 & 81.83 \\
-		C-ER-EE & 70.44 & 67.813 & 73.26 & 82.80 & 82.45 & 83.15 \\
-		Bagging & 70.86 & 69.03 & 72.79 & 84.82 & 85.53 & 84.12 \\
-		\bottomrule
-	\end{tabularx}
-	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
-\end{table}
-
-\begin{table}[ht]
-	\caption{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text{BERT}_{base}$.}
-	\label{tab:single}
-	\newcolumntype{C}{>{\centering\arraybackslash}X}
-	\begin{tabularx}{\textwidth}{Cp{1.5cm}CCCCCCC}
-		\toprule
-		\multirow{2}{*}{\textbf{Type}} & \multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match} \\
-		\cmidrule{3-8} 
-		& & P & R & F & P & R & F \\
-		\midrule
-		\multirow{6}{*}{DESC} & Tase & 32.76 & 27.33 & 40.87 & 64.46 & 68.61 & 60.79 \\ 
-		& Liquid & 36.69 & 31.10 & 44.71 & 66.05 & 65.95 & 66.15 \\
-		& C-rand & 38.74 & 32.89 & 47.12 & 68.31 & 70.32 & 66.42 \\
-		& ER-EEins & 44.69 & 40.71 & 49.52 & 63.12 & 67.16 & 59.53 \\
-		& C-ER-EE & 40.63 & 38.30 & 43.27 & 64.25 & 71.15 & 58.57 \\
-		& Bagging & 39.91 & 36.69 & 43.75 & 66.70 & 73.68 & 60.93 \\
-		\midrule
-		\multirow{6}{*}{NUM} & Tase & 33.33 & 30.23 & 37.14 & 60.98 & 71.99 & 52.89 \\ 
-		& Liquid & 34.33 & 31.25 & 38.10 & 60.68 & 68.15 & 54.69 \\
-		& C-rand & 35.96 & 33.33 & 39.05 & 64.47 & 71.56 & 58.65 \\
-		& ER-EEins & 36.20 & 34.48 & 38.10 & 59.02 & 65.63 & 53.62 \\
-		& C-ER-EE & 36.71 & 37.25 & 36.19 & 57.09 & 69.04 & 48.67 \\
-		& Bagging & 35.94 & 34.82 & 37.14 & 60.73 & 71.15 & 52.97 \\
-		\midrule
-		\multirow{6}{*}{HUM} & Tase & 70.68 & 67.64 & 74.00 & 83.09 & 83.93 & 82.28 \\ 
-		& Liquid & 72.59 & 71.35 & 73.88 & 84.16 & 85.77 & 82.61 \\
-		& C-rand & 73.80 & 71.17 & 76.63 & 84.36 & 85.30 & 83.43 \\
-		& ER-EEins & 73.61 & 70.63 & 76.86 & 82.75 & 82.64 & 82.85 \\
-		& C-ER-EE & 73.43 & 72.33 & 74.57 & 82.33 & 84.13 & 80.61 \\
-		& Bagging & 75.22 & 73.66 & 76.86 & 84.56 & 86.36 & 82.83 \\
-		\midrule
-		\multirow{6}{*}{LOC} & Tase & 59.52 & 54.65 & 65.34 & 78.91 & 76.57 & 81.40 \\ 
-		& Liquid & 60.75 & 57.58 & 64.29 & 79.03 & 77.85 & 80.25 \\
-		& C-rand & 63.07 & 57.68 & 69.58 & 80.58 & 76.73 & 84.85 \\
-		& ER-EEins & 62.36 & 57.79 & 67.72 & 80.13 & 77.03 & 83.48 \\
-		& C-ER-EE & 61.54 & 57.14 & 66.67 & 78.30 & 76.18 & 80.55 \\
-		& Bagging & 64.36 & 60.47 & 68.78 & 80.92 & 78.29 & 83.72 \\
-		\midrule
-		\multirow{6}{*}{ENTY} & Tase & 63.17 & 57.93 & 69.45 & 78.95 & 76.32 & 81.77 \\ 
-		& Liquid & 60.89 & 59.08 & 62.82 & 78.29 & 76.07 & 80.64 \\
-		& C-rand & 61.68 & 56.63 & 67.72 & 77.60 & 74.07 & 81.48 \\
-		& ER-EEins & 62.12 & 58.00 & 66.86 & 75.64 & 73.46 & 77.95 \\
-		& C-ER-EE & 59.63 & 59.04 & 60.23 & 73.74 & 75.03 & 72.50 \\
-		& Bagging & 61.98 & 58.42 & 65.99 & 78.34 & 76.22 & 80.59 \\
-		\midrule
-		\multirow{6}{*}{All Entities} & Tase & 66.30 & 62.21 & 70.96 & 81.16 & 80.37 & 81.96 \\ 
-		& Liquid & 67.17 & 65.25 & 69.21 & 81.66 & 81.69 & 81.63 \\
-		& C-rand & 68.47 & 64.44 & 73.03 & 81.93 & 80.57 & 83.34 \\
-		& ER-EEins & 68.36 & 64.64 & 72.53 & 80.55 & 79.21 & 81.93 \\
-		& C-ER-EE & 67.54 & 65.60 & 69.59 & 79.49 & 80.16 & 78.83 \\
-		& Bagging & 69.65 & 66.94 & 72.59 & 82.31 & 82.07 & 82.55 \\
-		\bottomrule
-	\end{tabularx}
-\end{table}
-
-\begin{table}[ht]
-	\caption{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text{RoBERTa}_{base}$.}
-	\label{tab:single}
-	\newcolumntype{C}{>{\centering\arraybackslash}X}
-	\begin{tabularx}{\textwidth}{Cp{1.5cm}CCCCCCC}
-		\toprule
-		\multirow{2}{*}{\textbf{Type}} & \multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match} \\
-		\cmidrule{3-8} 
-		& & P & R & F & P & R & F \\
-		\midrule
-		\multirow{6}{*}{DESC} & Tase & 45.53 & 40.84 & 51.44 & 75.44 & 76.61 & 74.31 \\ 
-		& Liquid & 48.68 & 44.76 & 53.37 & 73.27 & 71.57 & 75.04 \\
-		& C-rand & 49.02 & 44.66 & 54.33 & 76.33 & 77.85 & 74.86 \\
-		& ER-EEins & 50.99 & 46.96 & 55.77 & 76.87 & 78.07 & 75.71 \\
-		& C-ER-EE & 49.24 & 44.71 & 54.81 & 71.87 & 73.03 & 70.74 \\
-		& Bagging & 47.70 & 43.78 & 52.40 & 77.43 & 80.63 & 74.47 \\
-		\midrule
-		\multirow{6}{*}{NUM} & Tase & 46.23 & 45.79 & 46.67 & 71.89 & 78.42 & 66.36 \\ 
-		& Liquid & 40.19 & 39.45 & 40.95 & 67.56 & 72.28 & 63.42 \\
-		& C-rand & 50.69 & 49.11 & 52.38 & 72.86 & 80.22 & 66.74 \\
-		& ER-EEin & 42.40 & 41.07 & 43.81 & 66.67 & 73.51 & 61.00 \\
-		& C-ER-EE & 45.58 & 44.55 & 46.67 & 65.86 & 73.19 & 59.87 \\
-		& Bagging & 44.65 & 43.64 & 45.71 & 70.11 & 78.49 & 63.35 \\
-		\midrule
-		\multirow{6}{*}{HUM} & Tase & 76.40 & 74.14 & 78.81 & 86.83 & 87.67 & 86.00 \\ 
-		& Liquid & 76.70 & 76.30 & 77.09 & 85.85 & 87.16 & 84.59 \\
-		& C-rand & 78.36 & 76.00 & 80.87 & 87.41 & 87.30 & 87.53 \\
-		& ER-EEins & 77.11 & 76.12 & 78.12 & 86.44 & 87.56 & 85.35 \\
-		& C-ER-EE & 78.42 & 77.37 & 79.50 & 85.88 & 87.49 & 86.28 \\
-		& Bagging & 78.51 & 77.33 & 79.73 & 87.90 & 88.66 & 87.15 \\
-		\midrule
-		\multirow{6}{*}{LOC} & Tase & 64.85 & 60.93 & 69.31 & 81.73 & 79.37 & 84.23 \\ 
-		& Liquid & 68.51 & 65.38 & 71.96 & 85.48 & 82.58 & 88.58 \\
-		& C-rand & 66.25 & 62.18 & 70.90 & 83.11 & 79.33 & 87.26 \\
-		& ER-EEins & 68.48 & 67.18 & 69.84 & 83.09 & 82.45 & 83.73 \\
-		& C-ER-EE & 69.03 & 66.10 & 72.22 & 83.88 & 81.97 & 85.88 \\
-		& Bagging & 69.47 & 66.91 & 72.22 & 84.44 & 82.77 & 86.19 \\
-		\midrule
-		\multirow{6}{*}{ENTY} & Tase & 71.63 & 69.86 & 73.49 & 83.54 & 81.62 & 85.55 \\ 
-		& Liquid & 68.57 & 67.99 & 69.16 & 82.37 & 81.27 & 83.49 \\
-		& C-rand & 74.54 & 72.80 & 76.37 & 84.68 & 83.00 & 86.44 \\
-		& ER-EEins & 69.87 & 70.59 & 69.16 & 82.19 & 83.58 & 80.84 \\
-		& C-ER-EE & 73.37 & 69.41 & 77.81 & 83.33 & 80.13 & 86.79 \\
-		& Bagging & 76.26 & 76.15 & 76.37 & 86.35 & 86.39 & 86.30 \\
-		\bottomrule
-	\end{tabularx}
-\end{table}
-
 
 \end{adjustwidth}
 \end{document}
