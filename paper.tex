@@ -189,9 +189,9 @@ $^{1}$ \quad School of Computer Science and Technology and the Key Laboratory of
 
 In summary, the main contributions in this paper are as follows:
 \begin{itemize}
-	\item We construct Chinese question and answer corpora, document corpora, and multi-task annotated corpora specifically tailored to the automotive domain.
-	\item We propose a joint learning framework with a pretraining-multitask fine-tuning architecture to incorporate domain knowledge and conduct a comparative analysis of the contributions of various auxiliary task objectives to model performance.
-	\item We create an evaluation dataset based on ChatGPT using a semi-automated approach, along with the introduction of the MLWR metric for evaluation.
+	\item We employs a automatic data augmentation framework using Large Language Model \((LLM)\) as a knowledge source and a extra content supplement to linearize relevant information and possible continuation from LLM as texts, then inject them into original contexts. 
+
+	\item We develop a series of prompt templates designed for interacting with ChatGPT to acquire comprehensive explanations of numerous entities. These templates ensure that the formats of the responses provided by ChatGPT are highly parseable and well-structured."
 \end{itemize}
 
 %The introduction should briefly place the study in a broad context and highlight why it is important. It should define the purpose of the work and its significance. The current state of the research field should be reviewed carefully and key publications cited. Please highlight controversial and diverging hypotheses when necessary. Finally, briefly mention the main aim of the work and highlight the principal conclusions. As far as possible, please keep the introduction comprehensible to scientists outside your particular field of research. Citing a journal paper \cite{ref-journal}. Now citing a book reference \cite{ref-book1,ref-book2} or other reference types \cite{ref-unpublish,ref-communication,ref-proceeding}. Please use the command \citep{ref-thesis,ref-url} for the following MDPI journals, which use author--date citation: Administrative Sciences, Arts, Econometrics, Economies, Genealogy, Humanities, IJFS, Journal of Intelligence, Journalism and Media, JRFM, Languages, Laws, Religions, Risks, Social Sciences, Literature.
@@ -206,10 +206,11 @@ In summary, the main contributions in this paper are as follows:
 
 \begin{figure}[H]
 	\includegraphics[width=14.0cm]{overview}
-	\caption{An overview of our retrieval-based QA system. \textbf{(a) Step 1}: Automotive Corpus Construction. \textbf{(b) Step 2}: The encoder module under a pretraining-multitask fine-tuning framework. \textbf{(c) Step 3}: The retriever module based on Faiss library.}
+	\caption{An overview of our automatic information augmentation framework. \textbf{(a) Step 1}: Interact with ChatGPT to Get Auxiliary Information. \textbf{(b) Step 2}: Distilling the Information and Injecting Them into Context \textbf{(c) Step 3}: Input the Augmented Context into Tagging Model}
 	\label{fig:overview}
 \end{figure}   
 \unskip
+
 
 \subsection{Corpus Construction}
 \label{sec:corpus_construction}
@@ -339,6 +340,13 @@ In this section, we compare our information augmentation approach with multiple 
 		\end{tabularx}      
 		%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
 	\end{table}
+	Table~\ref{tab:bertall} and Table~\ref{tab:robertaall} illustrate the performance comparison between the proposed approaches, $\text{AUG}_{c}$ and $\text{AUG}_{eree}$, and several strong baselines, including the previous state-of-the-art model LIQUID. These comparisons are conducted using both the $\text{BERT}_{base}$ and $\text{RoBERTa}_{base}$ encoders, and regard multi-span question answering as a \textit{BIO} sequence tagging task to predict each token whether it is a part or begin of an answer. 
+	Notably,$\text{AUG}_{c}$ exhibit superior performance across the evaluate dataset on all metrics. However, on Partial Match scores, $\text{AUG}_{eree}$ demonstrates slightly lower performance compared to TASE, and especially lower than LIQUID when employing the $\text{BERT}_{base}$ encoder.
+	Importantly, the performance of $\text{AUG}_{c}$ consistently outperforms LIQUID and TASE on all metrics and encoders, irrespective of the encoder setting.
+	These results demonstrate the effectiveness of our proposed framework, as well as the efficacy of the information augmentation strategy.
+	 
+	To be more specific, 
+	
 	
 \subsubsection{\textit{Discussion}}
 
