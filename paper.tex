@@ -175,7 +175,7 @@ $^{1}$ \quad School of Computer Science and Technology and the Key Laboratory of
 \usepackage{color}
 \usepackage[utf8]{inputenc}
 \usepackage{xeCJK}
-\setCJKmainfont{STKaiti}
+
 
 
 
@@ -209,56 +209,15 @@ In summary, the main contributions in this paper are as follows:
 	\caption{An overview of our automatic information augmentation framework. \textbf{(a) Step 1}: Interact with ChatGPT to Get Auxiliary Information. \textbf{(b) Step 2}: Distilling the Information and Injecting Them into Context \textbf{(c) Step 3}: Input the Augmented Context into Tagging Model}
 	\label{fig:overview}
 \end{figure}   
-\unskip
+%\unskip
 
 
 \subsection{Corpus Construction}
 \label{sec:corpus_construction}
 We construct a QA dataset specific to the automotive domain by gathering question-answer pairs from authoritative resources, including professional databases, websites and other relevant resources. This dataset comprises a total of 7,157 question-answer pairs, with each pair consisting of a question and its corresponding answer. \tableref{tab:base_corpus} provides an illustrative example of the dataset. 
 
-\begin{table}[H] 
-	\caption{The constructed Chinese QA corpus in automotive domain.} \label{tab:base_corpus}
-	\newcolumntype{C}{>{\centering\arraybackslash}X}
-	\begin{tabularx}{\textwidth}{C}
-		\toprule
-		\textbf{An Example of QA pairs}	\\
-		\midrule
-		\{ ``id'': 0,~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \\
-		``question'': ``WEY是什么品牌的车?'',~~~~~~~~~~~~~~~~~~~~~~ \\
-		~~~~~~~~~~ ({\color{blue} Which automobile brand is WEY?}) \\ 
-		``answer'': ``WEY是长城汽车旗下的高端品牌…'', ~~~~~~~\\
-		 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~({\color{blue} WEY is a high-end brand under Great Wall Motors…}) \\
-		\}~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\\
-%		\midrule
-%		Entry 1		\\
-%		Entry 2	Dat \textsuperscript{1}\\
-		\bottomrule
-	\end{tabularx}
-%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
-\end{table}
 
 
-\begin{table}[H] 
-	\caption{The constructed Chinese QA corpus in automotive domain.} \label{tab:annotated_corpus}
-	\newcolumntype{C}{>{\centering\arraybackslash}X}
-	\begin{tabularx}{\textwidth}{p{2cm}L} 
-		\toprule
-		\textbf{Name}  & \textbf{Data Format}	\\
-		\midrule
-		MLM Corpus  & \textbf{[MASK][MASK]}车队首次在1994年的JGTC第四站比\textbf{[MASK]}中亮相，获得了资格赛第二名的位置。{\color{blue} (The [MASK] team made its debut in the fourth round of the JGTC  in 1994, securing the second position in the qualifying [MASK].) } \\
-		\midrule
-		NSP Corpus  & \textbf{Sentence1}: 上世纪90年代，TRD为丰田TOM'S车队打造了Supra赛车。{\color{blue} (In the 1990s, TRD built Supra race cars for the Toyota TOM'S team.) }
-		\textbf{Sentence2}: 丰田车队首次在1994年的JGTC第四站比赛中亮相，获得了资格赛第二名的位置。{\color{blue} (The Toyota team made its debut in the fourth round of the JGTC  in 1994, securing the second position in the qualifying race.)} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\textbf{Label}: continuous (1)\\
-		\midrule
-		STS Corpus & \textbf{Sentence1}: 丰田车队首次在1994年的JGTC第四站比赛中亮相，获得了资格赛第二名的位置。{\color{blue} (The Toyota team made its debut in the fourth round of the JGTC  in 1994, securing the second position in the qualifying race.)}
-		\textbf{Sentence2}: 在1994年的JGTC第四站比赛中，丰田车队首次参赛，并在资格赛中获得了第二名的成绩。{\color{blue} (In 1994, during the fourth round of the JGTC, the Toyota team made its debut and secured a second-place finish in the qualifying race.)} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \textbf{Label}: similar (1) ~~~~~~~~		\\
-		\midrule
-		TE Corpus  &  \textbf{Sentence1}: 一个年轻的黑人正试图向另外两个人解释一些事情。{\color{blue} (A young black person is trying to explain something to two other individuals.)}
-		\textbf{Sentence2}: 一位年轻的黑人男子正在和另外两位说话。{\color{blue} (A young black man is talking to two other people.)} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \textbf{Label}: entailment (0) ~~~~~		\\
-		\bottomrule
-	\end{tabularx}
-	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
-\end{table}
 
 \section{Experiments}
 In this section, we compare our information augmentation approach with multiple strong baseline on multi-span question answering. We first introduce the datasets and experiment setup, then show the experimental results and analysis for different model.
@@ -291,7 +250,7 @@ In this section, we compare our information augmentation approach with multiple 
 	\end{itemize}
 
 \subsection{Experimental Results and Analysis}
-	In this section, we compare $\text{AUG}$ with all competing models described above \textcolor{red}{both quantitatively and qualitatively}.
+	In this section, we compare $\text{AUG}$ with all competing models described above quantitatively.
 	
 	\subsubsection{\textit{Comparison Results}}
 	We evaluate our model as well as baselines 
@@ -334,7 +293,7 @@ In this section, we compare our information augmentation approach with multiple 
 			LIQUID & 68.33 & 66.68 & 70.07 & 82.71 & 82.45 & 82.98 \\
 			$\text{AUG}_{c}$ & 70.35 & 67.35 & 73.63 & 84.06 & 83.38 & 84.76 \\
 			$\text{AUG}_{eree}$ & 69.15 & 67.81 & 70.54 & 82.85 & 83.90 & 81.83 \\
-			$\text{AUG}_{ereec}$ & 70.44 & 67.813 & 73.26 & 82.80 & 82.45 & 83.15 \\
+			$\text{AUG}_{ereec}$ & 70.44 & 67.83 & 73.26 & 82.80 & 82.45 & 83.15 \\
 			Bagging & 70.86 & 69.03 & 72.79 & 84.82 & 85.53 & 84.12 \\
 			\bottomrule
 		\end{tabularx}      
@@ -347,12 +306,19 @@ In this section, we compare our information augmentation approach with multiple 
 	 
 	To be more specific, Table~\ref{tab:bertall} shows comparisons of metrics among all competing models 100 backed by $\text{BERT}_{base}$. We can see that our proposed framework, AUG, consistently outperforms all other baselines across multispanQA dataset. Backed by $\text{BERT}_{base}$, $\text{AUG}_{c}$ achieves EM and Overlap F1 scores of 63.05 and 79.42, respectively. Moreover, when equipped with entities’ information,  $\text{AUG}_{eree}$ achieves even higher EM F1 scores of 63.93 but relatively lower Overlap F1 of 77.50 than baselines on the same encoder. These results showcase substantial improvements over the previous state-of-the-art model, LIQUID, with EM F1 score enhancements ranging from 1.61 to 2.49 percents across validation datasets. 
 	
-	Additionally, when utilizing $\text{RoBERTa}_{base}$ instead of $\text{BERT}_{base}$, $\text{AUG}_{c}$ achieves EM and Overlap F1 scores of 70.35 and 84.06 respectively on the same datasets. These scores represent EM and Overlap F1 improvements of 2.02 and 0.93 compared to the previous setup. For  $\text{AUG}_{eree}$, the EM F1 score represents an enhancement of 0.82, with the EM and Overlap F1 values of 69.16 and 82.85 respectively. Notably, the partial metrics also indicate lower values compared to TASE and LIQUID, in line with the result supported by $\text{BERT}_{base}$. This is because augmenting the model with entity information, including definition and relationship knowledge, strengthens its ability to capture and understand entity concepts, which leads the model to prefer complete entity spans as answers rather than partial entity span, and therefore a  decrease in the partial recall and ultimately a lower partial F1 scores and a higher EM F1.
+	Additionally, when utilizing $\text{RoBERTa}_{base}$ instead of $\text{BERT}_{base}$, $\text{AUG}_{c}$ achieves EM and Overlap F1 scores of 70.35 and 84.06 respectively on the same datasets. These scores represent EM and Overlap F1 improvements of 2.02 and 0.93 compared to the previous setup. For  $\text{AUG}_{eree}$, the EM F1 score represents an enhancement of 0.82, with the EM and Overlap F1 values of 69.16 and 82.85 respectively. Notably, the partial metrics also indicate lower values compared to TASE and LIQUID, in line with the result supported by $\text{BERT}_{base}$. This is because augmenting the model with entity information, including definition and relationship knowledge, strengthens its ability to capture and understand entity concepts, which leads the model to prefer complete entity spans as answers rather than partial entity span, and therefore a decrease in the partial recall and ultimately a lower partial F1 scores and a higher EM F1.
 	
 	Totally, the result, displayed in Table~\ref{tab:robertaall} demonstrates the same trends to Table~\ref{tab:bertall}. And the outcome highlights robustness in effectively generalizing across different datasets without requiring hyperparameter re-tuning. 
 	
 \subsubsection{\textit{Discussion}}
-
+	Besides, Table~\ref{tab:bertall} and Table~\ref{tab:robertaall} also discuss the performance of different augmentation integrated strategies, including the results-bagging methods whose outputs are voting results of $\text{AUG}_{c}$, $\text{AUG}_{eree}$ as well as LIQUID, and the input-fusion model $\text{AUG}_{ceree}$ who injects all kinds of information above into input contexts.
+	
+	In detail, with EM f1 scores of 62.90 and 64.44 in Table~\ref{tab:bertall} and 70.44 and 70.86 in Table~\ref{tab:robertaall}, both the $\text{AUG}_{ceree}$ and Bagging methods consistently surpass TASE and LIQUID, which exhibits robust effectiveness of information injection strategies. However, there is a little decrease caused by fusing all auxiliary information when contrast with single information augmentation strategies and the bagging method. This may be due to the likelihood that incorporating all of the augmentation information into the model inputs will confuse the model by introducing excessive auxiliary knowledge and underrepresented original context proportion. Therefore it may be more useful that adding limit information into context, and using result-bagging method, a multi-model voting to bringing all information into model with an indirect way.
+	
+	From the Partial Match perspective, $\text{AUG}_{ceree}$ and the Bagging method achieve 76.72 and 79.52 in Table~\ref{tab:bertall}, and 82.80 and 84.82 in Table~\ref{tab:robertaall}. In accordance with Exact Match metrics, Bagging demonstrate a overall superior performance. Meanwhile overlap f1 score of $\text{AUG}_{eree}$ is inferior to TASE but superior to LIQUID ,with relatively higher precision and relativelv higher recall, which  is comparable to all single augmented models such as $\text{AUG}_{eree}$. And its weak performance on overlap f1 also reveals complete entities preference of this information injection approach.
+	
+	In addition, we	categorized the data in MultispanQA into DESC, NUM, ENTYS in terms of answer types, and compared the performance of each of the model mentioned above in each breakdown category. Specifically,  Table~\ref{tab:bertsub} and Table~\ref{tab:robertasub} present the results backed by  $\text{BERT}_{base}$ and $\text{RoBERTa}_{base}$, respectively. As shown in Tables~\ref{tab:bertsub},Table~\ref{tab:robertasub}, our proposed models display superior performance in DESC and ENTYS categories answer extraction, which to some extent indicates the enhancement of models' knowledge at entity and description levels.
+	
 	\begin{table}[ht]
 		\caption{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text{BERT}_{base}$.}
 		\label{tab:bertsub}
@@ -420,6 +386,29 @@ In this section, we compare our information augmentation approach with multiple 
 			\bottomrule
 		\end{tabularx}
 	\end{table}
+
+\subsubsection{\textit{Ablation Experiment}}
+
+\begin{table}[H] 
+	\caption{$\text{AUG}_{c}$'s performance with different information injection proportion on complete MultiSpanQA valid set based on $\text{BERT}_{base}$.} 
+	\label{tab:different_ratio}
+	\newcolumntype{C}{>{\centering\arraybackslash}X}
+	\begin{tabularx}{\textwidth}{p{1.7cm}CCCCCCC}
+		\toprule
+		\multirow{2}{*}{\textbf{Proportion}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
+		\cline{2-7} 
+		\addlinespace
+		& F\((\%)\) & P\((\%)\) & R\((\%)\) & F\((\%)\) & P\((\%)\) & R\((\%)\) \\
+		\midrule
+		0.90 & 56.60 & 54.27 & 59.13 & 71.79 & 73.90 & 71.79 \\ 
+		0.70 & 56.36 & 63.11 & 63.11 & 75.87 & 77.25 & 74.54 \\
+		0.50 & 57.92 & 52.82 & 64.10 & 76.82 & 76.78 & 76.86 \\
+		0.40 & 58.48 & 53.99 & 63.79 & 77.35 & 77.58 & 77.13 \\
+		0.10 & 53.18 & 64.48 & 77.02 & 77.02 & 77.02 & 77.02 \\
+		\bottomrule
+	\end{tabularx}      
+	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
+\end{table}
 
 \section{Conclusion}
 
