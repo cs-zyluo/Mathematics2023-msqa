@@ -214,7 +214,7 @@ In summary, the main contributions in this paper are as follows:
 
 \subsection{Corpus Construction}
 \label{sec:corpus_construction}
-We construct a QA dataset specific to the automotive domain by gathering question-answer pairs from authoritative resources, including professional databases, websites and other relevant resources. This dataset comprises a total of 7,157 question-answer pairs, with each pair consisting of a question and its corresponding answer. \tableref{tab:base_corpus} provides an illustrative example of the dataset. 
+
 
 
 
@@ -388,10 +388,15 @@ In this section, we compare our information augmentation approach with multiple 
 	\end{table}
 
 \subsubsection{\textit{Ablation Experiment}}
+	At the end of this section, we conducted ablations on our approach to confirm the effectiveness of selecting the information injection proportion. For each QA data, we randomly split the original context and the auxiliary text, then concatenated them into a final augmented context with a specific proportion to ensure that the new input length meets $\textit{max\_len}$, which has a crucial impact on our approach. In practice, we determined the final text splicing ratio by calculating the ratio of the average length of the source text to the added information, which for the $\text{AUG}_{c}$ is 0.86.
+	
+	Specifically, Table~\ref{tab:different_ratio_bert} and Table~\ref{tab:different_ratio_roberta} displays $\text{AUG}_{c}$'s performance with differential proportion to concatenate original contexts and continuation, on complete MultispanQA valid set,backed by $\text{BERT}_{base}$ and $\text{RoBERTa}_{base}$ respectively. We choose five proportions for information integration, which determine how much auxiliary information would be inject into each overflowed text segment. The results presented in tables indicate that using the ratio of their average lengths as the proportion of the overflow text composed of original text and auxiliary information is an effective approach. In detail, $\text{AUG}_{c}$,equipping with $\text{BERT}_{base}$, achieves an Exact Match F1 scores improvements of at least 4.57 compared to other proportions and an overlap F1 scores improvements of at least 2.07. In line with Table~\ref{tab:different_ratio_bert}, when $\text{AUG}_{c}$ equips with $\text{Roberta}_{base}$, it achieves an improvement of Exact Match F1 scores of 0.55 but an decrease of Overlap F1 scores of 0.17.
+
+	
 
 \begin{table}[H] 
-	\caption{$\text{AUG}_{c}$'s performance with different information injection proportion on complete MultiSpanQA valid set based on $\text{BERT}_{base}$.} 
-	\label{tab:different_ratio}
+	\caption{Ablations of $\text{AUG}_{c}$ on different proportion for information concatenation, based on $\text{BERT}_{base}$.} 
+	\label{tab:different_ratio_bert}
 	\newcolumntype{C}{>{\centering\arraybackslash}X}
 	\begin{tabularx}{\textwidth}{p{1.7cm}CCCCCCC}
 		\toprule
@@ -400,11 +405,36 @@ In this section, we compare our information augmentation approach with multiple 
 		\addlinespace
 		& F\((\%)\) & P\((\%)\) & R\((\%)\) & F\((\%)\) & P\((\%)\) & R\((\%)\) \\
 		\midrule
-		0.90 & 56.60 & 54.27 & 59.13 & 71.79 & 73.90 & 71.79 \\ 
-		0.70 & 56.36 & 63.11 & 63.11 & 75.87 & 77.25 & 74.54 \\
-		0.50 & 57.92 & 52.82 & 64.10 & 76.82 & 76.78 & 76.86 \\
-		0.40 & 58.48 & 53.99 & 63.79 & 77.35 & 77.58 & 77.13 \\
-		0.10 & 53.18 & 64.48 & 77.02 & 77.02 & 77.02 & 77.02 \\
+		0.90 & 58.55 & 57.69 & 59.44 & 71.88 & 74.30 & 69.61 \\ 
+		0.70 & 61.70 & 59.03 & 64.63 & 76.58 & 77.84 & 75.36 \\
+		0.50 & 61.22 & 57.37 & 65.62 & 77.38 & 77.61 & 77.16 \\
+		0.40 & 61.36 & 56.50 & 67.13 & 78.26 & 77.57 & 78.96 \\
+		0.10 & 61.41 & 56.36 & 67.45 & 78.94 & 78.45 & 79.44 \\
+		0.14 & 63.05 & 58.51 & 68.34 & 79.42 & 78.70 & 80.14 \\
+		\bottomrule
+	\end{tabularx}      
+	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
+\end{table}
+
+
+
+\begin{table}[H] 
+	\caption{Ablations of $\text{AUG}_{c}$ on different proportion for information concatenation, based on $\text{BERT}_{base}$.} 
+	\label{tab:different_ratio_roberta}
+	\newcolumntype{C}{>{\centering\arraybackslash}X}
+	\begin{tabularx}{\textwidth}{p{1.7cm}CCCCCCC}
+		\toprule
+		\multirow{2}{*}{\textbf{Proportion}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
+		\cline{2-7} 
+		\addlinespace
+		& F\((\%)\) & P\((\%)\) & R\((\%)\) & F\((\%)\) & P\((\%)\) & R\((\%)\) \\
+		\midrule
+		0.90 & 58.13 & 56.92 & 59.39 & 71.70 & 73.49 & 69.98 \\ 
+		0.70 & 66.97 & 65.42 & 68.60 & 80.05 & 80.80 & 79.32 \\
+		0.50 & 68.94 & 67.23 & 70.75 & 82.43 & 83.23 & 81.64 \\
+		0.40 & 68.95 & 66.11 & 71.06 & 83.71 & 83.71 & 81.71 \\
+		0.10 & 69.80 & 66.47 & 73.47 & 84.23 & 83.49 & 84.99 \\
+		0.86 & 70.35 & 67.35 & 73.63 & 84.06 & 83.38 & 84.76 \\
 		\bottomrule
 	\end{tabularx}      
 	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
