@@ -206,31 +206,57 @@ In summary, the main contributions in this paper are as follows:
 \section{Our Approach}
 
 	\begin{figure}[H]
-	\includegraphics[width=14.0cm]{overview}
+	\centering
+	\includegraphics[width=14.0cm]{overview.png}
 	\caption{An overview of our automatic information augmentation framework. \textbf{(a) Step 1}: Interact with ChatGPT to Get Auxiliary Information. \textbf{(b) Step 2}: Distilling the Information and Injecting Them into Context \textbf{(c) Step 3}: Input the Augmented Context into Tagging Model}
 	\label{fig:overview}
-\end{figure}   
+	\end{figure}   
 
 
 %\unskip
 	Existing extractive multi-span question answering models exhibit subpar performance in handling ambiguous words, complex proper nouns (such as film and song titles), numerical values, and long descriptive answers. The main reasons for these shortcomings can be categorized into three aspects:
-	\begin{enumerate}
+	\begin{itemize}
 		\item Ambiguous Words: The real world is replete with words that have a single form but multiple meanings, which heavily depend on the context. For instance, the word "Cameron" could refer to a famous director or a former British Prime Minister, depending on the context. The specific meanings of such words often appear infrequently in training corpora, making them difficult to learn.
 		\item Numerical Values: In contrast to ambiguous words, numerical values have a single meaning but can be represented in various forms. For example, "22.5 billion years" can also be expressed as "cosmic years".
 		\item Multi-span Answers: In extractive multi-span question answering tasks, the model needs to grasp the overall relationship of multi-span answers in the context, such as parallelism and progression.
 		These challenges require the model to possess a high level of comprehensive understanding ability and knowledge about language and the world.
-	\end{enumerate}
+	\end{itemize}
 	
-	Leveraging large language models to parse question-answering data and inject auxiliary knowledge into the model can promote the integration of the model's latent world knowledge and specific domain knowledge in the paragraph, thereby enhancing the model's performance. Overall, we use GPT-3.5-turbo to generate entity annotations, entity association analysis, and content continuation for each question-answering paragraph as auxiliary information for the model:
-	\begin{enumerate}
+	Leveraging large language models to parse question-answering data and inject auxiliary knowledge into the model can promote the integration of the model's latent world knowledge and specific domain knowledge in the paragraph, thereby enhancing the model's performance. Thus, we use GPT-3.5-turbo to generate entity annotations, entity association analysis, and content continuation for each question-answering paragraph as auxiliary information for the model:
+	\begin{itemize}
 		\item Context Supplementary: By inserting explanations of entities in the form of annotations after the main entities or concept words in the question and paragraph, this method helps the model capture the actual meaning of ambiguous words in specific contexts. It provides direct information prompts for low-frequency meanings or low-frequency words, achieving entity or concept alignment in the question-answering system.
 		\item Context Enrichment: By integrating entity association analysis and content continuation with the original question-answering text to form new paragraphs based on knowledge enhancement, this method captures the inherent associations between words or entity concepts with the same meaning but different forms. On one hand, it parses the logical relationships between other entities using entity relationship analysis. On the other hand, it extends the original paragraph information using content continuation, introducing more external knowledge while helping the model understand the overall content direction of the paragraph, thereby enhancing the model's comprehension ability.
-	\end{enumerate}
+	\end{itemize}
 	
+	Overall,we design an automated knowledge enhancement method for multi-span question answering tasks, which interacts with large language models based on templates. This method is applicable to all question answering models or frameworks. It is universally applicable to any other downstream tasks that contain paragraph data, without the need for any complex calculations. In the following sections, we will provide a detailed introduction to each specific module of this process.
 
-\subsection{Corpus Construction}
-\label{sec:corpus_construction}
+\subsection{Construction of Prompt Template}
+\label{sec:prompt_construction}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=14.5cm]{Prompts_construction.png}
+		\caption{Prompt Templates and it's Construction}
+		\label{fig:prompt_template}
+	\end{figure}   
+	
+\subsection{Information Injection}
+\label{sec:information_injection}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm]{EntityInsert.png}
+	\caption{The Process of Inserting Entity Explanation into Context}
+	\label{fig:entity_insertion}
+\end{figure}   
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm]{RandomConcat.png}
+	\caption{The Process of Concatenation of Original Context and Auxiliary Information}
+	\label{fig:random_concatenate}
+\end{figure}  
+
+\subsection{Information Integration}
+\label{sec:information_integration}
 
 
 
