@@ -20,6 +20,8 @@
 
 \documentclass[a4paper,fleqn]{cas-dc}
 
+
+
 % If the frontmatter runs over more than one page
 % use the longmktitle option.
 
@@ -53,7 +55,7 @@
 \usepackage{soul}
 \usepackage{mathspec}
 \usepackage{xeCJK}
-\setCJKmainfont{STKaiti}
+%\setCJKmainfont{STKaiti}
 
 %\setCJKmainfont[Mapping=tex-text]{STKaiti}
 \usepackage[ruled, linesnumbered, vlined]{algorithm2e}
@@ -84,6 +86,7 @@
 \newcommand{\ZY}[1]{\textcolor{red}{Zhiyi: #1}}
 
 \begin{document}
+	\begin{multicols}{2}
 \let\WriteBookmarks\relax
 \def\floatpagepagefraction{1}
 \def\textpagefraction{.001}
@@ -179,7 +182,7 @@ In summary, the main contributions in this paper are as follows:
 
 	\item We develop a series of prompt templates designed for interacting with ChatGPT to acquire comprehensive explanations of numerous entities. These templates ensure that the formats of the responses provided by ChatGPT are highly parseable and well-structured.
 	
-	\item We propose a new calculation method for the overlap F1 score in multi-span QA task. This method can alleviate the issue of lower scores in situations where the model decomposes the answer into multiple complete spans, but the answer’s spans are still entirely correct. This approach provides a more accurate reflection of the model’s performance in handling complex multi-span answers.
+	\item We propose a new calculation method for the overlap F1 score in multi-span QA task to alleviate the issue of lower scores in situations where the model decomposes the answer into multiple complete spans while the answer spans are still overall correct.The adjusted metrics provides a more accurate reflection of the model’s performance in handling complex multi-span answers.
 \end{itemize}
 
 %The introduction should briefly place the study in a broad context and highlight why it is important. It should define the purpose of the work and its significance. The current state of the research field should be reviewed carefully and key publications cited. Please highlight controversial and diverging hypotheses when necessary. Finally, briefly mention the main aim of the work and highlight the principal conclusions. As far as possible, please keep the introduction comprehensible to scientists outside your particular field of research. Citing a journal paper \cite{ref-journal}. Now citing a book reference \cite{ref-book1,ref-book2} or other reference types \cite{ref-unpublish,ref-communication,ref-proceeding}. Please use the command \citep{ref-thesis,ref-url} for the following MDPI journals, which use author--date citation: Administrative Sciences, Arts, Econometrics, Economies, Genealogy, Humanities, IJFS, Journal of Intelligence, Journalism and Media, JRFM, Languages, Laws, Religions, Risks, Social Sciences, Literature.
@@ -191,55 +194,57 @@ In summary, the main contributions in this paper are as follows:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Our Approach}
 
-	\begin{figure}[h]
+	\begin{figure*}[h]
 	\centering
-	\includegraphics[width=14.0cm]{overview.png}
+	\includegraphics[width=18cm]{overview.png}
 	\caption{An overview of our automatic information augmentation framework. \textbf{(a) Step 1}: Interact with ChatGPT to Get Auxiliary Information. \textbf{(b) Step 2}: Distilling the Information and Injecting Them into Context \textbf{(c) Step 3}: Input the Augmented Context into Tagging Model}
 	\label{fig:overview}
-	\end{figure}   
+	\end{figure*}   
 
 
 %\unskip
 	Existing extractive multi-span question answering models exhibit subpar performance in handling ambiguous words, complex proper nouns (such as film and song titles), numerical values, and long descriptive answers. The main reasons for these shortcomings can be categorized into three aspects:
-	\begin{itemize}
-		\item Ambiguous Words: The real world is replete with words that have a single form but multiple meanings, which heavily depend on the context. For instance, the word "Cameron" could refer to a famous director or a former British Prime Minister, depending on the context. The specific meanings of such words often appear infrequently in training corpora, making them difficult to learn.
-		\item Numerical Values: In contrast to ambiguous words, numerical values have a single meaning but can be represented in various forms. For example, "22.5 billion years" can also be expressed as "cosmic years".
-		\item Multi-span Answers: In extractive multi-span question answering tasks, the model needs to grasp the overall relationship of multi-span answers in the context, such as parallelism and progression.
-		These challenges require the model to possess a high level of comprehensive understanding ability and knowledge about language and the world.
-	\end{itemize}
+	
+	\textbf{Ambiguous Words}: The real world is replete with words that have a single form but multiple meanings, which heavily depend on the context. For instance, the word ``Cameron" could refer to a famous director or a former British Prime Minister, depending on the context. The specific meanings of such words often appear infrequently in training corpora, making them difficult to learn.
+	
+	\textbf{Numerical Values}: In contrast to ambiguous words, numerical values have a single meaning but can be represented in various forms. For example, "22.5 billion years" can also be expressed as "cosmic years".
+	
+	\textbf{Multi-span Answers}: In extractive multi-span question answering tasks, the model needs to grasp the overall relationship of multi-span answers in the context, such as parallelism and progression.These challenges require the model to possess a high level of comprehensive understanding ability and knowledge about language and the world. 
 	
 	Leveraging large language models to parse question-answering data and inject auxiliary knowledge into the model can promote the integration of the model's latent world knowledge and specific domain knowledge in the paragraph, thereby enhancing the model's performance. Thus, we use GPT-3.5-turbo to generate entity annotations, entity association analysis, and content continuation for each question-answering paragraph as auxiliary information for the model:
-	\begin{itemize}
-		\item Context Supplementary: By inserting explanations of entities in the form of annotations after the main entities or concept words in the question and paragraph, this method helps the model capture the actual meaning of ambiguous words in specific contexts. It provides direct information prompts for low-frequency meanings or low-frequency words, achieving entity or concept alignment in the question-answering system.
-		\item Context Enrichment: By integrating entity association analysis and content continuation with the original question-answering text to form new paragraphs based on knowledge enhancement, this method captures the inherent associations between words or entity concepts with the same meaning but different forms. On one hand, it parses the logical relationships between other entities using entity relationship analysis. On the other hand, it extends the original paragraph information using content continuation, introducing more external knowledge while helping the model understand the overall content direction of the paragraph, thereby enhancing the model's comprehension ability.
-	\end{itemize}
+	
+	\textbf{Context Supplementary}: By inserting explanations of entities in the form of annotations after the main entities or concept words in the question and paragraph, this method helps the model capture the actual meaning of ambiguous words in specific contexts. It provides direct information prompts for low-frequency meanings or low-frequency words, achieving entity or concept alignment in the question-answering system.
+	
+	\textbf{Context Enrichment}: By integrating entity association analysis and content continuation with the original question-answering text to form new paragraphs based on knowledge enhancement, this method captures the inherent associations between words or entity concepts with the same meaning but different forms. On one hand, it parses the logical relationships between other entities using entity relationship analysis. On the other hand, it extends the original paragraph information using content continuation, introducing more external knowledge while helping the model understand the overall content direction of the paragraph, thereby enhancing the model's comprehension ability.
+
 	
 	Overall,we design an automated knowledge enhancement method for multi-span question answering tasks, which interacts with large language models based on templates. This method is applicable to all question answering models or frameworks. It is universally applicable to any other downstream tasks that contain paragraph data, without the need for any complex calculations. In the following sections, we will provide a detailed introduction to each specific module of this process.
 
 \subsection{Construction of Prompt Template}
 \label{sec:prompt_construction}
-	\begin{figure}[h]
+	\begin{figure*}[h]
 		\centering
 		\includegraphics[width=14.5cm]{Prompts_construction.png}
 		\caption{Prompt Templates and it's Construction}
 		\label{fig:prompt_template}
-	\end{figure}   
+	\end{figure*}   
 	
 \subsection{Information Injection}
 \label{sec:information_injection}
-\begin{figure}[h]
+\begin{figure*}[h]
 	\centering
 	\includegraphics[width=10cm]{EntityInsert.png}
 	\caption{The Process of Inserting Entity Explanation into Context}
 	\label{fig:entity_insertion}
-\end{figure}   
+\end{figure*}   
 
-\begin{figure}[h]
+
+\begin{figure*}[h]
 	\centering
 	\includegraphics[width=10cm]{RandomConcat.png}
 	\caption{The Process of Concatenation of Original Context and Auxiliary Information}
 	\label{fig:random_concatenate}
-\end{figure}  
+\end{figure*}  
 
 \subsection{Information Integration}
 \label{sec:information_integration}
@@ -284,31 +289,31 @@ In this section, we compare our information augmentation approach with multiple 
 	We evaluate our model as well as baselines 
 	\(( Section ~\ref{sec:baselines} )\) on the development splits of multi-span datasets \(( Section  ~\ref{sec:datasets})\) using automatic metrics \(( Section ~\ref{sec:datasets})\). The comparison results are shown in Table \ref{tab:bertall}, Table \ref{tab:robertaall}.
 	
-	\begin{table}[width=\textwidth,cols=9,pos=h]  % 
+	\begin{table*}[width=\textwidth,cols=9,pos=h]  % 
 		\caption{Approach performance on complete MultiSpanQA valid set based on $\text{BERT}_{base}$.} 
 		\label{tab:bertall}
-		\begin{tabular*}{\textwidth}{p{1.5cm}cccccccc}
+		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc}
 			\toprule
 			\multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
 			\cline{2-7} 
 			\addlinespace
-			& F\((\%)\)           & P\((\%)\)          & R\((\%)\)           & F\((\%)\)          & P\((\%)\)           & R\((\%)\)           \\
+			& F\((\%)\) & P\((\%)\) & R\((\%)\) & F\((\%)\) & P\((\%)\) & R\((\%)\) \\
 			\midrule
-			TASE   & 60.28         & 55.59         & 65.83         & 78.16         & 78.27         & 78.06         \\ 
-			LIQUID & 61.44         & 58.39         & 64.84         & 78.56         & 78.65         & 78.46         \\
-			$\text{AUG}_{c}$ & 63.05         & 58.51         & 68.34         & 79.42         & 78.70         & 80.14         \\
-			$\text{AUG}_{eree}$  & 63.93          & 60.22         & 68.13          & 77.50         & 77.07          & 77.94         \\
-			$\text{AUG}_{ereec}$ & 62.90          & 61.02        & 64.89          & 76.72         & 78.56          & 74.97         \\
-			Bagging & 64.44          & 61.63        & 67.50          & 79.52         & 80.49          & 78.57         \\
+			TASE   & 60.28 & 55.59 & 65.83 & 78.16 & 78.27 & 78.06 \\ 
+			LIQUID & 61.44 & 58.39 & 64.84 & 78.56 & 78.65 & 78.46 \\
+			$\text{AUG}_{c}$ & 63.05 & 58.51 & 68.34 & 79.42 & 78.70 & 80.14 \\
+			$\text{AUG}_{eree}$  & 63.93 & 60.22 & 68.13 & 77.50 & 77.07 & 77.94 \\
+			$\text{AUG}_{ereec}$ & 62.90  & 61.02 & 64.89 & 76.72 & 78.56 & 74.97 \\
+			Bagging & 64.44 & 61.63 & 67.50 & 79.5 & 80.49 & 78.57 \\
 			\bottomrule
 		\end{tabular*}
 		%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
-	\end{table}
+	\end{table*}
 	
-	\begin{table}[width=\textwidth,cols=8,pos=h]  
+	\begin{table*}[width=\textwidth,cols=8,pos=h]  
 		\caption{Approach performance on complete MultiSpanQA valid set based on $\text{RoBERTa}_{base}$.} 
 		\label{tab:robertaall}
-		\begin{tabular*}{\textwidth}{p{1.5cm}ccccccc}
+		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc}
 			\toprule
 			\multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
 			\cline{2-7} 
@@ -324,7 +329,7 @@ In this section, we compare our information augmentation approach with multiple 
 			\bottomrule
 		\end{tabular*}      
 		%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
-	\end{table}
+	\end{table*}
 	Table~\ref{tab:bertall} and Table~\ref{tab:robertaall} illustrate the performance comparison between the proposed approaches, $\text{AUG}_{c}$ and $\text{AUG}_{eree}$, and several strong baselines, including the previous state-of-the-art model LIQUID. These comparisons are conducted using both the $\text{BERT}_{base}$ and $\text{RoBERTa}_{base}$ encoders, and regard multi-span question answering as a \textit{BIO} sequence tagging task to predict each token whether it is a part or begin of an answer. 
 	Notably,$\text{AUG}_{c}$ exhibit superior performance across the evaluate dataset on all metrics. However, on Partial Match scores, $\text{AUG}_{eree}$ demonstrates slightly lower performance compared to TASE, and especially lower than LIQUID when employing the $\text{BERT}_{base}$ encoder.
 	Importantly, the performance of $\text{AUG}_{c}$ consistently outperforms LIQUID and TASE on all metrics and encoders, irrespective of the encoder setting.
@@ -347,10 +352,10 @@ In this section, we compare our information augmentation approach with multiple 
 	
 	\textcolor{red}{please supplements new overlap calculation method in tase-zh}
 	
-	\begin{table}[ht]
+	\begin{table*}[ht]
 		\caption{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text{BERT}_{base}$.}
 		\label{tab:bertsub}
-		\begin{tabular*}{\textwidth}{cp{1.5cm}ccccccc}
+		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc}
 			\toprule
 			\multirow{2}{*}{\textbf{Type}} & \multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match} \\
 			\cmidrule{3-8} 
@@ -378,12 +383,12 @@ In this section, we compare our information augmentation approach with multiple 
 			& Bagging & 69.65 & 66.94 & 72.59 & 82.31 & 82.07 & 82.55 \\
 			\bottomrule
 		\end{tabular*}
-	\end{table}
+	\end{table*}
 	
-	\begin{table}[ht]
+	\begin{table*}[ht]
 		\caption{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text{RoBERTa}_{base}$.}
 		\label{tab:robertasub}
-		\begin{tabular*}{\textwidth}{cp{1.5cm}ccccccc}
+		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc}
 			\toprule
 			\multirow{2}{*}{\textbf{Type}} & \multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match} \\
 			\cmidrule{3-8} 
@@ -411,7 +416,7 @@ In this section, we compare our information augmentation approach with multiple 
 			& Bagging & 75.85 & 74.52 & 77.22 & 86.73 & 86.73 & 86.74 \\
 			\bottomrule
 		\end{tabular*}
-	\end{table}
+	\end{table*}
 
 \subsubsection{\textit{Ablation Experiment}}
 	At the end of this section, we conducted ablations on our approach to confirm the effectiveness of selecting the information injection proportion. For each QA data, we randomly split the original context and the auxiliary text, then concatenated them into a final augmented context with a specific proportion to ensure that the new input length meets $\textit{max\_len}$, which has a crucial impact on our approach. In practice, we determined the final text splicing ratio by calculating the ratio of the average length of the source text to the added information, which for the $\text{AUG}_{c}$ is 0.86.
@@ -420,11 +425,11 @@ In this section, we compare our information augmentation approach with multiple 
 
 
 
-\begin{table}[width=.6\textwidth,cols=8,pos=h]
+\begin{table*}[H] 
 	\caption{Ablations of $\text{AUG}_{c}$ on different proportion for information concatenation, based on $\text{BERT}_{base}$.} 
 	\label{tab:different_ratio_bert}
-	\begin{tabular*}{\tblwidth}{cccccccc}
-%	\begin{tabularx}{\textwidth}{p{1.7cm}ccccccc}
+	\newcolumntype{C}{>{\centering\arraybackslash}X}
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc}
 		\toprule
 		\multirow{2}{*}{\textbf{Proportion}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
 		\cline{2-7} 
@@ -438,9 +443,33 @@ In this section, we compare our information augmentation approach with multiple 
 		0.10 & 61.41 & 56.36 & 67.45 & 78.94 & 78.45 & 79.44 \\
 		0.14 & 63.05 & 58.51 & 68.34 & 79.42 & 78.70 & 80.14 \\
 		\bottomrule
-	\end{tabular*}
+	\end{tabular*}      
 	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
-\end{table}
+\end{table*}
+
+
+
+\begin{table*}[H] 
+	\caption{Ablations of $\text{AUG}_{c}$ on different proportion for information concatenation, based on $\text{RoBERTa}_{base}$.} 
+	\label{tab:different_ratio_roberta}
+	\newcolumntype{C}{>{\centering\arraybackslash}X}
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc}
+		\toprule
+		\multirow{2}{*}{\textbf{Proportion}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
+		\cline{2-7} 
+		\addlinespace
+		& F\((\%)\) & P\((\%)\) & R\((\%)\) & F\((\%)\) & P\((\%)\) & R\((\%)\) \\
+		\midrule
+		0.90 & 58.13 & 56.92 & 59.39 & 71.70 & 73.49 & 69.98 \\ 
+		0.70 & 66.97 & 65.42 & 68.60 & 80.05 & 80.80 & 79.32 \\
+		0.50 & 68.94 & 67.23 & 70.75 & 82.43 & 83.23 & 81.64 \\
+		0.40 & 68.95 & 66.11 & 71.06 & 83.71 & 83.71 & 81.71 \\
+		0.10 & 69.80 & 66.47 & 73.47 & 84.23 & 83.49 & 84.99 \\
+		0.86 & 70.35 & 67.35 & 73.63 & 84.06 & 83.38 & 84.76 \\
+		\bottomrule
+	\end{tabular*}      
+	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
+\end{table*}
 
 
 
@@ -522,5 +551,6 @@ This research was supported by the Natural Science Foundation of Zhejiang Provin
 \bibliographystyle{cas-model2-names}
 % 
 \bibliography{refs}
+\end{multicols}
 \end{document}
 
