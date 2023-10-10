@@ -225,6 +225,13 @@ In summary, the main contributions in this paper are as follows:
 	Overall,we design an automated knowledge enhancement method for multi-span question answering tasks, which interacts with large language models based on templates. This method is applicable to all question answering models or frameworks. It is universally applicable to any other downstream tasks that contain paragraph data, without the need for any complex calculations. In the following sections, we will provide a detailed introduction to each specific module of this process.
 
 \subsection{Construction of Prompt Template}
+	\label{sec:prompt_construction}
+	\begin{figure*}[h]
+		\centering
+		\includegraphics[width=14.5cm]{Prompts_construction.png}
+		\caption{Prompt Templates and it's Construction}
+		\label{fig:prompt_template}
+	\end{figure*}   
 	
 	The quality and format of the content produced by LLMs depends greatly on the prompts. Hence, it is necessary to clarify the format and content requirements of the outputs in advance, and to refine the templates that meet the expectations through extensive evaluation.
 	For entity relationship parsing and textual continuation, it would be better to ensured that the the output is a natural paragraph, to facilitate the automatic splicing of the enriched knowledge with the initial paragraphs,which is consistent with encoder's natural input format.
@@ -233,28 +240,21 @@ In summary, the main contributions in this paper are as follows:
 	Concretely, by clearly specifying the form and requirements in the prompts, especially for entity relationship parsing and contextual continuation, which need to be formulated in the form of natural statements, the targeted enhanced knowledge can be obtained more easily.
 	Furthermore, to obtain well-structured results for complex model interactions, like entity explanations, we utilize a set of corresponding hint templates to construct the process, which has proven to be useful for interactions that require semi-structured answers through verification. 
 	
-
-	The template adopts a generalized structure, where the general requirement is first stated in a concise and natural way (e.g., "Please list all the entities mentioned below."). Secondly, the format and content requirements are detailed and subdivided by means of separate specific requirement sentences, using appropriate verbs and giving formatting paradigms where necessary to enable the larger model to better grasp the outcome requirements (e.g., "For each entity, provide a sentence structure in the form of "X is/means..."). " sentence structure to provide a short explanation or definition, where X refers to the entity or concept appearing in the text.") Finally, the model is tested several times to see if there are any deviations in the understanding of the requirements and to modify or add clarifications to the requirements that are ambiguous to the model (e.g., adding at the end of the prompt, "Please return the answer in the following form, being careful not to repeat it: \textbackslash n\textbackslash nA is ..... \textbackslash nB is ....") . In addition, when the prompt text is long, in order to avoid forgetting or confusing the requirements in the larger language model, specific requirements that do not perform well on the test can be re-emphasized in a separate paragraph distinct from the overall requirement.
-
-
-
-
-\label{sec:prompt_construction}
-	\begin{figure*}[h]
-		\centering
-		\includegraphics[width=14.5cm]{Prompts_construction.png}
-		\caption{Prompt Templates and it's Construction}
-		\label{fig:prompt_template}
-	\end{figure*}   
+	Eventually, the template is piloted to clarify any ambiguous requirements in the template to confirm an accurate understanding of the LLMs (e.g., adding at the end of the prompt, ``Please return the answer in the following form, being careful not to repeat it: \textbackslash n\textbackslash nA is .....")  In addition, to avoid omission or confusion of requirements due to the length of the prompt text, specific principles should be reiterate in a separate paragraph.
 	
 \subsection{Information Injection}
-\label{sec:information_injection}
-\begin{figure*}[h]
-	\centering
-	\includegraphics[width=10cm]{EntityInsert.png}
-	\caption{The Process of Inserting Entity Explanation into Context}
-	\label{fig:entity_insertion}
-\end{figure*}   
+	For the entity interpretation data, the enhanced knowledge is injected into the original data (questions and paragraphs) by means of insertion interpretation. Specifically, the entity interpretation data is first parsed by an automated script, which on the one hand parses most of the sentence structures by regular expressions; on the other hand, for a small number of sentences that deviate from the template specification, the entities and their interpretations are identified by using the Semantic Dependency Analysis model in Spacy. After obtaining the ``Entity-Entity Interpretation" knowledge base for each QA data, the original data is scanned for questions and paragraphs, and the corresponding explanation is inserted as ``Entity (Entity and its Interpretation)" after each entity (if it is in the Entity and its Interpretation base of the data), and the corresponding explanation is enclosed in parentheses. The corresponding explanation is inserted after each entity (if it is in the database of entities and their explanations) in the form of ``Entity (Entity and its explanation)", and the inserted explanation of the entity is surrounded by parentheses to make sure that the augmented text injected with the knowledge is still a natural sentence or paragraph that flows smoothly (e.g., ``how long does it take for the milky way (Milky Way: The galaxy that contains our Solar System and is home to billions of stars.) to rotate?").
+	
+	\label{sec:information_injection}
+	\begin{figure*}[h]
+		\centering
+		\includegraphics[width=10cm]{EntityInsert.png}
+		\caption{The Process of Inserting Entity Explanation into Context}
+		\label{fig:entity_insertion}
+	\end{figure*}
+
+	For entity-relationship analysis and content continuation knowledge, the augmented knowledge is injected into the original paragraph using random slice splicing in proportion to its length. Firstly, the ratio of the length of the enhanced knowledge text to the original paragraph is calculated; secondly, in the input layer of the model, the original input data is sliced into text fragments with a length of 512*original length/(original length+enhanced text length), and the enhanced text is sliced into text fragments with a length of 512*enhanced text length/(original length+enhanced text length); then, randomly select the enhanced text fragments, and splice them Then randomly select the enhanced text fragment, splice it into the middle of each original text fragment, and finally input this long text into the model by sliding, in order to ensure that the original data can fully interact with the enhanced data in the bottom position of the model, as shown in Figure\ref{fig:random_concatenate}.
+   
 
 
 \begin{figure*}[h]
