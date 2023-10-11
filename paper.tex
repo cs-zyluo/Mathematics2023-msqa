@@ -256,7 +256,7 @@ In summary, the main contributions in this paper are as follows:
 		\label{fig:entity_insertion}
 	\end{figure*}
 
-	For the incorporation of enhanced knowledge related to entity relationship analysis and content continuation, a method of random slicing and concatenation based on length ratios is employed to infuse the augmented knowledge into the original paragraphs. Initially, the ratio of the average length of the augmented knowledge text to that of the original paragraph is calculated. Subsequently, at the model's input layer, the original input data is segmented into text fragments of length of \textit{512 * average original length / (average original length + average augmented text length)}, and the augmented text is also segmented into text fragments of length of  \textit{512 * average augmented text length / (average original length + average augmented text length)}. Then, random selections of augmented text fragments are made and concatenated into the middle of each original text fragment. Finally, this concatenated longer text is fed into the model in a sliding manner to ensure comprehensive interaction between the original data and the augmented data at lower layers of the model, as illustrated in Process Figure~\ref{fig:random_concatenate}.
+	For the incorporation of enhanced knowledge related to entity relationship analysis and content continuation, a method of random slicing and concatenation based on length ratios is employed to infuse the augmented knowledge into the original paragraphs. Initially, the ratio of the average length of the augmented knowledge text to that of the original paragraph is calculated. Subsequently, at the model's input layer, the original input data is segmented into text fragments of length of \textit{512 * average original length / (average original length + average augmented text length)}, and the augmented text is also segmented into text fragments of length of  \textit{512 * average augmented text length / (average original length + average augmented text length)}. Then, random selections of augmented text fragments are made and concatenated into the middle of each original text fragment. Finally, this concatenated longer text is fed into the model in a sliding manner to ensure comprehensive interaction between the original data and the augmented data at lower layers of the model, as illustrated in Figure~\ref{fig:random_concatenate}.
    
 
 
@@ -269,9 +269,10 @@ In summary, the main contributions in this paper are as follows:
 
 \subsection{Information Integration}
 \label{sec:information_integration}
-
-
-
+	In addition to the aforementioned three types of information, we seek more valuable enhanced information by requesting summaries for each question-context pair from Large Language Models (LLMs). We then extract entities mentioned in the summaries to capture those highly relevant to the core context. Moreover, recognizing the intrinsic connection between entity explanation and entity relationship parsing, we categorize them as complementary information for context enrichment, with context continuation serving as supplementary information. This approach aims to augment the model's internal text-parsing knowledge with external world knowledge through enhanced information. 
+	
+	To further investigate the efficacy of multi-information integration, leveraging enhanced information derived from Large Language Models (LLMs), we employ two distinct approaches to combine entity knowledge and context continuity. The first approach involves the incorporation of all information within the original context, with each type of information undergoing individualized knowledge injection. The second approach, referred to as "bagging," treats models trained on diverse information sources as voters. For each query, we employ all model predictions for token-level BIO labeling within the context, determining the final prediction through a majority vote. In cases of tie-breaking, we prioritize the logits' magnitude to ascertain the ultimate prediction.
+	
 
 \section{Experiments}
 In this section, we compare our information augmentation approach with multiple strong baseline on multi-span question answering. We first introduce the datasets and experiment setup, then show the experimental results and analysis for different model.
