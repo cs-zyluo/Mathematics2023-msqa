@@ -185,7 +185,6 @@ In summary, the main contributions in this paper are as follows:
 \begin{itemize}
 	\item We employs a automatic data augmentation framework using Large Language Model \((LLM)\) as a knowledge source and a extra content supplement to linearize relevant information and possible continuation from LLM as texts, then inject them into original contexts. 
 	\item We develop a series of prompt templates designed for interacting with ChatGPT to acquire comprehensive explanations of numerous entities. These templates ensure that the formats of the responses provided by ChatGPT are highly parseable and well-structured.
-	\item We propose a new calculation method for the overlap F1 score in multi-span QA task to alleviate the issue of lower scores in situations where the model decomposes the answer into multiple complete spans while the answer spans are still overall correct.The adjusted metrics provides a more accurate reflection of the model’s performance in handling complex multi-span answers.
 	
 \end{itemize}
 
@@ -304,6 +303,7 @@ In this section, we compare our information augmentation approach with multiple 
 		example is computed by treating the prediction and gold as a bag of tokens.
 	\end{itemize}
 
+
 \subsection{Experimental Results and Analysis}
 	In this section, we compare $\text{AUG}$ with all competing models described above quantitatively.
 	
@@ -359,20 +359,49 @@ In this section, we compare our information augmentation approach with multiple 
 	 
 	To be more specific, Table~\ref{tab:bertall} shows comparisons of metrics among all competing models 100 backed by $\text{BERT}_{base}$. We can see that our proposed framework, AUG, consistently outperforms all other baselines across multispanQA dataset. Backed by $\text{BERT}_{base}$, $\text{AUG}_{c}$ achieves EM and Overlap F1 scores of 63.05 and 79.42, respectively. Moreover, when equipped with entities’ information,  $\text{AUG}_{eree}$ achieves even higher EM F1 scores of 63.93 but relatively lower Overlap F1 of 77.50 than baselines on the same encoder. These results showcase substantial improvements over the previous state-of-the-art model, LIQUID, with EM F1 score enhancements ranging from 1.61 to 2.49 percents across validation datasets. 
 	
-	Additionally, when utilizing $\text{RoBERTa}_{base}$ instead of $\text{BERT}_{base}$, $\text{AUG}_{c}$ achieves EM and Overlap F1 scores of 70.35 and 84.06 respectively on the same datasets. These scores represent EM and Overlap F1 improvements of 2.02 and 0.93 compared to the previous setup. For  $\text{AUG}_{eree}$, the EM F1 score represents an enhancement of 0.82, with the EM and Overlap F1 values of 69.16 and 82.85 respectively. Notably, the partial metrics also indicate lower values compared to TASE and LIQUID, in line with the result supported by $\text{BERT}_{base}$. This is because augmenting the model with entity information, including definition and relationship knowledge, strengthens its ability to capture and understand entity concepts, which leads the model to prefer complete entity spans as answers rather than partial entity span, and therefore a decrease in the partial recall and ultimately a lower partial F1 scores and a higher EM F1.
+	Additionally, when utilizing $\text{RoBERTa}_{base}$ instead of $\text{BERT}_{base}$, $\text{AUG}_{c}$ achieves EM and Overlap F1 scores of 70.35 and 84.06 respectively on the same datasets. These scores represent EM and Overlap F1 improvements of 2.02 and 0.93 compared to the previous setup. For  $\text{AUG}_{eree}$, the EM F1 score represents an enhancement of 0.82, with the EM and Overlap F1 values of 69.16 and 82.85 respectively. Notably, the partial metrics also indicate lower values compared to TASE and LIQUID, in line with the result supported by $\text{BERT}_{base}$. This is because augmenting the model with entity information, including definition and relationship knowledge, strengthens its ability to capture and understand entity concepts, which leads the model to prefer complete entity spans or empty span set as answers rather than partial entity span, and therefore a decrease in the partial recall and ultimately a lower partial F1 scores and a higher EM F1.
+	
+
+	To further substantiate our explanation for the suboptimal performance of our model on the Overlap F1 metric, we conducted a detailed examination of the predictions made by $\text{AUG}_{eree}$ and two baseline models on the validation dataset. In essence, we tallied the instances where these models predicted empty answers and recalculated their Overlap F1 scores on non-empty predictions. This allowed us to investigate whether the $\text{AUG}_{eree}$ model aligns with our hypothesis, which posits that its extensive learning of entity knowledge during training makes it inclined to output either a complete and accurate answer span or no answer at all, as opposed to a partially correct answer span.
+
+	As presented in Table~\ref{tab:answer_counts}, $\text{AUG}_{eree}$ indeed predicted a higher number of empty answers compared to TASE and LIQUID, while achieving relatively higher Overlap F1 scores on non-empty predictions. Specifically, when equipped with $\text{BERT}_{base}$ as the encoder, $\text{AUG}_{eree}$ obtained an F1 score of 0.7976 on non-empty answer predictions, whereas TASE and LIQUID scored 0.7964 and 0.7909, respectively. With $\text{RoBERTa}_{base}$, $\text{AUG}_{eree}$ achieved an Overlap F1 score of 0.8414, surpassing TASE and LIQUID, which scored 0.8404 and 0.8357, respectively. Additionally, it is worth noting that $\text{AUG}_{eree}$ consistently predicted more empty answers, whether using BERT or RoBERTa.
+
+	These findings lend support to our conjecture that the introduction of entity knowledge leads to a slight reduction in the model's Overlap F1 scores. This suggests that utilizing LLM as a knowledge source to linearize entity information from LLM text and integrate it into the original context empowers the model to acquire greater entity knowledge, thereby exhibiting a preference for more accurate and complete answer spans, or simply providing no answer.
+	
+	
+	
+		\begin{table*}[width=\textwidth,cols=9,pos=h]  % 
+		\caption{The statistics of answers span predicted by $\text{AUG}_{eree}$ and baselines} 
+		\label{tab:answer_counts}
+		\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc}
+			\toprule
+			\multirow{2}{*}{\textbf{ }} & \multicolumn{3}{c}{$\text{BERT}_{base}$} & \multicolumn{3}{c}{$\text{RoBERTa}_{base}$}  \\
+			\cline{2-7} 
+			\addlinespace
+			& TASE\((\%)\) & LIQUID\((\%)\) & $\text{AUG}_{eree}$\((\%)\) & TASE\((\%)\) & LIQUID\((\%)\) & $\text{AUG}_{eree}$\((\%)\) \\
+			\midrule
+			empty predictions counts   & 0.0245 & 0.0214 & \textbf{0.0643} & 0.0061 & 0.0153 & \textbf{0.0291} \\ 
+			non-empty Overlap f1  & 0.7964 & 0.7909 & \textbf{0.7976} & 0.8404 & 0.8357 & \textbf{0.8414} \\
+			\bottomrule
+		\end{tabular*}
+		%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
+		\end{table*}
+	
+	
 	
 	Totally, the result, displayed in Table~\ref{tab:robertaall} demonstrates the same trends to Table~\ref{tab:bertall}. And the outcome highlights robustness in effectively generalizing across different datasets without requiring hyperparameter re-tuning. 
 	
 \subsubsection{\textit{Discussion}}
-	Besides, Table~\ref{tab:bertall} and Table~\ref{tab:robertaall} also discuss the performance of different augmentation integrated strategies, including the results-bagging methods whose outputs are voting results of $\text{AUG}_{c}$, $\text{AUG}_{eree}$ as well as LIQUID, and the input-fusion model $\text{AUG}_{ceree}$ who injects all kinds of information above into input contexts.
+	Table~\ref{tab:bertall} and Table~\ref{tab:robertaall} discuss the performance of different augmentation integrated strategies, including the results-bagging methods whose outputs are voting results of $\text{AUG}_{c}$, $\text{AUG}_{eree}$ as well as LIQUID, and the input-fusion model $\text{AUG}_{ceree}$ who injects all kinds of information above into input contexts.
 	
 	In detail, with EM f1 scores of 62.90 and 64.44 in Table~\ref{tab:bertall} and 70.44 and 70.86 in Table~\ref{tab:robertaall}, both the $\text{AUG}_{ceree}$ and Bagging methods consistently surpass TASE and LIQUID, which exhibits robust effectiveness of information injection strategies. However, there is a little decrease caused by fusing all auxiliary information when contrast with single information augmentation strategies and the bagging method. This may be due to the likelihood that incorporating all of the augmentation information into the model inputs will confuse the model by introducing excessive auxiliary knowledge and underrepresented original context proportion. Therefore it may be more useful that adding limit information into context, and using result-bagging method, a multi-model voting to bringing all information into model with an indirect way.
 	
 	From the Partial Match perspective, $\text{AUG}_{ceree}$ and the Bagging method achieve 76.72 and 79.52 in Table~\ref{tab:bertall}, and 82.80 and 84.82 in Table~\ref{tab:robertaall}. In accordance with Exact Match metrics, Bagging demonstrate a overall superior performance. Meanwhile overlap f1 score of $\text{AUG}_{eree}$ is inferior to TASE but superior to LIQUID ,with relatively higher precision and relativelv higher recall, which  is comparable to all single augmented models such as $\text{AUG}_{eree}$. And its weak performance on overlap f1 also reveals complete entities preference of this information injection approach.
-	z
-	In addition, we	categorized the data in MultispanQA into DESC, NUM, ENTYS in terms of answer types, and compared the performance of each of the model mentioned above in each breakdown category. Specifically,  Table~\ref{tab:bertsub} and Table~\ref{tab:robertasub} present the results backed by  $\text{BERT}_{base}$ and $\text{RoBERTa}_{base}$, respectively. As shown in Tables~\ref{tab:bertsub},Table~\ref{tab:robertasub}, our proposed models display superior performance in DESC and ENTYS categories answer extraction, which to some extent indicates the enhancement of models' knowledge at entity and description levels.
 	
-	\textcolor{red}{please supplements new overlap calculation method in tase-zh}
+	Furthermore, we stratified the data within MultispanQA according to answer types, specifically categorizing them into DESC, NUM, and ENTYS. We subsequently conducted a comparative analysis of model performance within each of these subcategories. In particular, the results are presented in Tables~\ref{tab:bertsub} and Table~\ref{tab:robertasub}, supported by $\text{BERT}_{base}$ and $\text{RoBERTa}_{base}$, respectively.
+	As indicated in Tables~\ref{tab:bertsub} and~\ref{tab:robertasub}, our proposed models exhibit superior performance in terms of EM F1 scores for all categorizing. However, they demonstrate suboptimal performance in terms of overlap F1 scores.
+	
+
 	
 	\begin{table*}[ht]
 		\caption{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text{BERT}_{base}$.}
