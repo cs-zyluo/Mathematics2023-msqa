@@ -192,6 +192,71 @@ In summary, the main contributions in this paper are as follows:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Related Work}
 \label{sec:related}
+In this section, we briefly summarize previous works that are relevant to extractive reading comprehension
+(RC) datasets and various modeling approaches employed for extractive RC tasks.
+\subsection{Multi-Span RC Datasets}
+The complete answer to a real-world user question could consist of multiple text spans. 
+Furthermore, a user question can even have multiple intents, where the answer to each intent is composed of one or more spans. 
+We refer to the datasets focus on such multi-span questions as multi-span RC datasets.
+Natural Question~\citep{DBLP:journals/tacl/KwiatkowskiPRCP19} and Quoref~\citep{DBLP:conf/emnlp/DasigiLMSG19} both contain multi-span questions. 
+The Natural Question dataset incorporates real anonymized queries to the Google search engine. 
+Quoref is used to validate models with the ability to resolve co-reference among entities. %, which is not for general capability validation of models.
+However, the proportion of multi-span answers in Natural Question and Quoref is relatively low, around 2\% and 10\% respectively. 
+The DROP~\citep{DBLP:conf/naacl/DuaWDSS019} dataset which consists of complex questions on history and football games, requires discrete reasoning over the content of contexts, including  co-reference resolution and arithmetic operations, such as addition, sorting and counting. 
+Although the questions could be multi-span, the answer spans are almost exclusively semantically homogeneous and related to numeric values. 
+MASH-QA~\citep{DBLP:conf/aaai/PangLGXSC19} is a domain-specific dataset that extends the answer space to general text types in the healthcare domain.
+Recently, \cite{li2022multispanqa} propose the MultiSpanQA dataset, which consists of open-domain multi-span questions. The MultiSpanQA dataset is derived from Natural Question, whose questions are real queries issued to the Google search engine. 
+Each question is associated with a context extracted from a retrieved Wikipedia page.  
+MultiSpanQA also has an expanded variant by introducing single-span and unanswerable questions, namely MultiSpanQA (expand). 
+
+\subsection{Neural Models for RC}
+Research in reading comprehension grows rapidly, and many successful neural-based RC models have been proposed in this area. 
+%As discussed in \secref{sec:related_dataset}, the extractive RC datasets support to cast RC as answer extraction task.
+Typically, neural  models~\citep{DBLP:conf/aaai/PangLGXSC19,DBLP:conf/iclr/Wang017a,DBLP:conf/iclr/XiongZS17} for RC are composed of two components, a context encoder and an answer decoder. 
+The context encoder is used to encode the information of questions, contexts and their interactions in-between. Then, the answer decoder aims to generate the answer texts based on outputs of the context encoder. 
+To make the answer decoder compatible with the answer extraction task, 
+Pointer Network~\citep{DBLP:conf/nips/VinyalsFJ15} model has been adopted to
+% tackle the problem that 
+%generates answer texts from contexts. 
+copy tokens from the given contexts as answers~\citep{DBLP:conf/acl/KadlecSBK16,DBLP:conf/emnlp/TrischlerYYBSS16}.
+\cite{DBLP:conf/iclr/Wang017a} proposed a boundary model, which utilized Pointer Network to predict the start and end indices for an answer span.
+%\ZY{single token - single span - multispan}
+%Boundary Model
+\cite{DBLP:conf/iclr/SeoKFH17} proposed an alternative way for the implementation of answer decoder, that built neural position classifiers upon the encoder outputs, predicting the start and end indices of the answer span in the context.
+
+% neural layer unifies the components of encoder and decoder together that 
+Recently, the RC models upgrade the context encoder using pre-trained language models (PrLMs)~\citep{radford2018improving,kenton2019bert,liu2019roberta,lee2020biobert,gu2021domain} 
+%such as GPT~\citep{radford2018improving}, BERT~\citep{kenton2019bert} and RoBERTa~\citep{liu2019roberta}
+, benefiting from the invention of Transformer~\citep{vaswani2017attention} blocks.
+%Benefiting from nowadays pretrained language models (PrLMs) based on Transformer~\cite{vaswani2017attention} blocks, recent RC models upgrades the context encoder using PrLMs such as BERT. 
+%the context encoder and answer decoder can be unified into a standard algorithm that utilize PrLMs such as BERT to encode inputs, then predict the start position and end position for the answer span.
+\cite{DBLP:conf/naacl/DevlinCLT19}  proposed a standard extractive model for  single-span RC that utilizes BERT to encode inputs, then builds position classifiers to predict where the answer span starts and ends.
+However, the answer decoder, whether implemented with Pointer Network or position classifiers, predicts start and end position independently, thus can not distinguish the different answer spans properly.
+%Pang et al. proposed HAS-QA~\cite{} which built the conditional pointer network and aggregators to model multiple answer spans.
+~\cite{DBLP:conf/emnlp/ZhuAJ0R20} proposed MultiCo which used a contextualized sentence selection method to capture the relevance among multiple sentence-based answer spans in order to form an answer with multiple sentences.
+%However, such single-span extractive model is not suitable for multi-span RC task which can be formulated as multi-span extraction.
+These models are not well adapted to multi-span RC which can be formulated as more flexible task of multi-span extraction where each span can be a word, phrase, sentence or any continuous string of text.
+
+%the start position and end position of the answer span. 
+%PrLMs unify the context encoder and answer decoder as a standard algorithm, that  
+%\subsubsection{Single-span Models}
+%~\citep{yoon2022,DBLP:journals/corr/abs-2302-01691} 
+Extracting a variable number of spans from an input text can be commonly cast as a sequence tagging problem.
+\cite{segal2020simple} proposed using a sequence tagging model for multi-span extraction, which predicts whether each token is part of an answer. \cite{yoon2022} employed a similar sequence tagging approach to address extractive question answering~\citep{DBLP:journals/bmcbi/NaseemDKK22}  in the biomedical domain.
+\cite{li2022multispanqa} also adopted the tagging model architecture, integrating two sub-tasks: predicting the number of spans to extract and annotating the answer structure within their proposed dataset to capture global information.
+ADRAV~\citep{hu2023biomedical} proposed a dynamic routing and answer voting method to further make full use of the hidden layer knowledge of pre-trained models.
+More recently, LIQUID~\citep{lee2023liquid} was introduced to  automatically generate list-style QA pairs from unlabeled corpora. LIQUID extracted named entities from the summarized text as candidate answers and incorporated synthetic data in the tagging model. 
+These methods harness the extensive factual knowledge embedded in powerful contextualized encoders (PrLMs) or synthesized data that resolves around named entities. 
+As a result, they have demonstrated promising performance in extracting  multi-span answers, particularly for factoid questions where the answers correspond entities.
+%Benefiting from the rich factual knowledge implied in the powerful contextualized encoders (PrLMs) or synthesized data centered around name entities, these methods have achieved promising performance on multi-span answer extraction, especially for factoid questions where the answers are entities.
+%These methods have been achieved promising performance on multi-span answer extraction, especially for factoid questions whose answers are entities, benefiting from the rich factoid knowledge implied in the powerful context encoder like PrLMs.
+However, these methods do not take into account the information of span boundaries in terms of the questions, and thus have very limited capabilities of precisely drawing a description answer. 
+%However, for these methodswhich are implied in the powerful context encoder like PrLMs, they are failed to care span boundaries .
+Compared to these approaches, TOAST incorporates the semantic and syntactic information of span boundaries by explicitly modeling the implicit neighboring transitions in-between the adjacent tokens or words, which benefits the span boundary identification.
+
+
+\subsection{Interaction with LLMs}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
