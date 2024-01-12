@@ -1,0 +1,274 @@
+
+\section{Experiments}
+In this section, we compare our information augmentation approach with multiple strong baseline on multi-span question answering. We first introduce the datasets and experiment setup, then show the experimental results and analysis for different model.
+
+\subsection{Evaluation Dataset}
+\label{sec:datasets}
+We conducted experiments on MultiSpanQA(Li et al., 2022), a recently introduced Reading Comprehension dataset designed for multi-span question answering. This dataset comprises 6.5K multi-span examples in which the questions represent user queries issued to the Google search engine, and the contexts are extracted from the English Wikipedia. It's worth noting that there is a expand variant of MultiSpanQA known as MultispanQA(expand), which intakes single-span and answerable questions. However, we did not perform a comparison with the expanded dataset due to its relatively lower proportion of multi-span QA pairs.
+
+\subsection{Experimental Setup}
+For all competing models and our model, we use the HuggingFace implementation of $\text{BERT}_{base}$ or $\text{RoBERTa}_{base}$ as the \textit{encoder} with $\textit{max\_len}$ = 512. We set the initial learning rate as $3 \times 10^{-5}$ and  $\textit{batch\_size}$ = 4, and use the BERTAdam optimizer with a weight decay of 0.01. Our approach does not involve tuning the parameters on the validation set. Instead, we rely on the model checkpoints obtained after 5 epochs. Next, we introduce the comparison model and evaluation metrics in our experiments.
+
+\subsubsection{\textit{Model Under Comparison}}
+\label{sec:baselines}
+We introduce two comstracting models approaches to multi-span answer extraction : \textbf{TASE} (Segal et al., 2020) and \textbf{LIQUID}(Lee et al., 2023). TASE utilizes a tag-based span extraction model which identifies multi-span answers though the assigning a tag to every input token with BIO tagging scheme. On the other hand, LIQUID serves as a framework for generating multi-span QA datasets to improve model performance.
+
+To enhance the context with auxiliary information, we employ two distinct   approaches: \textbf{$\text{AUG}_{c}$} and \textbf{$\text{AUG}_{eree}$}, where \textbf{AUG} is our automatic data augmentation framework,and the suffix indicates which kind of information is injected into the context. \textbf{$\text{AUG}_{C}$} enriches the context with continue writing, while \textbf{$\text{AUG}_{EREE}$} supplements context with entities information including explanation and relationship analysis.
+Specifically, we leverage ChatGPT as a knowledge source to linearize the relevant information from large language models. in texts format and seamlessly integrate into the original contexts, thus reinforces the information of model inputs.
+
+
+\subsubsection{\textit{Evaluation Metrics}}
+\label{sec:metrics}
+We use two automatic metrics for evaluation: Exact Match and Overlap F1 score.
+\begin{itemize}
+	\item \textbf{Exact Match}. An exact match occurs when a predicted span fully matches one of the ground-truth
+	answer spans. We calculate the micro-average precision, recall and f1 score for the extract match
+	metric.
+	
+	\item \textbf{Overlap F1 score}. Overlap F1 score is the macro-average f1 score, where the f1 score for each
+	example is computed by treating the prediction and gold as a bag of tokens.
+\end{itemize}
+
+
+\subsection{Experimental Results and Analysis}
+In this section, we compare $\text{AUG}$ with all competing models described above quantitatively.
+
+\subsubsection{\textit{Comparison Results}}
+We evaluate our model as well as baselines 
+\(( Section ~\ref{sec:baselines} )\) on the development splits of multi-span datasets \(( Section  ~\ref{sec:datasets})\) using automatic metrics \(( Section ~\ref{sec:datasets})\). The comparison results are shown in Table \ref{tab:bertall}, Table \ref{tab:robertaall}.
+
+\begin{table*}[width=\textwidth,cols=9,pos=h]  % 
+	\caption{Approach performance on complete MultiSpanQA valid set based on $\text{BERT}_{base}$.} 
+	\label{tab:bertall}
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc}
+		\toprule
+		\multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
+		\cline{2-7} 
+		\addlinespace
+		& F\((\%)\) & P\((\%)\) & R\((\%)\) & F\((\%)\) & P\((\%)\) & R\((\%)\) \\
+		\midrule
+		TASE   & 60.28 & 55.59 & 65.83 & 78.16 & 78.27 & 78.06 \\ 
+		LIQUID & 61.44 & 58.39 & 64.84 & 78.56 & 78.65 & 78.46 \\
+		$\text{AUG}_{c}$ & 63.05 & 58.51 & 68.34 & 79.42 & 78.70 & 80.14 \\
+		$\text{AUG}_{eree}$  & 63.93 & 60.22 & 68.13 & 77.50 & 77.07 & 77.94 \\
+		$\text{AUG}_{ereec}$ & 62.90  & 61.02 & 64.89 & 76.72 & 78.56 & 74.97 \\
+		Bagging & 64.44 & 61.63 & 67.50 & 79.5 & 80.49 & 78.57 \\
+		\bottomrule
+	\end{tabular*}
+	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
+\end{table*}
+
+\begin{table*}[width=\textwidth,cols=8,pos=h]  
+	\caption{Approach performance on complete MultiSpanQA valid set based on $\text{RoBERTa}_{base}$.} 
+	\label{tab:robertaall}
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc}
+		\toprule
+		\multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
+		\cline{2-7} 
+		\addlinespace
+		& F\((\%)\) & P\((\%)\) & R\((\%)\) & F\((\%)\) & P\((\%)\) & R\((\%)\) \\
+		\midrule
+		TASE & 68.00 & 65.06 & 71.22 & 83.13 & 83.05 & 83.22 \\ 
+		LIQUID & 68.33 & 66.68 & 70.07 & 82.71 & 82.45 & 82.98 \\
+		$\text{AUG}_{c}$ & 70.35 & 67.35 & 73.63 & 84.06 & 83.38 & 84.76 \\
+		$\text{AUG}_{eree}$ & 69.15 & 67.81 & 70.54 & 82.85 & 83.90 & 81.83 \\
+		$\text{AUG}_{ereec}$ & 70.44 & 67.83 & 73.26 & 82.80 & 82.45 & 83.15 \\
+		Bagging & 70.86 & 69.03 & 72.79 & 84.82 & 85.53 & 84.12 \\
+		\bottomrule
+	\end{tabular*}      
+	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
+\end{table*}
+Table~\ref{tab:bertall} and Table~\ref{tab:robertaall} illustrate the performance comparison between the proposed approaches, $\text{AUG}_{c}$ and $\text{AUG}_{eree}$, and several strong baselines, including the previous state-of-the-art model LIQUID. These comparisons are conducted using both the $\text{BERT}_{base}$ and $\text{RoBERTa}_{base}$ encoders, and regard multi-span question answering as a \textit{BIO} sequence tagging task to predict each token whether it is a part or begin of an answer. 
+Notably,$\text{AUG}_{c}$ exhibit superior performance across the evaluate dataset on all metrics. However, on Partial Match scores, $\text{AUG}_{eree}$ demonstrates slightly lower performance compared to TASE, and especially lower than LIQUID when employing the $\text{BERT}_{base}$ encoder.
+Importantly, the performance of $\text{AUG}_{c}$ consistently outperforms LIQUID and TASE on all metrics and encoders, irrespective of the encoder setting.
+These results demonstrate the effectiveness of our proposed framework, as well as the efficacy of the information augmentation strategy.
+
+To be more specific, Table~\ref{tab:bertall} shows comparisons of metrics among all competing models 100 backed by $\text{BERT}_{base}$. We can see that our proposed framework, AUG, consistently outperforms all other baselines across multispanQA dataset. Backed by $\text{BERT}_{base}$, $\text{AUG}_{c}$ achieves EM and Overlap F1 scores of 63.05 and 79.42, respectively. Moreover, when equipped with entities’ information,  $\text{AUG}_{eree}$ achieves even higher EM F1 scores of 63.93 but relatively lower Overlap F1 of 77.50 than baselines on the same encoder. These results showcase substantial improvements over the previous state-of-the-art model, LIQUID, with EM F1 score enhancements ranging from 1.61 to 2.49 percents across validation datasets. 
+
+Additionally, when utilizing $\text{RoBERTa}_{base}$ instead of $\text{BERT}_{base}$, $\text{AUG}_{c}$ achieves EM and Overlap F1 scores of 70.35 and 84.06 respectively on the same datasets. These scores represent EM and Overlap F1 improvements of 2.02 and 0.93 compared to the previous setup. For  $\text{AUG}_{eree}$, the EM F1 score represents an enhancement of 0.82, with the EM and Overlap F1 values of 69.16 and 82.85 respectively. Notably, the partial metrics also indicate lower values compared to TASE and LIQUID, in line with the result supported by $\text{BERT}_{base}$. This is because augmenting the model with entity information, including definition and relationship knowledge, strengthens its ability to capture and understand entity concepts, which leads the model to prefer complete entity spans or empty span set as answers rather than partial entity span, and therefore a decrease in the partial recall and ultimately a lower partial F1 scores and a higher EM F1.
+
+
+To further substantiate our explanation for the suboptimal performance of our model on the Overlap F1 metric, we conducted a detailed examination of the predictions made by $\text{AUG}_{eree}$ and two baseline models on the validation dataset. In essence, we tallied the instances where these models predicted empty answers and recalculated their Overlap F1 scores on non-empty predictions. This allowed us to investigate whether the $\text{AUG}_{eree}$ model aligns with our hypothesis, which posits that its extensive learning of entity knowledge during training makes it inclined to output either a complete and accurate answer span or no answer at all, as opposed to a partially correct answer span.
+
+As presented in Table~\ref{tab:answer_counts}, $\text{AUG}_{eree}$ indeed predicted a higher number of empty answers compared to TASE and LIQUID, while achieving relatively higher Overlap F1 scores on non-empty predictions. Specifically, when equipped with $\text{BERT}_{base}$ as the encoder, $\text{AUG}_{eree}$ obtained an F1 score of 0.7976 on non-empty answer predictions, whereas TASE and LIQUID scored 0.7964 and 0.7909, respectively. With $\text{RoBERTa}_{base}$, $\text{AUG}_{eree}$ achieved an Overlap F1 score of 0.8414, surpassing TASE and LIQUID, which scored 0.8404 and 0.8357, respectively. Additionally, it is worth noting that $\text{AUG}_{eree}$ consistently predicted more empty answers, whether using BERT or RoBERTa.
+
+These findings lend support to our conjecture that the introduction of entity knowledge leads to a slight reduction in the model's Overlap F1 scores. This suggests that utilizing LLM as a knowledge source to linearize entity information from LLM text and integrate it into the original context empowers the model to acquire greater entity knowledge, thereby exhibiting a preference for more accurate and complete answer spans, or simply providing no answer.
+
+
+
+\begin{table*}[width=\textwidth,cols=9,pos=h]  % 
+	\caption{The statistics of answers span predicted by $\text{AUG}_{eree}$ and baselines} 
+	\label{tab:answer_counts}
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc}
+		\toprule
+		\multirow{2}{*}{\textbf{ }} & \multicolumn{3}{c}{$\text{BERT}_{base}$} & \multicolumn{3}{c}{$\text{RoBERTa}_{base}$}  \\
+		\cline{2-7} 
+		\addlinespace
+		& TASE\((\%)\) & LIQUID\((\%)\) & $\text{AUG}_{eree}$\((\%)\) & TASE\((\%)\) & LIQUID\((\%)\) & $\text{AUG}_{eree}$\((\%)\) \\
+		\midrule
+		empty predictions counts   & 0.0245 & 0.0214 & \textbf{0.0643} & 0.0061 & 0.0153 & \textbf{0.0291} \\ 
+		non-empty Overlap f1  & 0.7964 & 0.7909 & \textbf{0.7976} & 0.8404 & 0.8357 & \textbf{0.8414} \\
+		\bottomrule
+	\end{tabular*}
+	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
+\end{table*}
+
+
+
+Totally, the result, displayed in Table~\ref{tab:robertaall} demonstrates the same trends to Table~\ref{tab:bertall}. And the outcome highlights robustness in effectively generalizing across different datasets without requiring hyperparameter re-tuning. 
+
+\subsubsection{\textit{Discussion}}
+Table~\ref{tab:bertall} and Table~\ref{tab:robertaall} discuss the performance of different augmentation integrated strategies, including the results-bagging methods whose outputs are voting results of $\text{AUG}_{c}$, $\text{AUG}_{eree}$ as well as LIQUID, and the input-fusion model $\text{AUG}_{ceree}$ who injects all kinds of information above into input contexts.
+
+In detail, with EM f1 scores of 62.90 and 64.44 in Table~\ref{tab:bertall} and 70.44 and 70.86 in Table~\ref{tab:robertaall}, both the $\text{AUG}_{ceree}$ and Bagging methods consistently surpass TASE and LIQUID, which exhibits robust effectiveness of information injection strategies. However, there is a little decrease caused by fusing all auxiliary information when contrast with single information augmentation strategies and the bagging method. This may be due to the likelihood that incorporating all of the augmentation information into the model inputs will confuse the model by introducing excessive auxiliary knowledge and underrepresented original context proportion. Therefore it may be more useful that adding limit information into context, and using result-bagging method, a multi-model voting to bringing all information into model with an indirect way.
+
+From the Partial Match perspective, $\text{AUG}_{ceree}$ and the Bagging method achieve 76.72 and 79.52 in Table~\ref{tab:bertall}, and 82.80 and 84.82 in Table~\ref{tab:robertaall}. In accordance with Exact Match metrics, Bagging demonstrate a overall superior performance. Meanwhile overlap f1 score of $\text{AUG}_{eree}$ is inferior to TASE but superior to LIQUID ,with relatively higher precision and relativelv higher recall, which  is comparable to all single augmented models such as $\text{AUG}_{eree}$. And its weak performance on overlap f1 also reveals complete entities preference of this information injection approach.
+
+Furthermore, we stratified the data within MultispanQA according to answer types, specifically categorizing them into DESC, NUM, and ENTYS. We subsequently conducted a comparative analysis of model performance within each of these subcategories. In particular, the results are presented in Tables~\ref{tab:bertsub} and Table~\ref{tab:robertasub}, supported by $\text{BERT}_{base}$ and $\text{RoBERTa}_{base}$, respectively.
+As indicated in Tables~\ref{tab:bertsub} and~\ref{tab:robertasub}, our proposed models exhibit superior performance in terms of EM F1 scores for all categorizing. However, they demonstrate suboptimal performance in terms of overlap F1 scores.
+
+
+
+\begin{table*}[ht]
+	\caption{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text{BERT}_{base}$.}
+	\label{tab:bertsub}
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc}
+		\toprule
+		\multirow{2}{*}{\textbf{Type}} & \multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match} \\
+		\cmidrule{3-8} 
+		& & F\((\%)\) & P\((\%)\) & R\((\%)\) & F\((\%)\) & P\((\%)\) & R\((\%)\) \\
+		\midrule
+		\multirow{6}{*}{DESC} & TASE & 32.76 & 27.33 & 40.87 & 64.46 & 68.61 & 60.79 \\ 
+		& LIQUID & 36.69 & 31.10 & 44.71 & 66.05 & 65.95 & 66.15 \\
+		& $\text{AUG}_{c}$ & 38.74 & 32.89 & 47.12 & 68.31 & 70.32 & 66.42 \\
+		& $\text{AUG}_{eree}$ & 44.69 & 40.71 & 49.52 & 63.12 & 67.16 & 59.53 \\
+		& $\text{AUG}_{ereec}$ & 40.63 & 38.30 & 43.27 & 64.25 & 71.15 & 58.57 \\
+		& Bagging & 39.91 & 36.69 & 43.75 & 66.70 & 73.68 & 60.93 \\
+		\midrule
+		\multirow{6}{*}{NUM} & TASE & 33.33 & 30.23 & 37.14 & 60.98 & 71.99 & 52.89 \\ 
+		& LIQUID & 34.33 & 31.25 & 38.10 & 60.68 & 68.15 & 54.69 \\
+		& $\text{AUG}_{c}$ & 35.96 & 33.33 & 39.05 & 64.47 & 71.56 & 58.65 \\
+		& $\text{AUG}_{eree}$ & 36.20 & 34.48 & 38.10 & 59.02 & 65.63 & 53.62 \\
+		& $\text{AUG}_{ereec}$ & 36.71 & 37.25 & 36.19 & 57.09 & 69.04 & 48.67 \\
+		& Bagging & 35.94 & 34.82 & 37.14 & 60.73 & 71.15 & 52.97 \\
+		\midrule
+		\multirow{6}{*}{ENTYS} & TASE & 66.30 & 62.21 & 70.96 & 81.16 & 80.37 & 81.96 \\ 
+		& LIQUID & 67.17 & 65.25 & 69.21 & 81.66 & 81.69 & 81.63 \\
+		& $\text{AUG}_{c}$ & 68.47 & 64.44 & 73.03 & 81.93 & 80.57 & 83.34 \\
+		& $\text{AUG}_{eree}$ & 68.36 & 64.64 & 72.53 & 80.55 & 79.21 & 81.93 \\
+		& $\text{AUG}_{ereec}$ & 67.54 & 65.60 & 69.59 & 79.49 & 80.16 & 78.83 \\
+		& Bagging & 69.65 & 66.94 & 72.59 & 82.31 & 82.07 & 82.55 \\
+		\bottomrule
+	\end{tabular*}
+\end{table*}
+
+\begin{table*}[ht]
+	\caption{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text{RoBERTa}_{base}$.}
+	\label{tab:robertasub}
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc}
+		\toprule
+		\multirow{2}{*}{\textbf{Type}} & \multirow{2}{*}{\textbf{Model}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match} \\
+		\cmidrule{3-8} 
+		& & F\((\%)\) & P\((\%)\) & R\((\%)\) & F\((\%)\) & P\((\%)\) & R\((\%)\) \\
+		\midrule
+		\multirow{6}{*}{DESC} & TASE & 45.53 & 40.84 & 51.44 & 75.44 & 76.61 & 74.31 \\ 
+		& LIQUID & 48.68 & 44.76 & 53.37 & 73.27 & 71.57 & 75.04 \\
+		& $\text{AUG}_{c}$ & 49.02 & 44.66 & 54.33 & 76.33 & 77.85 & 74.86 \\
+		& $\text{AUG}_{eree}$ & 50.99 & 46.96 & 55.77 & 76.87 & 78.07 & 75.71 \\
+		& $\text{AUG}_{ereec}$ & 49.24 & 44.71 & 54.81 & 71.87 & 73.03 & 70.74 \\
+		& Bagging & 47.70 & 43.78 & 52.40 & 77.43 & 80.63 & 74.47 \\
+		\midrule
+		\multirow{6}{*}{NUM} & TASE & 46.23 & 45.79 & 46.67 & 71.89 & 78.42 & 66.36 \\ 
+		& LIQUID & 40.19 & 39.45 & 40.95 & 67.56 & 72.28 & 63.42 \\
+		& $\text{AUG}_{c}$ & 50.69 & 49.11 & 52.38 & 72.86 & 80.22 & 66.74 \\
+		& $\text{AUG}_{eree}$ & 42.40 & 41.07 & 43.81 & 66.67 & 73.51 & 61.00 \\
+		& $\text{AUG}_{ereec}$ & 45.58 & 44.55 & 46.67 & 65.86 & 73.19 & 59.87 \\
+		& Bagging & 44.65 & 43.64 & 45.71 & 70.11 & 78.49 & 63.35 \\
+		\midrule
+		\multirow{6}{*}{ENTYS} & TASE & 72.57 & 69.94 & 75.41 & 84.90 & 84.32 & 85.48 \\ 
+		& LIQUID & 72.95 & 71.77 & 74.16 & 85.02 & 84.75 & 85.29 \\
+		& $\text{AUG}_{c}$ & 74.59 & 71.87 & 77.53 & 85.79 & 84.40 & 87.23 \\
+		& $\text{AUG}_{eree}$ & 73.50 & 72.81 & 74.22 & 84.74 & 85.49 & 83.99 \\
+		& $\text{AUG}_{ereec}$ & 75.04 & 72.81 & 77.41 & 85.37 & 84.46 & 86.29 \\
+		& Bagging & 75.85 & 74.52 & 77.22 & 86.73 & 86.73 & 86.74 \\
+		\bottomrule
+	\end{tabular*}
+\end{table*}
+
+\subsubsection{\textit{Ablation Experiment}}
+At the end of this section, we conducted ablations on our approach to confirm the effectiveness of selecting the information injection proportion. For each QA data, we randomly split the original context and the auxiliary text, then concatenated them into a final augmented context with a specific proportion to ensure that the new input length meets $\textit{max\_len}$, which has a crucial impact on our approach. In practice, we determined the final text splicing ratio by calculating the ratio of the average length of the source text to the added information, which for the $\text{AUG}_{c}$ is 0.86.
+
+Specifically, Table~\ref{tab:different_ratio_bert} and Table~\ref{tab:different_ratio_roberta} displays $\text{AUG}_{c}$'s performance with differential proportion to concatenate original contexts and continuation, on complete MultispanQA valid set,backed by $\text{BERT}_{base}$ and $\text{RoBERTa}_{base}$ respectively. We choose five proportions for information integration, which determine how much auxiliary information would be inject into each overflowed text segment. The results presented in tables indicate that using the ratio of their average lengths as the proportion of the overflow text composed of original text and auxiliary information is an effective approach. In detail, $\text{AUG}_{c}$,equipping with $\text{BERT}_{base}$, achieves an Exact Match F1 scores improvements of at least 4.57 compared to other proportions and an overlap F1 scores improvements of at least 2.07. In line with Table~\ref{tab:different_ratio_bert}, when $\text{AUG}_{c}$ equips with $\text{Roberta}_{base}$, it achieves an improvement of Exact Match F1 scores of 0.55 but an decrease of Overlap F1 scores of 0.17.
+
+
+
+\begin{table*}[H] 
+	\caption{Ablations of $\text{AUG}_{c}$ on different proportion for information concatenation, based on $\text{BERT}_{base}$.} 
+	\label{tab:different_ratio_bert}
+	\newcolumntype{C}{>{\centering\arraybackslash}X}
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc}
+		\toprule
+		\multirow{2}{*}{\textbf{Proportion}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
+		\cline{2-7} 
+		\addlinespace
+		& F\((\%)\) & P\((\%)\) & R\((\%)\) & F\((\%)\) & P\((\%)\) & R\((\%)\) \\
+		\midrule
+		0.90 & 58.55 & 57.69 & 59.44 & 71.88 & 74.30 & 69.61 \\ 
+		0.70 & 61.70 & 59.03 & 64.63 & 76.58 & 77.84 & 75.36 \\
+		0.50 & 61.22 & 57.37 & 65.62 & 77.38 & 77.61 & 77.16 \\
+		0.40 & 61.36 & 56.50 & 67.13 & 78.26 & 77.57 & 78.96 \\
+		0.10 & 61.41 & 56.36 & 67.45 & 78.94 & 78.45 & 79.44 \\
+		0.14 & 63.05 & 58.51 & 68.34 & 79.42 & 78.70 & 80.14 \\
+		\bottomrule
+	\end{tabular*}      
+	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
+\end{table*}
+
+
+
+\begin{table*}[H] 
+	\caption{Ablations of $\text{AUG}_{c}$ on different proportion for information concatenation, based on $\text{RoBERTa}_{base}$.} 
+	\label{tab:different_ratio_roberta}
+	\newcolumntype{C}{>{\centering\arraybackslash}X}
+	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc}
+		\toprule
+		\multirow{2}{*}{\textbf{Proportion}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
+		\cline{2-7} 
+		\addlinespace
+		& F\((\%)\) & P\((\%)\) & R\((\%)\) & F\((\%)\) & P\((\%)\) & R\((\%)\) \\
+		\midrule
+		0.90 & 58.13 & 56.92 & 59.39 & 71.70 & 73.49 & 69.98 \\ 
+		0.70 & 66.97 & 65.42 & 68.60 & 80.05 & 80.80 & 79.32 \\
+		0.50 & 68.94 & 67.23 & 70.75 & 82.43 & 83.23 & 81.64 \\
+		0.40 & 68.95 & 66.11 & 71.06 & 83.71 & 83.71 & 81.71 \\
+		0.10 & 69.80 & 66.47 & 73.47 & 84.23 & 83.49 & 84.99 \\
+		0.86 & 70.35 & 67.35 & 73.63 & 84.06 & 83.38 & 84.76 \\
+		\bottomrule
+	\end{tabular*}      
+	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
+\end{table*}
+
+
+
+%\begin{table}[H] 
+%	\caption{Ablations of $\text{AUG}_{c}$ on different proportion for information concatenation, based on $\text{BERT}_{base}$.} 
+%	\label{tab:different_ratio_roberta}
+%	\newcolumntype{C}{>{\centering\arraybackslash}X}
+%	\begin{tabularx}{\textwidth}{p{1.7cm}CCCCCCC}
+	%		\toprule
+	%		\multirow{2}{*}{\textbf{Proportion}} & \multicolumn{3}{c}{Exact Match} & \multicolumn{3}{c}{Partial Match}  \\
+	%		\cline{2-7} 
+	%		\addlinespace
+	%		& F\((\%)\) & P\((\%)\) & R\((\%)\) & F\((\%)\) & P\((\%)\) & R\((\%)\) \\
+	%		\midrule
+	%		0.90 & 58.13 & 56.92 & 59.39 & 71.70 & 73.49 & 69.98 \\ 
+	%		0.70 & 66.97 & 65.42 & 68.60 & 80.05 & 80.80 & 79.32 \\
+	%		0.50 & 68.94 & 67.23 & 70.75 & 82.43 & 83.23 & 81.64 \\
+	%		0.40 & 68.95 & 66.11 & 71.06 & 83.71 & 83.71 & 81.71 \\
+	%		0.10 & 69.80 & 66.47 & 73.47 & 84.23 & 83.49 & 84.99 \\
+	%		0.86 & 70.35 & 67.35 & 73.63 & 84.06 & 83.38 & 84.76 \\
+	%		\bottomrule
+	%	\end{tabularx}      
+%	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
+%\end{table}
+%
