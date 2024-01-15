@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 \section{Related Work}
 \label{sec:related}
@@ -66,14 +67,12 @@ Extracting a variable number of spans from an input text can be commonly cast as
 \cite{segal2020simple} proposed using a sequence tagging model for multi-span extraction, which predicts whether each token is part of an answer. \cite{yoon2022} employed a similar sequence tagging approach to address extractive question answering~\citep{DBLP:journals/bmcbi/NaseemDKK22}  in the biomedical domain.
 \cite{li2022multispanqa} also adopted the tagging model architecture, integrating two sub-tasks: predicting the number of spans to extract and annotating the answer structure within their proposed dataset to capture global information.
 ADRAV~\citep{hu2023biomedical} proposed a dynamic routing and answer voting method to further make full use of the hidden layer knowledge of pre-trained models.
-More recently, LIQUID~\citep{lee2023liquid} was introduced to  automatically generate list-style QA pairs from unlabeled corpora. LIQUID extracted named entities from the summarized text as candidate answers and incorporated synthetic data in the tagging model. 
-These methods harness the extensive factual knowledge embedded in powerful contextualized encoders (PrLMs) or synthesized data that resolves around named entities. 
-As a result, they have demonstrated promising performance in extracting  multi-span answers, particularly for factoid questions where the answers correspond entities.
-%Benefiting from the rich factual knowledge implied in the powerful contextualized encoders (PrLMs) or synthesized data centered around name entities, these methods have achieved promising performance on multi-span answer extraction, especially for factoid questions where the answers are entities.
-%These methods have been achieved promising performance on multi-span answer extraction, especially for factoid questions whose answers are entities, benefiting from the rich factoid knowledge implied in the powerful context encoder like PrLMs.
-However, these methods do not take into account the information of span boundaries in terms of the questions, and thus have very limited capabilities of precisely drawing a description answer. 
-%However, for these methodswhich are implied in the powerful context encoder like PrLMs, they are failed to care span boundaries .
-Compared to these approaches, TOAST incorporates the semantic and syntactic information of span boundaries by explicitly modeling the implicit neighboring transitions in-between the adjacent tokens or words, which benefits the span boundary identification.
+
+More recently, SpanQualifier improves Multi-Span Reading Comprehension (MSRC) by explicitly representing spans and modeling interactions within and between them.
+Iterative Extractor introduces a classification method for MSRC instances, prompting exploration of strategies to maximize different paradigms' advantages in capturing key information and modeling relationships between questions and context.
+While these methods leverage powerful context encoders (PrLMs) with good multi-span answer extraction performance, they fall short in fully harnessing external knowledge, limiting their text comprehension abilities.
+LIQUID was designed to automatically generate list-style QA pairs from unlabeled corpora, using named entities from summarized text as candidate answers and incorporating synthetic data in the tagging model. However, its focus on list QA data narrows the scope of knowledge and lacks specificity, reducing efficiency.
+In contrast, AUG significantly advances the field by efficiently enhancing model training. It achieves this by leveraging interactions with a large language model to acquire contextually relevant knowledge directly tied to the data, which can be seamlessly incorporated into the finetuning.
 
 
 \subsection{Interaction with LLMs}
