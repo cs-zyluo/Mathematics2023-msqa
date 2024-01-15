@@ -2,22 +2,34 @@
 
 \section{Related Work}
 \label{sec:related}
-In this section, we briefly summarize previous works that are relevant to extractive reading comprehension
-(RC) datasets and various modeling approaches employed for extractive RC tasks.
-\subsection{Multi-Span RC Datasets}
-The complete answer to a real-world user question could consist of multiple text spans. 
-Furthermore, a user question can even have multiple intents, where the answer to each intent is composed of one or more spans. 
-We refer to the datasets focus on such multi-span questions as multi-span RC datasets.
-Natural Question~\citep{DBLP:journals/tacl/KwiatkowskiPRCP19} and Quoref~\citep{DBLP:conf/emnlp/DasigiLMSG19} both contain multi-span questions. 
-The Natural Question dataset incorporates real anonymized queries to the Google search engine. 
-Quoref is used to validate models with the ability to resolve co-reference among entities. %, which is not for general capability validation of models.
-However, the proportion of multi-span answers in Natural Question and Quoref is relatively low, around 2\% and 10\% respectively. 
-The DROP~\citep{DBLP:conf/naacl/DuaWDSS019} dataset which consists of complex questions on history and football games, requires discrete reasoning over the content of contexts, including  co-reference resolution and arithmetic operations, such as addition, sorting and counting. 
-Although the questions could be multi-span, the answer spans are almost exclusively semantically homogeneous and related to numeric values. 
-MASH-QA~\citep{DBLP:conf/aaai/PangLGXSC19} is a domain-specific dataset that extends the answer space to general text types in the healthcare domain.
-Recently, \cite{li2022multispanqa} propose the MultiSpanQA dataset, which consists of open-domain multi-span questions. The MultiSpanQA dataset is derived from Natural Question, whose questions are real queries issued to the Google search engine. 
-Each question is associated with a context extracted from a retrieved Wikipedia page.  
-MultiSpanQA also has an expanded variant by introducing single-span and unanswerable questions, namely MultiSpanQA (expand). 
+In this section, we briefly summarize previous work on how Large Language Models (LLMs) such as the GPT series can be utilized as sources of knowledge and content generators to enhance and enrich text data in various application scenarios.
+\subsection{Interaction with LLMs}
+Large Language Models (LLMs) are powerful natural language processing models in the field of deep learning, 
+characterized by their massive parameter scale and outstanding capabilities in understanding and generating natural language text. 
+Recent research has highlighted the extraction of relevant knowledge from LLMs, especially in domains lacking proper coverage in knowledge bases~\citep{fang2021leveraging}. 
+The application of large language models has expanded from the field of knowledge extraction to text data augmentation. 
+GPT3Mix~\citep{yoo2021gpt3mix} has proposed a method that utilizes large language models to generate new text samples, thereby enhancing the performance of machine learning models.
+AugGPT~\citep{dai2023auggpt} enhances natural language processing tasks in situations with limited data by interacting with ChatGPT to generate new textual data, further advancing text data augmentation.
+In the realm of common sense reasoning,~\citep{liu2021generated,liu2022rainier} suggests that performance in common sense question answering can be effectively improved through prompt generation and reinforcement learning. 
+Additionally, LLMs excel in generating contextual information, demonstrating the ability to create rich, 
+relevant contexts based on given inputs, as validated in studies such as those by~\citep{yu2022generate}. 
+The collaborative effect of iterative retrieval and generation further boosts the performance of LLMs~\citep{shao2023enhancing}. 
+However, a limitation in current research is the insufficient interpretation of entities.Our study addresses this gap by interacting with ChatGPT, 
+leveraging its powerful generative capabilities to design a series of prompt templates for obtaining more comprehensive entity interpretations.
+
+
+In the research domain of question-answering systems, ~\citep{huang2023enhancing} improves the context learning ability of models in multi-span question-answering tasks through the introduction of answer feedback mechanisms. 
+Comparisons between ChatGPT and traditional knowledge base question-answering models explore its potential as an alternative to traditional KBQA tasks~\citep{tan2023can}, 
+investigating differences in providing single versus multiple answers in various contexts within reading comprehension tasks~\citep{zhang2023many}. 
+Considering the limitations of LLMs in handling factual information, ~\citep{ren2023investigating} utilizes retrieval-enhanced techniques to enhance the model's understanding and response capabilities to fact-based queries.
+Finally, ~\citep{wei2023zero} showcase a new approach to zero-shot information extraction through interaction with ChatGPT, 
+while~\citep{liu2023once} explore the enhancement of content-based recommendation systems by combining open-source and closed-source language models. 
+These studies not only demonstrate the innovation and advantages of LLMs across various domains but also provide profound insights into future research directions. 
+However, the response structures generated by LLMs in these studies are not standardized. 
+To address this, our prompt template design aims to ensure that the responses from ChatGPT are easily parsed and processed, enhancing the structured nature of the responses. 
+Additionally, dealing with ambiguity and ambiguity is another challenge. 
+Through the integration of LLM knowledge sources, our framework aims to provide clearer, more detailed information to better address semantic complexities.
+
 
 \subsection{Neural Models for RC}
 Research in reading comprehension grows rapidly, and many successful neural-based RC models have been proposed in this area. 
@@ -66,6 +78,3 @@ Compared to these approaches, TOAST incorporates the semantic and syntactic info
 
 
 \subsection{Interaction with LLMs}
-
-
-
