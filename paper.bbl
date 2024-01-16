@@ -1,0 +1,350 @@
+\begin{thebibliography}{35}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\href}[2]{#2}
+\providecommand{\path}[1]{#1}
+\providecommand{\DOIprefix}{doi:}
+\providecommand{\ArXivprefix}{arXiv:}
+\providecommand{\URLprefix}{URL: }
+\providecommand{\Pubmedprefix}{pmid:}
+\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\path{#1}}}
+\providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Misc
+\bibitem[{Dai et~al.(2023)Dai, Liu, Liao, Huang, Cao, Wu, Zhao, Xu, Liu, Liu,
+  Li, Zhu, Cai, Sun, Li, Shen, Liu and Li}]{dai2023auggpt}
+\bibinfo{author}{Dai, H.}, \bibinfo{author}{Liu, Z.}, \bibinfo{author}{Liao,
+  W.}, \bibinfo{author}{Huang, X.}, \bibinfo{author}{Cao, Y.},
+  \bibinfo{author}{Wu, Z.}, \bibinfo{author}{Zhao, L.}, \bibinfo{author}{Xu,
+  S.}, \bibinfo{author}{Liu, W.}, \bibinfo{author}{Liu, N.},
+  \bibinfo{author}{Li, S.}, \bibinfo{author}{Zhu, D.}, \bibinfo{author}{Cai,
+  H.}, \bibinfo{author}{Sun, L.}, \bibinfo{author}{Li, Q.},
+  \bibinfo{author}{Shen, D.}, \bibinfo{author}{Liu, T.}, \bibinfo{author}{Li,
+  X.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Auggpt: Leveraging chatgpt for text data
+  augmentation}.
+\newblock \href{http://arxiv.org/abs/2302.13007}{\tt arXiv:2302.13007}.
+%Type = Inproceedings
+\bibitem[{Devlin et~al.(2019)Devlin, Chang, Lee and
+  Toutanova}]{DBLP:conf/naacl/DevlinCLT19}
+\bibinfo{author}{Devlin, J.}, \bibinfo{author}{Chang, M.},
+  \bibinfo{author}{Lee, K.}, \bibinfo{author}{Toutanova, K.},
+  \bibinfo{year}{2019}.
+\newblock \bibinfo{title}{{BERT:} pre-training of deep bidirectional
+  transformers for language understanding}, in: \bibinfo{booktitle}{Proceedings
+  of the 2019 Conference of the North American Chapter of the Association for
+  Computational Linguistics: Human Language Technologies, {NAACL-HLT} 2019,
+  Minneapolis, MN, USA, June 2-7, 2019, Volume 1 (Long and Short Papers)}, pp.
+  \bibinfo{pages}{4171--4186}.
+%Type = Article
+\bibitem[{Fang et~al.(2021)Fang, Wang, Xu, Xu, Sun, Zhu and
+  Zeng}]{fang2021leveraging}
+\bibinfo{author}{Fang, Y.}, \bibinfo{author}{Wang, S.}, \bibinfo{author}{Xu,
+  Y.}, \bibinfo{author}{Xu, R.}, \bibinfo{author}{Sun, S.},
+  \bibinfo{author}{Zhu, C.}, \bibinfo{author}{Zeng, M.}, \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Leveraging knowledge in multilingual commonsense
+  reasoning}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2110.08462} .
+%Type = Article
+\bibitem[{Gu et~al.(2021)Gu, Tinn, Cheng, Lucas, Usuyama, Liu, Naumann, Gao and
+  Poon}]{gu2021domain}
+\bibinfo{author}{Gu, Y.}, \bibinfo{author}{Tinn, R.}, \bibinfo{author}{Cheng,
+  H.}, \bibinfo{author}{Lucas, M.}, \bibinfo{author}{Usuyama, N.},
+  \bibinfo{author}{Liu, X.}, \bibinfo{author}{Naumann, T.},
+  \bibinfo{author}{Gao, J.}, \bibinfo{author}{Poon, H.}, \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Domain-specific language model pretraining for
+  biomedical natural language processing}.
+\newblock \bibinfo{journal}{ACM Transactions on Computing for Healthcare
+  (HEALTH)} \bibinfo{volume}{3}, \bibinfo{pages}{1--23}.
+%Type = Article
+\bibitem[{Hu et~al.(2023)Hu, Yang, Li, Sun and Yang}]{hu2023biomedical}
+\bibinfo{author}{Hu, Z.}, \bibinfo{author}{Yang, P.}, \bibinfo{author}{Li, B.},
+  \bibinfo{author}{Sun, Y.}, \bibinfo{author}{Yang, B.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Biomedical extractive question answering based on
+  dynamic routing and answer voting}.
+\newblock \bibinfo{journal}{Information Processing \& Management}
+  \bibinfo{volume}{60}, \bibinfo{pages}{103367}.
+%Type = Inproceedings
+\bibitem[{Huang et~al.(2023a)Huang, Zhou, Niu and Cheng}]{huang2023qualifier}
+\bibinfo{author}{Huang, Z.}, \bibinfo{author}{Zhou, J.}, \bibinfo{author}{Niu,
+  C.}, \bibinfo{author}{Cheng, G.}, \bibinfo{year}{2023}a.
+\newblock \bibinfo{title}{Spans, not tokens: A span-centric model for
+  multi-span reading comprehension}, in: \bibinfo{booktitle}{Proceedings of the
+  32nd ACM International Conference on Information and Knowledge Management},
+  \bibinfo{publisher}{Association for Computing Machinery},
+  \bibinfo{address}{New York, NY, USA}. p. \bibinfo{pages}{874–884}.
+\newblock \URLprefix \url{https://doi.org/10.1145/3583780.3615064},
+  \DOIprefix\doi{10.1145/3583780.3615064}.
+%Type = Article
+\bibitem[{Huang et~al.(2023b)Huang, Zhou, Xiao and Cheng}]{huang2023enhancing}
+\bibinfo{author}{Huang, Z.}, \bibinfo{author}{Zhou, J.}, \bibinfo{author}{Xiao,
+  G.}, \bibinfo{author}{Cheng, G.}, \bibinfo{year}{2023}b.
+\newblock \bibinfo{title}{Enhancing in-context learning with answer feedback
+  for multi-span question answering}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2306.04508} .
+%Type = Inproceedings
+\bibitem[{Kadlec et~al.(2016)Kadlec, Schmid, Bajgar and
+  Kleindienst}]{DBLP:conf/acl/KadlecSBK16}
+\bibinfo{author}{Kadlec, R.}, \bibinfo{author}{Schmid, M.},
+  \bibinfo{author}{Bajgar, O.}, \bibinfo{author}{Kleindienst, J.},
+  \bibinfo{year}{2016}.
+\newblock \bibinfo{title}{Text understanding with the attention sum reader
+  network}, in: \bibinfo{booktitle}{Proceedings of the 54th Annual Meeting of
+  the Association for Computational Linguistics, {ACL} 2016, August 7-12, 2016,
+  Berlin, Germany, Volume 1: Long Papers}.
+%Type = Inproceedings
+\bibitem[{Kenton and Toutanova(2019)}]{kenton2019bert}
+\bibinfo{author}{Kenton, J.D.M.W.C.}, \bibinfo{author}{Toutanova, L.K.},
+  \bibinfo{year}{2019}.
+\newblock \bibinfo{title}{Bert: Pre-training of deep bidirectional transformers
+  for language understanding}, in: \bibinfo{booktitle}{Proceedings of
+  NAACL-HLT}, pp. \bibinfo{pages}{4171--4186}.
+%Type = Article
+\bibitem[{Lee et~al.(2020)Lee, Yoon, Kim, Kim, Kim, So and
+  Kang}]{lee2020biobert}
+\bibinfo{author}{Lee, J.}, \bibinfo{author}{Yoon, W.}, \bibinfo{author}{Kim,
+  S.}, \bibinfo{author}{Kim, D.}, \bibinfo{author}{Kim, S.},
+  \bibinfo{author}{So, C.H.}, \bibinfo{author}{Kang, J.}, \bibinfo{year}{2020}.
+\newblock \bibinfo{title}{Biobert: a pre-trained biomedical language
+  representation model for biomedical text mining}.
+\newblock \bibinfo{journal}{Bioinformatics} \bibinfo{volume}{36},
+  \bibinfo{pages}{1234--1240}.
+%Type = Article
+\bibitem[{Lee et~al.(2023)Lee, Kim and Kang}]{lee2023liquid}
+\bibinfo{author}{Lee, S.}, \bibinfo{author}{Kim, H.}, \bibinfo{author}{Kang,
+  J.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Liquid: A framework for list question answering
+  dataset generation}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2302.01691} .
+%Type = Inproceedings
+\bibitem[{Li et~al.(2022)Li, Tomko, Vasardani and Baldwin}]{li2022multispanqa}
+\bibinfo{author}{Li, H.}, \bibinfo{author}{Tomko, M.},
+  \bibinfo{author}{Vasardani, M.}, \bibinfo{author}{Baldwin, T.},
+  \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Multispanqa: A dataset for multi-span question
+  answering}, in: \bibinfo{booktitle}{Proceedings of the 2022 Conference of the
+  North American Chapter of the Association for Computational Linguistics:
+  Human Language Technologies}, pp. \bibinfo{pages}{1250--1260}.
+%Type = Article
+\bibitem[{Liu et~al.(2022)Liu, Hallinan, Lu, He, Welleck, Hajishirzi and
+  Choi}]{liu2022rainier}
+\bibinfo{author}{Liu, J.}, \bibinfo{author}{Hallinan, S.}, \bibinfo{author}{Lu,
+  X.}, \bibinfo{author}{He, P.}, \bibinfo{author}{Welleck, S.},
+  \bibinfo{author}{Hajishirzi, H.}, \bibinfo{author}{Choi, Y.},
+  \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Rainier: Reinforced knowledge introspector for
+  commonsense question answering}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2210.03078} .
+%Type = Article
+\bibitem[{Liu et~al.(2021)Liu, Liu, Lu, Welleck, West, Bras, Choi and
+  Hajishirzi}]{liu2021generated}
+\bibinfo{author}{Liu, J.}, \bibinfo{author}{Liu, A.}, \bibinfo{author}{Lu, X.},
+  \bibinfo{author}{Welleck, S.}, \bibinfo{author}{West, P.},
+  \bibinfo{author}{Bras, R.L.}, \bibinfo{author}{Choi, Y.},
+  \bibinfo{author}{Hajishirzi, H.}, \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Generated knowledge prompting for commonsense
+  reasoning}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2110.08387} .
+%Type = Misc
+\bibitem[{Liu et~al.(2023)Liu, Chen, Sakai and Wu}]{liu2023once}
+\bibinfo{author}{Liu, Q.}, \bibinfo{author}{Chen, N.}, \bibinfo{author}{Sakai,
+  T.}, \bibinfo{author}{Wu, X.M.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Once: Boosting content-based recommendation with both
+  open- and closed-source large language models}.
+\newblock \href{http://arxiv.org/abs/2305.06566}{\tt arXiv:2305.06566}.
+%Type = Article
+\bibitem[{Liu et~al.(2019)Liu, Ott, Goyal, Du, Joshi, Chen, Levy, Lewis,
+  Zettlemoyer and Stoyanov}]{liu2019roberta}
+\bibinfo{author}{Liu, Y.}, \bibinfo{author}{Ott, M.}, \bibinfo{author}{Goyal,
+  N.}, \bibinfo{author}{Du, J.}, \bibinfo{author}{Joshi, M.},
+  \bibinfo{author}{Chen, D.}, \bibinfo{author}{Levy, O.},
+  \bibinfo{author}{Lewis, M.}, \bibinfo{author}{Zettlemoyer, L.},
+  \bibinfo{author}{Stoyanov, V.}, \bibinfo{year}{2019}.
+\newblock \bibinfo{title}{Roberta: A robustly optimized bert pretraining
+  approach}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:1907.11692} .
+%Type = Article
+\bibitem[{Naseem et~al.(2022)Naseem, Dunn, Khushi and
+  Kim}]{DBLP:journals/bmcbi/NaseemDKK22}
+\bibinfo{author}{Naseem, U.}, \bibinfo{author}{Dunn, A.G.},
+  \bibinfo{author}{Khushi, M.}, \bibinfo{author}{Kim, J.},
+  \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Benchmarking for biomedical natural language
+  processing tasks with a domain specific {ALBERT}}.
+\newblock \bibinfo{journal}{{BMC} Bioinform.} \bibinfo{volume}{23},
+  \bibinfo{pages}{144}.
+%Type = Inproceedings
+\bibitem[{Pang et~al.(2019)Pang, Lan, Guo, Xu, Su and
+  Cheng}]{DBLP:conf/aaai/PangLGXSC19}
+\bibinfo{author}{Pang, L.}, \bibinfo{author}{Lan, Y.}, \bibinfo{author}{Guo,
+  J.}, \bibinfo{author}{Xu, J.}, \bibinfo{author}{Su, L.},
+  \bibinfo{author}{Cheng, X.}, \bibinfo{year}{2019}.
+\newblock \bibinfo{title}{{HAS-QA:} hierarchical answer spans model for
+  open-domain question answering}, in: \bibinfo{booktitle}{The Thirty-Third
+  {AAAI} Conference on Artificial Intelligence, {AAAI} 2019, Honolulu, Hawaii,
+  USA, January 27 - February 1, 2019}, \bibinfo{publisher}{{AAAI} Press}. pp.
+  \bibinfo{pages}{6875--6882}.
+%Type = Article
+\bibitem[{Radford et~al.(2018)Radford, Narasimhan, Salimans, Sutskever
+  et~al.}]{radford2018improving}
+\bibinfo{author}{Radford, A.}, \bibinfo{author}{Narasimhan, K.},
+  \bibinfo{author}{Salimans, T.}, \bibinfo{author}{Sutskever, I.}, et~al.,
+  \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{Improving language understanding by generative
+  pre-training} .
+%Type = Article
+\bibitem[{Ren et~al.(2023)Ren, Wang, Qu, Zhao, Liu, Tian, Wu, Wen and
+  Wang}]{ren2023investigating}
+\bibinfo{author}{Ren, R.}, \bibinfo{author}{Wang, Y.}, \bibinfo{author}{Qu,
+  Y.}, \bibinfo{author}{Zhao, W.X.}, \bibinfo{author}{Liu, J.},
+  \bibinfo{author}{Tian, H.}, \bibinfo{author}{Wu, H.}, \bibinfo{author}{Wen,
+  J.R.}, \bibinfo{author}{Wang, H.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Investigating the factual knowledge boundary of large
+  language models with retrieval augmentation}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2307.11019} .
+%Type = Inproceedings
+\bibitem[{Segal et~al.(2020)Segal, Efrat, Shoham, Globerson and
+  Berant}]{segal2020simple}
+\bibinfo{author}{Segal, E.}, \bibinfo{author}{Efrat, A.},
+  \bibinfo{author}{Shoham, M.}, \bibinfo{author}{Globerson, A.},
+  \bibinfo{author}{Berant, J.}, \bibinfo{year}{2020}.
+\newblock \bibinfo{title}{A simple and effective model for answering multi-span
+  questions}, in: \bibinfo{booktitle}{Proceedings of the 2020 Conference on
+  Empirical Methods in Natural Language Processing (EMNLP)}, pp.
+  \bibinfo{pages}{3074--3080}.
+%Type = Inproceedings
+\bibitem[{Seo et~al.(2017)Seo, Kembhavi, Farhadi and
+  Hajishirzi}]{DBLP:conf/iclr/SeoKFH17}
+\bibinfo{author}{Seo, M.J.}, \bibinfo{author}{Kembhavi, A.},
+  \bibinfo{author}{Farhadi, A.}, \bibinfo{author}{Hajishirzi, H.},
+  \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Bidirectional attention flow for machine
+  comprehension}, in: \bibinfo{booktitle}{5th International Conference on
+  Learning Representations, {ICLR} 2017, Toulon, France, April 24-26, 2017,
+  Conference Track Proceedings}.
+%Type = Article
+\bibitem[{Shao et~al.(2023)Shao, Gong, Shen, Huang, Duan and
+  Chen}]{shao2023enhancing}
+\bibinfo{author}{Shao, Z.}, \bibinfo{author}{Gong, Y.}, \bibinfo{author}{Shen,
+  Y.}, \bibinfo{author}{Huang, M.}, \bibinfo{author}{Duan, N.},
+  \bibinfo{author}{Chen, W.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Enhancing retrieval-augmented large language models
+  with iterative retrieval-generation synergy}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2305.15294} .
+%Type = Inproceedings
+\bibitem[{Tan et~al.(2023)Tan, Min, Li, Li, Hu, Chen and Qi}]{tan2023can}
+\bibinfo{author}{Tan, Y.}, \bibinfo{author}{Min, D.}, \bibinfo{author}{Li, Y.},
+  \bibinfo{author}{Li, W.}, \bibinfo{author}{Hu, N.}, \bibinfo{author}{Chen,
+  Y.}, \bibinfo{author}{Qi, G.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Can chatgpt replace traditional kbqa models? an
+  in-depth analysis of the question answering performance of the gpt llm
+  family}, in: \bibinfo{booktitle}{International Semantic Web Conference},
+  \bibinfo{organization}{Springer}. pp. \bibinfo{pages}{348--367}.
+%Type = Inproceedings
+\bibitem[{Trischler et~al.(2016)Trischler, Ye, Yuan, Bachman, Sordoni and
+  Suleman}]{DBLP:conf/emnlp/TrischlerYYBSS16}
+\bibinfo{author}{Trischler, A.}, \bibinfo{author}{Ye, Z.},
+  \bibinfo{author}{Yuan, X.}, \bibinfo{author}{Bachman, P.},
+  \bibinfo{author}{Sordoni, A.}, \bibinfo{author}{Suleman, K.},
+  \bibinfo{year}{2016}.
+\newblock \bibinfo{title}{Natural language comprehension with the epireader},
+  in: \bibinfo{booktitle}{Proceedings of the 2016 Conference on Empirical
+  Methods in Natural Language Processing, {EMNLP} 2016, Austin, Texas, USA,
+  November 1-4, 2016}, pp. \bibinfo{pages}{128--137}.
+%Type = Article
+\bibitem[{Vaswani et~al.(2017)Vaswani, Shazeer, Parmar, Uszkoreit, Jones,
+  Gomez, Kaiser and Polosukhin}]{vaswani2017attention}
+\bibinfo{author}{Vaswani, A.}, \bibinfo{author}{Shazeer, N.},
+  \bibinfo{author}{Parmar, N.}, \bibinfo{author}{Uszkoreit, J.},
+  \bibinfo{author}{Jones, L.}, \bibinfo{author}{Gomez, A.N.},
+  \bibinfo{author}{Kaiser, {\L}.}, \bibinfo{author}{Polosukhin, I.},
+  \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Attention is all you need}.
+\newblock \bibinfo{journal}{Advances in neural information processing systems}
+  \bibinfo{volume}{30}.
+%Type = Inproceedings
+\bibitem[{Vinyals et~al.(2015)Vinyals, Fortunato and
+  Jaitly}]{DBLP:conf/nips/VinyalsFJ15}
+\bibinfo{author}{Vinyals, O.}, \bibinfo{author}{Fortunato, M.},
+  \bibinfo{author}{Jaitly, N.}, \bibinfo{year}{2015}.
+\newblock \bibinfo{title}{Pointer networks}, in: \bibinfo{booktitle}{Advances
+  in Neural Information Processing Systems 28: Annual Conference on Neural
+  Information Processing Systems 2015, December 7-12, 2015, Montreal, Quebec,
+  Canada}, pp. \bibinfo{pages}{2692--2700}.
+%Type = Inproceedings
+\bibitem[{Wang and Jiang(2017)}]{DBLP:conf/iclr/Wang017a}
+\bibinfo{author}{Wang, S.}, \bibinfo{author}{Jiang, J.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Machine comprehension using match-lstm and answer
+  pointer}, in: \bibinfo{booktitle}{5th International Conference on Learning
+  Representations, {ICLR} 2017, Toulon, France, April 24-26, 2017, Conference
+  Track Proceedings}, \bibinfo{publisher}{OpenReview.net}.
+%Type = Article
+\bibitem[{Wei et~al.(2023)Wei, Cui, Cheng, Wang, Zhang, Huang, Xie, Xu, Chen,
+  Zhang et~al.}]{wei2023zero}
+\bibinfo{author}{Wei, X.}, \bibinfo{author}{Cui, X.}, \bibinfo{author}{Cheng,
+  N.}, \bibinfo{author}{Wang, X.}, \bibinfo{author}{Zhang, X.},
+  \bibinfo{author}{Huang, S.}, \bibinfo{author}{Xie, P.}, \bibinfo{author}{Xu,
+  J.}, \bibinfo{author}{Chen, Y.}, \bibinfo{author}{Zhang, M.}, et~al.,
+  \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Zero-shot information extraction via chatting with
+  chatgpt}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2302.10205} .
+%Type = Inproceedings
+\bibitem[{Xiong et~al.(2017)Xiong, Zhong and Socher}]{DBLP:conf/iclr/XiongZS17}
+\bibinfo{author}{Xiong, C.}, \bibinfo{author}{Zhong, V.},
+  \bibinfo{author}{Socher, R.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Dynamic coattention networks for question answering},
+  in: \bibinfo{booktitle}{5th International Conference on Learning
+  Representations, {ICLR} 2017, Toulon, France, April 24-26, 2017, Conference
+  Track Proceedings}, \bibinfo{publisher}{OpenReview.net}.
+%Type = Article
+\bibitem[{Yoo et~al.(2021)Yoo, Park, Kang, Lee and Park}]{yoo2021gpt3mix}
+\bibinfo{author}{Yoo, K.M.}, \bibinfo{author}{Park, D.}, \bibinfo{author}{Kang,
+  J.}, \bibinfo{author}{Lee, S.W.}, \bibinfo{author}{Park, W.},
+  \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Gpt3mix: Leveraging large-scale language models for
+  text augmentation}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2104.08826} .
+%Type = Article
+\bibitem[{Yoon et~al.(2022)Yoon, Jackson, Lagerberg and Kang}]{yoon2022}
+\bibinfo{author}{Yoon, W.}, \bibinfo{author}{Jackson, R.},
+  \bibinfo{author}{Lagerberg, A.}, \bibinfo{author}{Kang, J.},
+  \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Sequence tagging for biomedical extractive question
+  answering}.
+\newblock \bibinfo{journal}{Bioinform.} \bibinfo{volume}{38},
+  \bibinfo{pages}{3794--3801}.
+%Type = Article
+\bibitem[{Yu et~al.(2022)Yu, Iter, Wang, Xu, Ju, Sanyal, Zhu, Zeng and
+  Jiang}]{yu2022generate}
+\bibinfo{author}{Yu, W.}, \bibinfo{author}{Iter, D.}, \bibinfo{author}{Wang,
+  S.}, \bibinfo{author}{Xu, Y.}, \bibinfo{author}{Ju, M.},
+  \bibinfo{author}{Sanyal, S.}, \bibinfo{author}{Zhu, C.},
+  \bibinfo{author}{Zeng, M.}, \bibinfo{author}{Jiang, M.},
+  \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Generate rather than retrieve: Large language models
+  are strong context generators}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2209.10063} .
+%Type = Article
+\bibitem[{Zhang et~al.(2023)Zhang, Lin, Liu, Lai, Feng and
+  Zhao}]{zhang2023many}
+\bibinfo{author}{Zhang, C.}, \bibinfo{author}{Lin, J.}, \bibinfo{author}{Liu,
+  X.}, \bibinfo{author}{Lai, Y.}, \bibinfo{author}{Feng, Y.},
+  \bibinfo{author}{Zhao, D.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{How many answers should i give? an empirical study of
+  multi-answer reading comprehension}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2306.00435} .
+%Type = Inproceedings
+\bibitem[{Zhu et~al.(2020)Zhu, Ahuja, Juan, Wei and
+  Reddy}]{DBLP:conf/emnlp/ZhuAJ0R20}
+\bibinfo{author}{Zhu, M.}, \bibinfo{author}{Ahuja, A.}, \bibinfo{author}{Juan,
+  D.}, \bibinfo{author}{Wei, W.}, \bibinfo{author}{Reddy, C.K.},
+  \bibinfo{year}{2020}.
+\newblock \bibinfo{title}{Question answering with long multiple-span answers},
+  in: \bibinfo{editor}{Cohn, T.}, \bibinfo{editor}{He, Y.},
+  \bibinfo{editor}{Liu, Y.} (Eds.), \bibinfo{booktitle}{Findings of the
+  Association for Computational Linguistics: {EMNLP} 2020, Online Event, 16-20
+  November 2020}, pp. \bibinfo{pages}{3840--3849}.
+
+\end{thebibliography}

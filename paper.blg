@@ -1,0 +1,57 @@
+This is BibTeX, Version 0.99d (TeX Live 2023)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: paper.aux
+The style file: cas-model2-names.bst
+Database file #1: refs.bib
+Repeated entry---line 1097 of file refs.bib
+ : @article{liu2021generated
+ :                          ,
+I'm skipping whatever remains of this entry
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Warning--empty pages in DBLP:conf/acl/KadlecSBK16
+Warning--empty journal in radford2018improving
+Warning--empty pages in DBLP:conf/iclr/SeoKFH17
+Warning--empty pages in DBLP:conf/iclr/Wang017a
+Warning--empty pages in DBLP:conf/iclr/XiongZS17
+You've used 35 entries,
+            2990 wiz_defined-function locations,
+            922 strings with 15395 characters,
+and the built_in function-call counts, 29434 in all, are:
+= -- 2043
+> -- 1744
+< -- 12
++ -- 665
+- -- 627
+* -- 3459
+:= -- 4306
+add.period$ -- 91
+call.type$ -- 35
+change.case$ -- 383
+chr.to.int$ -- 34
+cite$ -- 40
+duplicate$ -- 2042
+empty$ -- 1796
+format.name$ -- 737
+if$ -- 5396
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 424
+newline$ -- 176
+num.names$ -- 142
+pop$ -- 831
+preamble$ -- 1
+purify$ -- 346
+quote$ -- 0
+skip$ -- 659
+stack$ -- 0
+substring$ -- 854
+swap$ -- 1639
+text.length$ -- 10
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 315
+warning$ -- 5
+while$ -- 142
+width$ -- 0
+write$ -- 477
+(There was 1 error message)
