@@ -68,10 +68,10 @@ Extracting a variable number of spans from an input text can be commonly cast as
 \cite{li2022multispanqa} also adopted the tagging model architecture, integrating two sub-tasks: predicting the number of spans to extract and annotating the answer structure within their proposed dataset to capture global information.
 ADRAV~\citep{hu2023biomedical} proposed a dynamic routing and answer voting method to further make full use of the hidden layer knowledge of pre-trained models.
 
-More recently, SpanQualifier improves Multi-Span Reading Comprehension (MSRC) by explicitly representing spans and modeling interactions within and between them.
-Iterative Extractor introduces a classification method for MSRC instances, prompting exploration of strategies to maximize different paradigms' advantages in capturing key information and modeling relationships between questions and context.
+More recently, SpanQualifier~\cite{huang2023qualifier} improves Multi-Span Reading Comprehension (MSRC) by explicitly representing spans and modeling interactions within and between them.
+Iterative Extractor~\cite{zhang2023many} introduces a classification method for MSRC instances, prompting exploration of strategies to maximize different paradigms' advantages in capturing key information and modeling relationships between questions and context.
 While these methods leverage powerful context encoders (PrLMs) with good multi-span answer extraction performance, they fall short in fully harnessing external knowledge, limiting their text comprehension abilities.
-LIQUID was designed to automatically generate list-style QA pairs from unlabeled corpora, using named entities from summarized text as candidate answers and incorporating synthetic data in the tagging model. However, its focus on list QA data narrows the scope of knowledge and lacks specificity, reducing efficiency.
+LIQUID~\cite{lee2023liquid} was designed to automatically generate list-style QA pairs from unlabeled corpora, using named entities from summarized text as candidate answers and incorporating synthetic data in the tagging model. However, its focus on list QA data narrows the scope of knowledge and lacks specificity, reducing efficiency.
 In contrast, AUG significantly advances the field by efficiently enhancing model training. It achieves this by leveraging interactions with a large language model to acquire contextually relevant knowledge directly tied to the data, which can be seamlessly incorporated into the finetuning.
 
 
