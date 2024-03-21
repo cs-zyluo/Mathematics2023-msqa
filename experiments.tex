@@ -52,7 +52,8 @@ We evaluate our model as well as baselines
 		$\text{AUG}_{c}$ & 63.05 & 58.51 & 68.34 & 79.42 & 78.70 & 80.14 \\
 		$\text{AUG}_{eree}$  & 63.93 & 60.22 & 68.13 & 77.50 & 77.07 & 77.94 \\
 		$\text{AUG}_{ereec}$ & 62.90  & 61.02 & 64.89 & 76.72 & 78.56 & 74.97 \\
-		Bagging & 64.44 & 61.63 & 67.50 & 79.5 & 80.49 & 78.57 \\
+		$\text{Bagging}_{eeerc}$ & 63.63  & 61.53 & 65.88 & 78.24 & 80.00 & 76.56 \\
+		$\text{Bagging}_{eeerc+liquid}$ & 64.44 & 61.63 & 67.50 & 79.5 & 80.49 & 78.57 \\
 		\bottomrule
 	\end{tabular*}
 	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
@@ -73,7 +74,8 @@ We evaluate our model as well as baselines
 		$\text{AUG}_{c}$ & 70.35 & 67.35 & 73.63 & 84.06 & 83.38 & 84.76 \\
 		$\text{AUG}_{eree}$ & 69.15 & 67.81 & 70.54 & 82.85 & 83.90 & 81.83 \\
 		$\text{AUG}_{ereec}$ & 70.44 & 67.83 & 73.26 & 82.80 & 82.45 & 83.15 \\
-		Bagging & 70.86 & 69.03 & 72.79 & 84.82 & 85.53 & 84.12 \\
+		$\text{Bagging}_{eeerc}$ & 70.48  & 69.11 & 71.90 & 84.28 & 85.61 & 83.00 \\
+		$\text{Bagging}_{eeerc+liquid}$ & 70.86 & 69.03 & 72.79 & 84.82 & 85.53 & 84.12 \\
 		\bottomrule
 	\end{tabular*}      
 	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
@@ -96,22 +98,29 @@ These findings lend support to our conjecture that the introduction of entity kn
 
 
 
-\begin{table*}[width=\textwidth,cols=9,pos=h]  % 
-	\caption{The statistics of answers span predicted by $\text{AUG}_{eree}$ and baselines} 
-	\label{tab:answer_counts}
-	\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccccc}
+\begin{table}[htbp]
+	\caption{The statistics of answers span predicted by $\text{AUG}{eree}$, $\text{AUG}{ereec}$ and baselines}
+	\label{tab:answer_counts_vertical}
+	\centering
+	\begin{tabular}{lcc}
 		\toprule
-		\multirow{2}{*}{\textbf{ }} & \multicolumn{3}{c}{$\text{BERT}_{base}$} & \multicolumn{3}{c}{$\text{RoBERTa}_{base}$}  \\
-		\cline{2-7} 
-		\addlinespace
-		& TASE\((\%)\) & LIQUID\((\%)\) & $\text{AUG}_{eree}$\((\%)\) & TASE\((\%)\) & LIQUID\((\%)\) & $\text{AUG}_{eree}$\((\%)\) \\
+		\textbf{Category} & \textbf{BERT} & \textbf{RoBERTa} \\
 		\midrule
-		empty predictions counts   & 0.0245 & 0.0214 & \textbf{0.0643} & 0.0061 & 0.0153 & \textbf{0.0291} \\ 
-		non-empty Overlap f1  & 0.7964 & 0.7909 & \textbf{0.7976} & 0.8404 & 0.8357 & \textbf{0.8414} \\
+		\multicolumn{3}{l}{\textbf{TASE}} \\
+		\hspace{5mm} empty preds & 2.45 & 0.61 \\
+		\hspace{5mm} non-empty pmf1 & 79.64 & 84.04 \\
+		\multicolumn{3}{l}{\textbf{LIQUID)}} \\
+		\hspace{5mm} empty preds & 2.14 & 1.53 \\
+		\hspace{5mm} non-empty pmf1 & 79.09 & 83.57 \\
+		\multicolumn{3}{l}{$\textbf{AUG}{eree}$ } \\
+		\hspace{5mm} empty preds & \textbf{6.43} & \textbf{2.91} \\
+		\hspace{5mm} non-empty pmf1 & \textbf{79.76} & \textbf{84.14} \\
+		\multicolumn{3}{l}{$\textbf{AUG}{ereec}$ } \\
+		\hspace{5mm} empty preds & \textbf{7.96} & \textbf{3.22} \\
+		\hspace{5mm} non-empty pmf1 & \textbf{80.20} & \textbf{83.78} \\
 		\bottomrule
-	\end{tabular*}
-	%	\noindent{\footnotesize{\textsuperscript{1} Tables may have a footer.}}
-\end{table*}
+	\end{tabular}
+\end{table}
 
 
 
@@ -143,21 +152,24 @@ As indicated in Tables~\ref{tab:bertsub} and~\ref{tab:robertasub}, our proposed 
 		& $\text{AUG}_{c}$ & 38.74 & 32.89 & 47.12 & 68.31 & 70.32 & 66.42 \\
 		& $\text{AUG}_{eree}$ & 44.69 & 40.71 & 49.52 & 63.12 & 67.16 & 59.53 \\
 		& $\text{AUG}_{ereec}$ & 40.63 & 38.30 & 43.27 & 64.25 & 71.15 & 58.57 \\
-		& Bagging & 39.91 & 36.69 & 43.75 & 66.70 & 73.68 & 60.93 \\
+		& $\text{Bagging}_{eeerc}$ & 39.19  & 36.86 & 41.83 & 64.46 & 75.12 & 56.45 \\
+		& $\text{Bagging}_{eeerc+liquid}$  & 39.91 & 36.69 & 43.75 & 66.70 & 73.68 & 60.93 \\
 		\midrule
 		\multirow{6}{*}{NUM} & TASE & 33.33 & 30.23 & 37.14 & 60.98 & 71.99 & 52.89 \\ 
 		& LIQUID & 34.33 & 31.25 & 38.10 & 60.68 & 68.15 & 54.69 \\
 		& $\text{AUG}_{c}$ & 35.96 & 33.33 & 39.05 & 64.47 & 71.56 & 58.65 \\
 		& $\text{AUG}_{eree}$ & 36.20 & 34.48 & 38.10 & 59.02 & 65.63 & 53.62 \\
 		& $\text{AUG}_{ereec}$ & 36.71 & 37.25 & 36.19 & 57.09 & 69.04 & 48.67 \\
-		& Bagging & 35.94 & 34.82 & 37.14 & 60.73 & 71.15 & 52.97 \\
+		& $\text{Bagging}_{eeerc}$ & 35.58 & 35.92 & 35.24 & 58.62  & 68.09 & 51.46 \\
+		& $\text{Bagging}_{eeerc+liquid}$  & 35.94 & 34.82 & 37.14 & 60.73 & 71.15 & 52.97 \\
 		\midrule
 		\multirow{6}{*}{ENTYS} & TASE & 66.30 & 62.21 & 70.96 & 81.16 & 80.37 & 81.96 \\ 
 		& LIQUID & 67.17 & 65.25 & 69.21 & 81.66 & 81.69 & 81.63 \\
 		& $\text{AUG}_{c}$ & 68.47 & 64.44 & 73.03 & 81.93 & 80.57 & 83.34 \\
 		& $\text{AUG}_{eree}$ & 68.36 & 64.64 & 72.53 & 80.55 & 79.21 & 81.93 \\
 		& $\text{AUG}_{ereec}$ & 67.54 & 65.60 & 69.59 & 79.49 & 80.16 & 78.83 \\
-		& Bagging & 69.65 & 66.94 & 72.59 & 82.31 & 82.07 & 82.55 \\
+		& $\text{Bagging}_{eeerc}$ & 68.68  & 66.49 & 71.03 & 81.11 & 81.39 & 80.83 \\
+		& $\text{Bagging}_{eeerc+liquid}$ & 69.65 & 66.94 & 72.59 & 82.31 & 82.07 & 82.55 \\
 		\bottomrule
 	\end{tabular*}
 \end{table*}
@@ -176,21 +188,24 @@ As indicated in Tables~\ref{tab:bertsub} and~\ref{tab:robertasub}, our proposed 
 		& $\text{AUG}_{c}$ & 49.02 & 44.66 & 54.33 & 76.33 & 77.85 & 74.86 \\
 		& $\text{AUG}_{eree}$ & 50.99 & 46.96 & 55.77 & 76.87 & 78.07 & 75.71 \\
 		& $\text{AUG}_{ereec}$ & 49.24 & 44.71 & 54.81 & 71.87 & 73.03 & 70.74 \\
-		& Bagging & 47.70 & 43.78 & 52.40 & 77.43 & 80.63 & 74.47 \\
+		& $\text{Bagging}_{eeerc}$ & 51.54 & 47.56 & 56.25 & 78.20 & 80.04 & 76.44 \\
+		& $\text{Bagging}_{eeerc+liquid}$ & 47.70 & 43.78 & 52.40 & 77.43 & 80.63 & 74.47 \\
 		\midrule
 		\multirow{6}{*}{NUM} & TASE & 46.23 & 45.79 & 46.67 & 71.89 & 78.42 & 66.36 \\ 
 		& LIQUID & 40.19 & 39.45 & 40.95 & 67.56 & 72.28 & 63.42 \\
 		& $\text{AUG}_{c}$ & 50.69 & 49.11 & 52.38 & 72.86 & 80.22 & 66.74 \\
 		& $\text{AUG}_{eree}$ & 42.40 & 41.07 & 43.81 & 66.67 & 73.51 & 61.00 \\
 		& $\text{AUG}_{ereec}$ & 45.58 & 44.55 & 46.67 & 65.86 & 73.19 & 59.87 \\
-		& Bagging & 44.65 & 43.64 & 45.71 & 70.11 & 78.49 & 63.35 \\
+		& $\text{Bagging}_{eeerc}$ & 43.32 & 41.96 & 44.76 & 68.57 & 76.54 & 62.11 \\
+		& $\text{Bagging}_{eeerc+liquid}$ & 44.65 & 43.64 & 45.71 & 70.11 & 78.49 & 63.35 \\
 		\midrule
 		\multirow{6}{*}{ENTYS} & TASE & 72.57 & 69.94 & 75.41 & 84.90 & 84.32 & 85.48 \\ 
 		& LIQUID & 72.95 & 71.77 & 74.16 & 85.02 & 84.75 & 85.29 \\
 		& $\text{AUG}_{c}$ & 74.59 & 71.87 & 77.53 & 85.79 & 84.40 & 87.23 \\
 		& $\text{AUG}_{eree}$ & 73.50 & 72.81 & 74.22 & 84.74 & 85.49 & 83.99 \\
 		& $\text{AUG}_{ereec}$ & 75.04 & 72.81 & 77.41 & 85.37 & 84.46 & 86.29 \\
-		& Bagging & 75.85 & 74.52 & 77.22 & 86.73 & 86.73 & 86.74 \\
+		& $\text{Bagging}_{eeerc}$ & 74.97 & 74.23 & 75.72 & 86.14 & 87.07 & 87.06 \\
+		&$\text{Bagging}_{eeerc+liquid}$ & 75.85 & 74.52 & 77.22 & 86.73 & 86.73 & 86.74 \\
 		\bottomrule
 	\end{tabular*}
 \end{table*}
