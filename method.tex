@@ -7,7 +7,7 @@
 	\label{fig:overview}
 \end{figure*}   
 
- Given a question $Q_i \in Q = \{Q_1,...,Q_n\}$ and a context $C_i \in C = \{c_0,...,c_n\}$, where $C_i$ contains m tokens $c_0,..,c_m$, the objective of multi-span question answering is to identify a set of answer spans $A_i = \{a_0,...,a_s\}$ within the context. Here, each answer span $a_j \in A_i$ is represented as $a_j = c_{s_l},...,c_{e_l}$, where $s_l$ and $e_l$ denote the start and end positions of the l-th answer span, respectively.
+ Given a question $Q_i \in Q = \{Q_1,...,Q_n\}$ and a context $C_i \in C = \{C_0,...,C_n\}$, where $C_i$ contains m tokens $c_0,..,c_m$, the objective of multi-span question answering is to identify a set of answer spans $A_i = \{a_0,...,a_s\}$ within the context. Here, each answer span $a_j \in A_i$ is represented as $a_j = c_{s_l},...,c_{e_l}$, where $s_l$ and $e_l$ denote the start and end positions of the l-th answer span, respectively.
  Following the observation of~\cite{li2022multispanqa}, We adopt the BIO tagging scheme to mark answer spans in the context where words are tagged as either part of the answer(\textbf{B}egin, \textbf{I}nside) or not (\textbf{O}ther). Formally, BIO tagging scheme is represented by a tag set $\tau = \{B, I, O\}$.
 
  Intuitively, large language models (LLMs) can serve as supplementary sources of external knowledge, compensating for the restricted semantic comprehension and limited information perception inherent in pre-trained language models). 
@@ -30,8 +30,7 @@
  	\tilde{C_i} &= Inj(K_i,C_i) \tag{2}\\
  	A_i &= Tag(Q_i,~Filter(\tilde{C_i})) \tag{3}
  \end{align*}
- 
- 
+
  In the following section, we will explore how GIANT utilizes a large language model to generate knowledge. Subsequently, we will delve into the methods employed by GIANT to filter these knowledge, amalgamate them into meta-context, and orchestrate ensemble strategies to leverage these knowledge effectively.
 
 \textcolor{red}{提示的模板放在哪里描述比较好？}
@@ -44,18 +43,23 @@
 \end{figure*}   
 
 \subsection{LLMs as Knowledge Source}
- GIANT employs a large language model to generate augmented data from multiple perspectives, including named entity elucidation, entity relations, content summarization, and content continuation.
- The perspectives of named entity elucidation and entity relations provide factual knowledge, with GIANT forming knowledge cues for the model by jointly injecting them into metadata. 
- Summarization acts as a mechanism for information filtering, sieving and retaining entity interpretations to ensure augmentation efficiency. 
+ GIANT leverages a large language model as an external knowledge source, utilizing it to generate augmented data $K_i = \{E_i, S_i, R_i, F_i\}$ from multiple perspectives. Here, $E_i$ represents named entity elucidation, $R_i$ denotes entity relations, $S_i$ pertains to content swdsummarization, and $F_i$ encompasses content continuation.
+
+ Within these knowledge perspectives, named entity elucidation and entity relations provide factual knowledge, with GIANT synthesizing knowledge cues for the model by jointly injecting them into metadata.
+ Summarization acts as a mechanism for information filtering, sieving and retaining entity interpretations, thereby ensuring augmentation efficiency. 
  Content continuation introduces relevant external knowledge by extending contextual content.
-
-
+ 
+ 
 \subsubsection{LLMs as Named Entity Elucidator}
-
-  The knowledge of named entity elucidation serves as a direct aid to the model in comprehending infrequent lexical items within its pre-training corpus, context-specific terminologies in fine-tuning data, and ambiguous conceptual nuances in real world. 
-  Meanwhile, the inherent robustness of large language models, owing to their sophisticated language representation capabilities and vast training corpora, facilitates the provision of more precise and comprehensive entity delineations. 
-  Therefore, GIANT utilizes large language models to generate entity definitions for each question-answer pair, employing a combined approach of regular expressions and semantic dependency analysis models (Spacy) to parse the generated text and then constructs a branch-oriented "entity-elucidation" knowledge base.
-  Ultimately, the obtained knowledge base is used to retrieve entity elucidations and insert them behind entities in the original context, enriching the original textual content.
+  The resolution of multi-span questions usually entails identifying named entities. This intricate task can be greatly improved by tapping into the specialized knowledge of named entities. This expertise directly aids the model in comprehending rare lexical items within its pre-training corpus and adapting to context-specific terminologies during fine-tuning. 
+  
+  While previous research has delved into entity knowledge either through training or direct application of fine-tuned NER models like spaCy and BERN2, these models have limitations stemming from their narrow training datasets and their tendency to solely provide extracted entities without contextualized meanings due to their inflexible design.  
+  In comparison, generative large language models, endowed with advanced representation capabilities and abundant training data, present a promising avenue for achieving more precise and comprehensive entity delineations.
+  
+  Accordingly, GIANT utilizes a large language model to generate entity elucidation $E_i = \{e_0,...,e_h\}$ for each context $C_i$, where $i=1,..,n$. 
+  Following this, it adopts a hybrid methodology integrating both regular expressions and semantic dependency analysis models, exemplified by spaCy, to parse the produced text.
+  This systematic procedure culminates in the establishment of a ``Entity-Elucidation'' knowledge base oriented towards the elucidation of entities. 
+  Furthermore, we seamlessly integrates the retrieved entity $e_t \in E_i$ mentioned within context $C_i$ by inserting its corresponding explanation immediately after the entity mention, significantly enriching the original text content while ensuring coherence and clarity are upheld.
  
 \label{sec:information_injection}
 \begin{figure*}[h]
