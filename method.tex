@@ -21,15 +21,6 @@
  \textbf{2)Generating}: the large language model generating new knowledge based on the designed prompts.
  \textbf{3)Updating}: filtering the generated data, and combine it with metadata in different forms.
  \textbf{4)Training}: employing the knowledge-enhanced data to train a tagging model.
- 
-
- Consider $Gen(\cdot)$ as a generative large language model, and let $Inj(\cdot)$ function as a mapping that takes the generated content $K_i$ and context $C_i$, producing the augmented context $\tilde{C_i}$. $P(\cdot)$ represents a mapping of the context $C$ onto instantiated instructions, while $Tag(\cdot)$ serves as a QA model, and $Filter(\cdot)$ denotes the sieving operation.
- With these definitions, GIANT can be formulated as follows:
- \begin{align*}
- 	K_i &= Gen(C_i,P(C_i)) \tag{1}\\
- 	\tilde{C_i} &= Inj(K_i,C_i) \tag{2}\\
- 	A_i &= Tag(Q_i,~Filter(\tilde{C_i})) \tag{3}
- \end{align*}
 
  In the following section, we will explore how GIANT utilizes a large language model to generate knowledge. Subsequently, we will delve into the methods employed by GIANT to filter these knowledge, amalgamate them into meta-context, and orchestrate ensemble strategies to leverage these knowledge effectively.
 
@@ -43,32 +34,36 @@
 \end{figure*}   
 
 \subsection{LLMs as Knowledge Source}
- GIANT leverages a large language model as an external knowledge source, utilizing it to generate augmented data $K_i = \{E_i, S_i, R_i, F_i\}$ from multiple perspectives. Here, $E_i$ represents named entity elucidation, $R_i$ denotes entity relations, $S_i$ pertains to content swdsummarization, and $F_i$ encompasses content continuation.
+ GIANT leverages a large language model as an external knowledge source, utilizing it to generate augmented data $K_i = \{E_i, S_i, R_i, F_i\}$ from multiple perspectives. Here, $E_i$ represents named entity elucidation, $R_i$ denotes entity relations, $S_i$ pertains to content summarization, and $F_i$ encompasses content continuation.
 
  Within these knowledge perspectives, named entity elucidation and entity relations provide factual knowledge, with GIANT synthesizing knowledge cues for the model by jointly injecting them into metadata.
  Summarization acts as a mechanism for information filtering, sieving and retaining entity interpretations, thereby ensuring augmentation efficiency. 
  Content continuation introduces relevant external knowledge by extending contextual content.
  
+\subsubsection{LLMs as Content Summerizer}
+ One of the pivotal factors in entity knowledge selection lies in ensuring that these entities exhibit semantic relevance within the specified context. The incorporation of disparate entity explanations and relationship analyses at the model's input layer may lead to the valueless augmentation of contexts, consequently impeding the model's learning.
+ 
+ Utilizing the potent capabilities of large language models, we employ them to succinctly summarize the context $C_i$ into $S_i$, followed by extracting entities-based factual knowledge from $S_i$.
+ By considering summarization as a knowledge filter, we can achieve information augmentation with greater efficiency.
  
 \subsubsection{LLMs as Named Entity Elucidator}
-  The resolution of multi-span questions usually entails identifying named entities. This intricate task can be greatly improved by tapping into the specialized knowledge of named entities. This expertise directly aids the model in comprehending rare lexical items within its pre-training corpus and adapting to context-specific terminologies during fine-tuning. 
+ The resolution of multi-span questions usually entails identifying named entities. This intricate task can be greatly improved by tapping into the specialized knowledge of named entities. This expertise directly aids the model in comprehending rare lexical items within its pre-training corpus and adapting to context-specific terminologies during fine-tuning. 
   
-  While previous research has delved into entity knowledge either through training or direct application of fine-tuned NER models like spaCy and BERN2, these models have limitations stemming from their narrow training datasets and their tendency to solely provide extracted entities without contextualized meanings due to their inflexible design.  
-  In comparison, generative large language models, endowed with advanced representation capabilities and abundant training data, present a promising avenue for achieving more precise and comprehensive entity delineations.
+ While previous research has delved into entity knowledge either through training or direct application of fine-tuned NER models like spaCy and BERN2, these models have limitations stemming from their narrow training datasets and their tendency to solely provide extracted entities without contextualized meanings due to their inflexible design.  
+ In comparison, generative large language models, endowed with advanced representation capabilities and abundant training data, present a promising avenue for achieving more precise and comprehensive entity delineations.
   
-  Accordingly, GIANT utilizes a large language model to generate entity elucidation $E_i = \{e_0,...,e_h\}$ for each context $C_i$, where $i=1,..,n$. 
-  Following this, it adopts a hybrid methodology integrating both regular expressions and semantic dependency analysis models, exemplified by spaCy, to parse the produced text.
-  This systematic procedure culminates in the establishment of a ``Entity-Elucidation'' knowledge base oriented towards the elucidation of entities. 
-  Furthermore, we seamlessly integrates the retrieved entity $e_t \in E_i$ mentioned within context $C_i$ by inserting its corresponding explanation immediately after the entity mention, significantly enriching the original text content while ensuring coherence and clarity are upheld.
+ GIANT utilizes a large language model to generate entity elucidation $E_i = \{e_0,...,e_h\}$ for each context $C_i$, where $i=1,..,n$. 
+ Following this, it adopts a hybrid methodology integrating both regular expressions and semantic dependency analysis models, exemplified by spaCy, to parse the produced text.
+ This systematic procedure culminates in the establishment of a ``Entity-Elucidation'' knowledge base oriented towards the elucidation of entities. 
+ Furthermore, as \figref{fig:entity_insertion} presented, we seamlessly integrates the retrieved entity $e_t \in E_i$ mentioned within context $C_i$ by inserting its corresponding explanation immediately after the entity mention, significantly enriching the original text content while ensuring coherence and clarity are upheld.
  
-\label{sec:information_injection}
+\label{sec:LLMs as Named Entity Elucidator}
 \begin{figure*}[h]
 	\centering
 	\includegraphics[width=10cm]{EntityInsert.png}
 	\caption{The Process of Inserting Entity Explanation into Context}
 	\label{fig:entity_insertion}
 \end{figure*}
-
 
 \begin{figure*}[h]
 	\centering
@@ -77,7 +72,7 @@
 	\label{fig:random_concatenate}
 \end{figure*}  
 
-\subsection{Information Integration}
+\subsubsection{Information Integration}
 \label{sec:information_integration}
 In addition to the aforementioned three types of information, we seek more valuable enhanced information by requesting summaries for each question-context pair from Large Language Models (LLMs). We then extract entities mentioned in the summaries to capture those highly relevant to the core context. Moreover, recognizing the intrinsic connection between entity explanation and entity relationship parsing, we categorize them as complementary information for context enrichment, with context continuation serving as supplementary information. This approach aims to augment the model's internal text-parsing knowledge with external world knowledge through enhanced information. 
 
