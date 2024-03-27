@@ -1,5 +1,5 @@
 \section{Approach}
-\subsection{our framework}
+\subsection{Our Framework}
 \begin{figure*}[h]
 	\centering
 	\includegraphics[width=18cm]{overview.png}
@@ -37,7 +37,7 @@
  GIANT leverages a large language model as an external knowledge source, utilizing it to generate augmented data $K_i = \{E_i, S_i, R_i, F_i\}$ from multiple perspectives. Here, $E_i$ represents named entity elucidation, $R_i$ denotes entity relations, $S_i$ pertains to content summarization, and $F_i$ encompasses content continuation.
 
  Within these knowledge perspectives, named entity elucidation and entity relations provide factual knowledge, with GIANT synthesizing knowledge cues for the model by jointly injecting them into metadata.
- Summarization acts as a mechanism for information filtering, sieving and retaining entity interpretations, thereby ensuring augmentation efficiency. 
+ Summarization acts as a mechanism for information filtering, sieving and retaining entity interpretations and analyses of entity relationship, thereby ensuring augmentation efficiency. 
  Content continuation introduces relevant external knowledge by extending contextual content.
  
 \subsubsection{LLMs as Content Summerizer}
@@ -47,17 +47,17 @@
  By considering summarization as a knowledge filter, we can achieve information augmentation with greater efficiency.
  
 \subsubsection{LLMs as Named Entity Elucidator}
+\label{sec:LLMs as Named Entity Elucidator}
  The resolution of multi-span questions usually entails identifying named entities. This intricate task can be greatly improved by tapping into the specialized knowledge of named entities. This expertise directly aids the model in comprehending rare lexical items within its pre-training corpus and adapting to context-specific terminologies during fine-tuning. 
   
  While previous research has delved into entity knowledge either through training or direct application of fine-tuned NER models like spaCy and BERN2, these models have limitations stemming from their narrow training datasets and their tendency to solely provide extracted entities without contextualized meanings due to their inflexible design.  
  In comparison, generative large language models, endowed with advanced representation capabilities and abundant training data, present a promising avenue for achieving more precise and comprehensive entity delineations.
   
- GIANT utilizes a large language model to generate entity elucidation $E_i = \{e_0,...,e_h\}$ for each context $C_i$, where $i=1,..,n$. 
+ GIANT utilizes a large language model to generate entity elucidation $E_i$ represented as $\{e_0,...,e_h\}$, from summary $S_i$ ,from summaries $S_i$ within each context $C_i$, where $i$ ranges from 1 to $n$. 
  Following this, it adopts a hybrid methodology integrating both regular expressions and semantic dependency analysis models, exemplified by spaCy, to parse the produced text.
  This systematic procedure culminates in the establishment of a ``Entity-Elucidation'' knowledge base oriented towards the elucidation of entities. 
  Furthermore, as \figref{fig:entity_insertion} presented, we seamlessly integrates the retrieved entity $e_t \in E_i$ mentioned within context $C_i$ by inserting its corresponding explanation immediately after the entity mention, significantly enriching the original text content while ensuring coherence and clarity are upheld.
  
-\label{sec:LLMs as Named Entity Elucidator}
 \begin{figure*}[h]
 	\centering
 	\includegraphics[width=10cm]{EntityInsert.png}
@@ -72,9 +72,18 @@
 	\label{fig:random_concatenate}
 \end{figure*}  
 
-\subsubsection{Information Integration}
-\label{sec:information_integration}
-In addition to the aforementioned three types of information, we seek more valuable enhanced information by requesting summaries for each question-context pair from Large Language Models (LLMs). We then extract entities mentioned in the summaries to capture those highly relevant to the core context. Moreover, recognizing the intrinsic connection between entity explanation and entity relationship parsing, we categorize them as complementary information for context enrichment, with context continuation serving as supplementary information. This approach aims to augment the model's internal text-parsing knowledge with external world knowledge through enhanced information. 
+\subsubsection{LLMs as Entity Relationship Extractor}
+\label{sec:llm_as_relationship_extrator}
+ In addition to entity elucidation, understanding entity relations can also assist the model in untangling intricate logical relationships within complex context, thereby facilitating the clarification of interconnected concepts focused on the question-and-answering process.
+ With the robust language comprehension capabilities, contextual sensitivity, and extensive external knowledge, large language models can adeptly capture entity associations within extensive contents and transform this structured knowledge into natural language expressions, thus integrating factual knowledge into the model in textual form. 
+ 
+ After extracting the textual entity relationships $R_i$ from each context $C_i$ provided in the MSQA benchmark, we first calculate the ratio $r_l$, which is defined as the quotient of the cumulative length of the generated text $R_i$ and the total length of the original context $C_i$. 
+ As depicted in Figure 2, we subsequently partition the enhanced text $R_i$ and the original context $C_i$ into several segments, denoted as $\tilde{R_i} = \{\hat{r_1}, \hat{r_2}, ..., \hat{r_w}\}$ and $\tilde{C_i} = \{\hat{t_1}, \hat{t_2}, ..., \hat{t_w}\}$, respectively.
+ After partitioning, the number of enhanced text segments $|\tilde{R_i}|$ equals the number of original context segments $|\tilde{C_i}|$, and the ratio of the length of each enhanced text segment $|t_i|$ to each original context segment $|c_i|$ is consistent with $r_l$. 
+ Next, we maintain the order of the original context segments while shuffling the order of the enhanced text segments, represented as $R_i' = \{r_{\sigma(1)}, r_{\sigma(2)}, ..., r_{\sigma(m)}\}$, where $\sigma$ is a random permutation of the indices of the enhanced text segments. Then, we sequentially insert the shuffled enhanced text segments into the original text segments. This concatenation results in a new context $C' = \{c_1, r_{\sigma(1)}, c_2, r_{\sigma(2)}, ..., c_n, r_{\sigma(n)}\}$ enriched with relational knowledge.
+	
 
-To further investigate the efficacy of multi-information integration, leveraging enhanced information derived from Large Language Models (LLMs), we employ two distinct approaches to combine entity knowledge and context continuity. The first approach involves the incorporation of all information within the original context, with each type of information undergoing individualized knowledge injection. The second approach, referred to as "bagging," treats models trained on diverse information sources as voters. For each query, we employ all model predictions for token-level BIO labeling within the context, determining the final prediction through a majority vote. In cases of tie-breaking, we prioritize the logits' magnitude to ascertain the ultimate prediction.
+\subsubsection{LLMs as Content Continuator}
+\label{sec:llm_as_continuator}
+
 
