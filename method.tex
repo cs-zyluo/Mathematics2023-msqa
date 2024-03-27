@@ -74,16 +74,24 @@
 
 \subsubsection{LLMs as Entity Relationship Extractor}
 \label{sec:llm_as_relationship_extrator}
- In addition to entity elucidation, understanding entity relations can also assist the model in untangling intricate logical relationships within complex context, thereby facilitating the clarification of interconnected concepts focused on the question-and-answering process.
+ Besides, understanding entity relations can also assist the model in untangling intricate logical relationships within complex context, thereby facilitating the clarification of interconnected concepts focused on the question-and-answering process.
  With the robust language comprehension capabilities, contextual sensitivity, and extensive external knowledge, large language models can adeptly capture entity associations within extensive contents and transform this structured knowledge into natural language expressions, thus integrating factual knowledge into the model in textual form. 
+ Moreover, since entity interpretation and entity relationships are both factual knowledge, they naturally exhibit consistency, thus leading to their integration while GIANT injecting multiple knowledge into original context.
  
- After extracting the textual entity relationships $R_i$ from each context $C_i$ provided in the MSQA benchmark, we first calculate the ratio $r_l$, which is defined as the quotient of the cumulative length of the generated text $R_i$ and the total length of the original context $C_i$. 
- As depicted in Figure 2, we subsequently partition the enhanced text $R_i$ and the original context $C_i$ into several segments, denoted as $\tilde{R_i} = \{\hat{r_1}, \hat{r_2}, ..., \hat{r_w}\}$ and $\tilde{C_i} = \{\hat{t_1}, \hat{t_2}, ..., \hat{t_w}\}$, respectively.
+ After extracting the textual entity relationships $R_i$ from the summary $S_i$ of each context $C_i$, to maximize the interaction between context $C_i$ and relational knowledge $R_i$, we first calculate the ratio $r_l$, which is defined as the quotient of the cumulative length of the generated text $R_i$ and the total length of the original context $C_i$. 
+ As depicted in \figref{fig:random_concatenate}, we subsequently partition the enhanced text $R_i$ and the original context $C_i$ into several segments, denoted as $\tilde{R_i} = \{\hat{r_1}, \hat{r_2}, ..., \hat{r_w}\}$ and $\tilde{C_i} = \{\hat{t_1}, \hat{t_2}, ..., \hat{t_w}\}$, respectively.
  After partitioning, the number of enhanced text segments $|\tilde{R_i}|$ equals the number of original context segments $|\tilde{C_i}|$, and the ratio of the length of each enhanced text segment $|t_i|$ to each original context segment $|c_i|$ is consistent with $r_l$. 
  Next, we maintain the order of the original context segments while shuffling the order of the enhanced text segments, represented as $R_i' = \{r_{\sigma(1)}, r_{\sigma(2)}, ..., r_{\sigma(m)}\}$, where $\sigma$ is a random permutation of the indices of the enhanced text segments. Then, we sequentially insert the shuffled enhanced text segments into the original text segments. This concatenation results in a new context $C' = \{c_1, r_{\sigma(1)}, c_2, r_{\sigma(2)}, ..., c_n, r_{\sigma(n)}\}$ enriched with relational knowledge.
+ 
 	
 
 \subsubsection{LLMs as Content Continuator}
 \label{sec:llm_as_continuator}
+
+ In addition to extracting and organizing knowledge from given contexts, we can enhance contexts by introducing external knowledge through the expansion of textual content. By continuing to write the original context, we enrich its content and themes, indirectly providing knowledge cues to models, thereby enabling model to learn more task-relevant information during fine-tuning.
+ 
+ With extensive training data and parameters, large language models possess vast knowledge and domain backgrounds, exhibiting strong language expression capabilities and a deep understanding of context. Consequently, they can generate coherent and informative text extensions based on contexts. Such continuations not only improve text coherence but also enhance information content.
+ 
+ The method of injecting extension knowledge is similar to injecting entity relationships into the original context. It involves randomly slicing the content continuation and inserting segmented text pieces into the original text, facilitating full interaction between the original and enhanced texts, which results in further enriching the semantics and content of the text.
 
 
