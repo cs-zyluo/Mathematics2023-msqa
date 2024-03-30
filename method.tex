@@ -84,7 +84,6 @@
  Next, we maintain the order of the original context segments while shuffling the order of the enhanced text segments, represented as $R_i' = \{r_{\sigma(1)}, r_{\sigma(2)}, ..., r_{\sigma(m)}\}$, where $\sigma$ is a random permutation of the indices of the enhanced text segments. Then, we sequentially insert the shuffled enhanced text segments into the original text segments. This concatenation results in a new context $C' = \{c_1, r_{\sigma(1)}, c_2, r_{\sigma(2)}, ..., c_n, r_{\sigma(n)}\}$ enriched with relational knowledge.
  
 	
-
 \subsubsection{LLMs as Content Continuator}
 \label{sec:llm_as_continuator}
 
@@ -93,5 +92,16 @@
  With extensive training data and parameters, large language models possess vast knowledge and domain backgrounds, exhibiting strong language expression capabilities and a deep understanding of context. Consequently, they can generate coherent and informative text extensions based on contexts. Such continuations not only improve text coherence but also enhance information content.
  
  The method of injecting extension knowledge is similar to injecting entity relationships into the original context. It involves randomly slicing the content continuation and inserting segmented text pieces into the original text, facilitating full interaction between the original and enhanced texts, which results in further enriching the semantics and content of the text.
+
+
+\subsection{Knowledge Ensemble}
+\label{sec:knowledge_ensemble}
+
+\subsubsection{Data ensemble}
+\label{sec:data_ensemble}
+
+\subsubsection{Model ensemble}
+\label{sec:model_ensemble}
+
 
 
