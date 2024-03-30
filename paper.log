@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.1.14)  28 MAR 2024 00:28
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.1.14)  28 MAR 2024 00:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1386,7 +1386,7 @@ Underfull \hbox (badness 1454) in paragraph at lines 88--89
  []
 
 [6]
-Underfull \vbox (badness 5231) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
@@ -1394,14 +1394,14 @@ LaTeX Warning: Reference `tab:answer_counts' on page 7 undefined on input line
 95.
 
 
+Underfull \vbox (badness 5231) has occurred while \output is active []
+
+ [7]
 Underfull \hbox (badness 2726) in paragraph at lines 102--102
 []\TU/lmss/m/n/9 The statistics of answers span predicted by $[][]$,
  []
 
 
-Underfull \vbox (badness 5231) has occurred while \output is active []
-
- [7]
 Underfull \hbox (badness 1635) in paragraph at lines 216--217
 \TU/lmr/m/n/10 nate original contexts and continuation, on com-
  []
@@ -1417,7 +1417,11 @@ Package array Warning: Column C is already defined on input line 223.
 
 Package array Warning: Column C is already defined on input line 247.
 
-) (./conclusion.tex) [8] (./paper.bbl
+) (./conclusion.tex)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8]
+(./paper.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [9]
@@ -1427,15 +1431,14 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [10]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 Underfull \hbox (badness 1178) in paragraph at lines 325--333
 \TU/lmr/m/n/8 2023.  How many answers should i give? an empirical
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-) [11]
-(./paper.aux)
+) [11] (./paper.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.5pt have occurred.
@@ -1447,12 +1450,12 @@ Package rerunfilecheck Info: File `paper.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 24698 strings out of 476683
- 469582 string characters out of 5803606
- 1908012 words of memory out of 5000000
- 44473 multiletter control sequences out of 15000+600000
+ 24701 strings out of 476683
+ 469645 string characters out of 5803606
+ 1907012 words of memory out of 5000000
+ 44476 multiletter control sequences out of 15000+600000
  565910 words of font info for 184 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 87i,13n,117p,1172b,620s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 87i,13n,117p,1172b,618s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on paper.pdf (11 pages).
