@@ -34,6 +34,7 @@
 \end{figure*}   
 
 \subsection{LLMs as Knowledge Source}
+\label{sec:llm_as_knowledge_source}
  GIANT leverages a large language model as an external knowledge source, utilizing it to generate augmented data $K_i = \{E_i, S_i, R_i, F_i\}$ from multiple perspectives. Here, $E_i$ represents named entity elucidation, $R_i$ denotes entity relations, $S_i$ pertains to content summarization, and $F_i$ encompasses content continuation.
 
  Within these knowledge perspectives, named entity elucidation and entity relations provide factual knowledge, with GIANT synthesizing knowledge cues for the model by jointly injecting them into metadata.
@@ -96,11 +97,24 @@
 
 \subsection{Knowledge Ensemble}
 \label{sec:knowledge_ensemble}
-
-\subsubsection{Data ensemble}
+ Various types of knowledge are closely interconnected. A deep understanding of one type of knowledge can facilitate comprehension across different types. For instance, grasping entity relationship analysis can significantly enhance entity interpretation. We have developed multiple strategies for combining knowledge, focusing on data ensemble and model ensemble. Our aim is to determine which combinations of knowledge yield better results and to improve overall effectiveness by optimizing knowledge organization methods.
+\subsubsection{Data Ensemble}
 \label{sec:data_ensemble}
+ From the data ensemble perspective, we concurrently integrate various forms of knowledge into the metadata at the input layer of the model, thus learning a comprehensive knowledge enhancement model. The methodology for integrating each type of knowledge into the metadata during knowledge fusion aligns with the approach detailed in \secref{sec:llm_as_knowledge_source} specific to that type of knowledge. Given that entity interpretation and entity relationship analysis data stem from content summaries, a logical amalgamation emerges between summaries and the knowledge derived from entity interpretation and entity relationship analysis. Furthermore, considering that entity relationships and entity interpretation inherently embody factual knowledge centered on entities, we amalgamate them directly, conceptualizing it as a synthesis of summaries, entity interpretation, and entity relationship analysis. Ultimately, we can integrate content continuation knowledge into this tripartite fusion.
+ Totally, we present two combinations of knowledge:
+ $(a)$ integrating entity interpretation and entity relationship analysis, both derived from summaries, to mutually supplement factual knowledge;
+ $(b)$ building upon $(a)$, incorporating content continuation knowledge.
+ 
+ Illustrating through the exemplar combination $(a)$, we elucidate our methodology for knowledge amalgamation:
+ \begin{enumerate}
+ 	\item \textbf{Integration of Entity Interpretation:} We first incorporate entity interpretation ($E_i$) immediately after the the entity mention within the original context $C_i$,with the result designated as $C_i'$.
+ 	\item \textbf{Refinement of Enhanced Text:} Employing a methodological approach encompassing slicing, shuffling, and strategic insertion, we imbue the enhanced text ($C_i'$), with  entity relationship analysis, thereby engendering an evolved iteration ($C_i''$).
+ 	\item \textbf{Model Augmentation:} Finally, the refined $C_i''$ is channeled into the model's input layer to learn a fusion model incorporating multiple forms of knowledge, which is utilized for both training and inference.
+ \end{enumerate}
+ Furthermore, for combination $(b)$, the process merely requires an additional step of inserting content continuation knowledge after step 2. All other procedures remain consistent with the exemplified approach, employing a injection method identical to that used for integrating entity relationship analysis $R_i$ data into entity-interpretation-enhanced context $C_i'$.
+ 
 
-\subsubsection{Model ensemble}
+\subsubsection{Model Ensemble}
 \label{sec:model_ensemble}
 
 

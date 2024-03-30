@@ -2,10 +2,13 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
 \HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
 \global\let\oldnewlabel\newlabel
 \gdef\newlabel#1#2{\newlabelxx{#1}#2}
 \gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
 \AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
 \let\newlabel\oldnewlabel
 \fi}
 \fi}
@@ -74,6 +77,7 @@
 \@LN@col{2}
 \newlabel{sec:prompt_construction}{{3.1}{3}{Our Framework}{figure.caption.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}LLMs as Knowledge Source}{3}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:llm_as_knowledge_source}{{3.2}{3}{LLMs as Knowledge Source}{subsection.3.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Prompt Templates and it's Construction\relax }}{4}{figure.caption.2}\protected@file@percent }
 \newlabel{fig:prompt_template}{{2}{4}{Prompt Templates and it's Construction\relax }{figure.caption.2}{}}
 \@LN@col{1}
@@ -94,37 +98,49 @@
 \@LN@col{1}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Knowledge Ensemble}{6}{subsection.3.3}\protected@file@percent }
 \newlabel{sec:knowledge_ensemble}{{3.3}{6}{Knowledge Ensemble}{subsection.3.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Data ensemble}{6}{subsubsection.3.3.1}\protected@file@percent }
-\newlabel{sec:data_ensemble}{{3.3.1}{6}{Data ensemble}{subsubsection.3.3.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Model ensemble}{6}{subsubsection.3.3.2}\protected@file@percent }
-\newlabel{sec:model_ensemble}{{3.3.2}{6}{Model ensemble}{subsubsection.3.3.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Data Ensemble}{6}{subsubsection.3.3.1}\protected@file@percent }
+\newlabel{sec:data_ensemble}{{3.3.1}{6}{Data Ensemble}{subsubsection.3.3.1}{}}
+\@LN@col{2}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Model Ensemble}{6}{subsubsection.3.3.2}\protected@file@percent }
+\newlabel{sec:model_ensemble}{{3.3.2}{6}{Model Ensemble}{subsubsection.3.3.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Experiments}{6}{section.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Evaluation Dataset}{6}{subsection.4.1}\protected@file@percent }
 \newlabel{sec:datasets}{{4.1}{6}{Evaluation Dataset}{subsection.4.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Experimental Setup}{6}{subsection.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}\textit  {Model Under Comparison}}{6}{subsubsection.4.2.1}\protected@file@percent }
 \newlabel{sec:baselines}{{4.2.1}{6}{\textit {Model Under Comparison}}{subsubsection.4.2.1}{}}
-\@LN@col{2}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}\textit  {Evaluation Metrics}}{6}{subsubsection.4.2.2}\protected@file@percent }
-\newlabel{sec:metrics}{{4.2.2}{6}{\textit {Evaluation Metrics}}{subsubsection.4.2.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Experimental Results and Analysis}{6}{subsection.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}\textit  {Comparison Results}}{6}{subsubsection.4.3.1}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Approach performance on complete MultiSpanQA valid set based on $\text  {BERT}_{base}$.\relax }}{7}{table.caption.5}\protected@file@percent }
 \newlabel{tab:bertall}{{1}{7}{Approach performance on complete MultiSpanQA valid set based on $\text {BERT}_{base}$.\relax }{table.caption.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Approach performance on complete MultiSpanQA valid set based on $\text  {RoBERTa}_{base}$.\relax }}{7}{table.caption.6}\protected@file@percent }
-\newlabel{tab:robertaall}{{2}{7}{Approach performance on complete MultiSpanQA valid set based on $\text {RoBERTa}_{base}$.\relax }{table.caption.6}{}}
+\@LN@col{1}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}\textit  {Evaluation Metrics}}{7}{subsubsection.4.2.2}\protected@file@percent }
+\newlabel{sec:metrics}{{4.2.2}{7}{\textit {Evaluation Metrics}}{subsubsection.4.2.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Experimental Results and Analysis}{7}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}\textit  {Comparison Results}}{7}{subsubsection.4.3.1}\protected@file@percent }
+\@LN@col{2}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Approach performance on complete MultiSpanQA valid set based on $\text  {RoBERTa}_{base}$.\relax }}{8}{table.caption.6}\protected@file@percent }
+\newlabel{tab:robertaall}{{2}{8}{Approach performance on complete MultiSpanQA valid set based on $\text {RoBERTa}_{base}$.\relax }{table.caption.6}{}}
 \@LN@col{1}
 \@LN@col{2}
-\@LN@col{1}
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces The statistics of answers span predicted by $\text  {AUG}{eree}$, $\text  {AUG}{ereec}$ and baselines\relax }}{8}{table.caption.7}\protected@file@percent }
 \newlabel{tab:answer_counts_vertical}{{3}{8}{The statistics of answers span predicted by $\text {AUG}{eree}$, $\text {AUG}{ereec}$ and baselines\relax }{table.caption.7}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}\textit  {Discussion}}{8}{subsubsection.4.3.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text  {BERT}_{base}$.\relax }}{9}{table.caption.8}\protected@file@percent }
+\newlabel{tab:bertsub}{{4}{9}{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text {BERT}_{base}$.\relax }{table.caption.8}{}}
+\@LN@col{1}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}\textit  {Ablation Experiment}}{9}{subsubsection.4.3.3}\protected@file@percent }
 \@LN@col{2}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}\textit  {Ablation Experiment}}{8}{subsubsection.4.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{8}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{9}{section.5}\protected@file@percent }
 \bibstyle{cas-model2-names}
 \bibdata{refs}
 \bibcite{dai2023auggpt}{{1}{2023}{{Dai et~al.}}{{Dai, Liu, Liao, Huang, Cao, Wu, Zhao, Xu, Liu, Liu, Li, Zhu, Cai, Sun, Li, Shen, Liu and Li}}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text  {RoBERTa}_{base}$.\relax }}{10}{table.caption.9}\protected@file@percent }
+\newlabel{tab:robertasub}{{5}{10}{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text {RoBERTa}_{base}$.\relax }{table.caption.9}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Ablations of $\text  {AUG}_{c}$ on different proportion for information concatenation, based on $\text  {BERT}_{base}$.\relax }}{10}{table.caption.10}\protected@file@percent }
+\newlabel{tab:different_ratio_bert}{{6}{10}{Ablations of $\text {AUG}_{c}$ on different proportion for information concatenation, based on $\text {BERT}_{base}$.\relax }{table.caption.10}{}}
+\@LN@col{1}
+\@LN@col{2}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Ablations of $\text  {AUG}_{c}$ on different proportion for information concatenation, based on $\text  {RoBERTa}_{base}$.\relax }}{10}{table.caption.11}\protected@file@percent }
+\newlabel{tab:different_ratio_roberta}{{7}{10}{Ablations of $\text {AUG}_{c}$ on different proportion for information concatenation, based on $\text {RoBERTa}_{base}$.\relax }{table.caption.11}{}}
 \bibcite{DBLP:conf/naacl/DevlinCLT19}{{2}{2019}{{Devlin et~al.}}{{Devlin, Chang, Lee and Toutanova}}}
 \bibcite{fang2021leveraging}{{3}{2021}{{Fang et~al.}}{{Fang, Wang, Xu, Xu, Sun, Zhu and Zeng}}}
 \bibcite{gu2021domain}{{4}{2021}{{Gu et~al.}}{{Gu, Tinn, Cheng, Lucas, Usuyama, Liu, Naumann, Gao and Poon}}}
@@ -137,21 +153,9 @@
 \bibcite{lee2023liquid}{{11}{2023}{{Lee et~al.}}{{Lee, Kim and Kang}}}
 \bibcite{li2022multispanqa}{{12}{2022}{{Li et~al.}}{{Li, Tomko, Vasardani and Baldwin}}}
 \bibcite{liu2022rainier}{{13}{2022}{{Liu et~al.}}{{Liu, Hallinan, Lu, He, Welleck, Hajishirzi and Choi}}}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text  {BERT}_{base}$.\relax }}{9}{table.caption.8}\protected@file@percent }
-\newlabel{tab:bertsub}{{4}{9}{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text {BERT}_{base}$.\relax }{table.caption.8}{}}
-\@LN@col{1}
-\@LN@col{2}
 \bibcite{liu2021generated}{{14}{2021}{{Liu et~al.}}{{Liu, Liu, Lu, Welleck, West, Bras, Choi and Hajishirzi}}}
 \bibcite{liu2019roberta}{{15}{2019}{{Liu et~al.}}{{Liu, Ott, Goyal, Du, Joshi, Chen, Levy, Lewis, Zettlemoyer and Stoyanov}}}
 \bibcite{DBLP:journals/bmcbi/NaseemDKK22}{{16}{2022}{{Naseem et~al.}}{{Naseem, Dunn, Khushi and Kim}}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text  {RoBERTa}_{base}$.\relax }}{10}{table.caption.9}\protected@file@percent }
-\newlabel{tab:robertasub}{{5}{10}{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text {RoBERTa}_{base}$.\relax }{table.caption.9}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Ablations of $\text  {AUG}_{c}$ on different proportion for information concatenation, based on $\text  {BERT}_{base}$.\relax }}{10}{table.caption.10}\protected@file@percent }
-\newlabel{tab:different_ratio_bert}{{6}{10}{Ablations of $\text {AUG}_{c}$ on different proportion for information concatenation, based on $\text {BERT}_{base}$.\relax }{table.caption.10}{}}
-\@LN@col{1}
-\@LN@col{2}
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Ablations of $\text  {AUG}_{c}$ on different proportion for information concatenation, based on $\text  {RoBERTa}_{base}$.\relax }}{10}{table.caption.11}\protected@file@percent }
-\newlabel{tab:different_ratio_roberta}{{7}{10}{Ablations of $\text {AUG}_{c}$ on different proportion for information concatenation, based on $\text {RoBERTa}_{base}$.\relax }{table.caption.11}{}}
 \bibcite{DBLP:conf/aaai/PangLGXSC19}{{17}{2019}{{Pang et~al.}}{{Pang, Lan, Guo, Xu, Su and Cheng}}}
 \bibcite{radford2018improving}{{18}{2018}{{Radford et~al.}}{{Radford, Narasimhan, Salimans, Sutskever et~al.}}}
 \bibcite{ren2023investigating}{{19}{2023}{{Ren et~al.}}{{Ren, Wang, Qu, Zhao, Liu, Tian, Wu, Wen and Wang}}}
@@ -169,8 +173,10 @@
 \bibcite{yoon2022}{{31}{2022}{{Yoon et~al.}}{{Yoon, Jackson, Lagerberg and Kang}}}
 \bibcite{yu2022generate}{{32}{2022}{{Yu et~al.}}{{Yu, Iter, Wang, Xu, Ju, Sanyal, Zhu, Zeng and Jiang}}}
 \bibcite{zhang2023many}{{33}{2023}{{Zhang et~al.}}{{Zhang, Lin, Liu, Lai, Feng and Zhao}}}
-\bibcite{DBLP:conf/emnlp/ZhuAJ0R20}{{34}{2020}{{Zhu et~al.}}{{Zhu, Ahuja, Juan, Wei and Reddy}}}
-\csxdef{lastpage}{11}
 \@LN@col{1}
 \@LN@col{2}
-\gdef \@abspage@last{11}
+\bibcite{DBLP:conf/emnlp/ZhuAJ0R20}{{34}{2020}{{Zhu et~al.}}{{Zhu, Ahuja, Juan, Wei and Reddy}}}
+\csxdef{lastpage}{12}
+\@LN@col{1}
+\@LN@col{2}
+\gdef \@abspage@last{12}
