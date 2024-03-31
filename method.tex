@@ -116,6 +116,10 @@
 
 \subsubsection{Model Ensemble}
 \label{sec:model_ensemble}
+ From the model ensemble perspective, we first fine-tune multiple single-knowledge-enhanced question-answering models. During the prediction phase, each model performs token-based B/I/O classification on the context. Subsequently, for each token, we conduct a voting process on the prediction results from each model, selecting the category with the highest number of votes as the final classification result. In case of a tie, we compare the average probabilities of all categories provided by the models, and select the category with the higher average probability as the classification for the given token.
+ 
+ Overall, we applied the aforementioned integration methods to two combinations for research purposes:$(a)$ combining factual knowledge (entity interpretation, entity relationships) with content continuation to compare the effectiveness of model ensemble methods versus data ensembles methods in knowledge fusion; and $(b)$ combining factual knowledge, content continuation, and other data augmentation methods (such as LIQUID) to investigate the compatibility between the model and other data augmentation methods.
+ 
 
 
 
