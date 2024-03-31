@@ -75,20 +75,20 @@
 \newlabel{sec:prompt_construction}{{3.1}{3}{Our Framework}{figure.caption.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}LLMs as Knowledge Source}{3}{subsection.3.2}\protected@file@percent }
 \newlabel{sec:llm_as_knowledge_source}{{3.2}{3}{LLMs as Knowledge Source}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}LLMs as Content Summerizer}{3}{subsubsection.3.2.1}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Prompt Templates and it's Construction\relax }}{4}{figure.caption.2}\protected@file@percent }
 \newlabel{fig:prompt_template}{{2}{4}{Prompt Templates and it's Construction\relax }{figure.caption.2}{}}
 \@LN@col{1}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}LLMs as Content Summerizer}{4}{subsubsection.3.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}LLMs as Named Entity Elucidator}{4}{subsubsection.3.2.2}\protected@file@percent }
 \newlabel{sec:LLMs as Named Entity Elucidator}{{3.2.2}{4}{LLMs as Named Entity Elucidator}{subsubsection.3.2.2}{}}
 \@LN@col{2}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}LLMs as Entity Relationship Extractor}{4}{subsubsection.3.2.3}\protected@file@percent }
+\newlabel{sec:llm_as_relationship_extrator}{{3.2.3}{4}{LLMs as Entity Relationship Extractor}{subsubsection.3.2.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The Process of Inserting Entity Explanation into Context\relax }}{5}{figure.caption.3}\protected@file@percent }
 \newlabel{fig:entity_insertion}{{3}{5}{The Process of Inserting Entity Explanation into Context\relax }{figure.caption.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The Process of Concatenation of Original Context and Auxiliary Information\relax }}{5}{figure.caption.4}\protected@file@percent }
 \newlabel{fig:random_concatenate}{{4}{5}{The Process of Concatenation of Original Context and Auxiliary Information\relax }{figure.caption.4}{}}
 \@LN@col{1}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}LLMs as Entity Relationship Extractor}{5}{subsubsection.3.2.3}\protected@file@percent }
-\newlabel{sec:llm_as_relationship_extrator}{{3.2.3}{5}{LLMs as Entity Relationship Extractor}{subsubsection.3.2.3}{}}
 \@LN@col{2}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}LLMs as Content Continuator}{5}{subsubsection.3.2.4}\protected@file@percent }
 \newlabel{sec:llm_as_continuator}{{3.2.4}{5}{LLMs as Content Continuator}{subsubsection.3.2.4}{}}
@@ -103,15 +103,15 @@
 \@writefile{toc}{\contentsline {section}{\numberline {4}Experiments}{6}{section.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Evaluation Dataset}{6}{subsection.4.1}\protected@file@percent }
 \newlabel{sec:datasets}{{4.1}{6}{Evaluation Dataset}{subsection.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Experimental Setup}{6}{subsection.4.2}\protected@file@percent }
 \@LN@col{1}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Experimental Setup}{7}{subsection.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}\textit  {Model Under Comparison}}{7}{subsubsection.4.2.1}\protected@file@percent }
 \newlabel{sec:baselines}{{4.2.1}{7}{\textit {Model Under Comparison}}{subsubsection.4.2.1}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}\textit  {Evaluation Metrics}}{7}{subsubsection.4.2.2}\protected@file@percent }
 \newlabel{sec:metrics}{{4.2.2}{7}{\textit {Evaluation Metrics}}{subsubsection.4.2.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Experimental Results and Analysis}{7}{subsection.4.3}\protected@file@percent }
-\@LN@col{2}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}\textit  {Comparison Results}}{7}{subsubsection.4.3.1}\protected@file@percent }
+\@LN@col{2}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Approach performance on complete MultiSpanQA valid set based on $\text  {BERT}_{base}$.\relax }}{8}{table.caption.5}\protected@file@percent }
 \newlabel{tab:bertall}{{1}{8}{Approach performance on complete MultiSpanQA valid set based on $\text {BERT}_{base}$.\relax }{table.caption.5}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Approach performance on complete MultiSpanQA valid set based on $\text  {RoBERTa}_{base}$.\relax }}{8}{table.caption.6}\protected@file@percent }
@@ -120,6 +120,7 @@
 \@LN@col{2}
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces The statistics of answers span predicted by $\text  {AUG}{eree}$, $\text  {AUG}{ereec}$ and baselines\relax }}{8}{table.caption.7}\protected@file@percent }
 \newlabel{tab:answer_counts_vertical}{{3}{8}{The statistics of answers span predicted by $\text {AUG}{eree}$, $\text {AUG}{ereec}$ and baselines\relax }{table.caption.7}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}\textit  {Discussion}}{8}{subsubsection.4.3.2}\protected@file@percent }
 \bibstyle{cas-model2-names}
 \bibdata{refs}
 \bibcite{dai2023auggpt}{{1}{2023}{{Dai et~al.}}{{Dai, Liu, Liao, Huang, Cao, Wu, Zhao, Xu, Liu, Liu, Li, Zhu, Cai, Sun, Li, Shen, Liu and Li}}}
@@ -127,14 +128,13 @@
 \bibcite{fang2021leveraging}{{3}{2021}{{Fang et~al.}}{{Fang, Wang, Xu, Xu, Sun, Zhu and Zeng}}}
 \bibcite{gu2021domain}{{4}{2021}{{Gu et~al.}}{{Gu, Tinn, Cheng, Lucas, Usuyama, Liu, Naumann, Gao and Poon}}}
 \bibcite{hu2023biomedical}{{5}{2023}{{Hu et~al.}}{{Hu, Yang, Li, Sun and Yang}}}
-\@LN@col{1}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}\textit  {Discussion}}{9}{subsubsection.4.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}\textit  {Ablation Experiment}}{9}{subsubsection.4.3.3}\protected@file@percent }
-\@LN@col{2}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{9}{section.5}\protected@file@percent }
 \bibcite{huang2023qualifier}{{6}{2023a}{{Huang et~al.}}{{Huang, Zhou, Niu and Cheng}}}
 \bibcite{huang2023enhancing}{{7}{2023b}{{Huang et~al.}}{{Huang, Zhou, Xiao and Cheng}}}
 \bibcite{DBLP:conf/acl/KadlecSBK16}{{8}{2016}{{Kadlec et~al.}}{{Kadlec, Schmid, Bajgar and Kleindienst}}}
+\@LN@col{1}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}\textit  {Ablation Experiment}}{9}{subsubsection.4.3.3}\protected@file@percent }
+\@LN@col{2}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{9}{section.5}\protected@file@percent }
 \bibcite{kenton2019bert}{{9}{2019}{{Kenton and Toutanova}}{{}}}
 \bibcite{lee2020biobert}{{10}{2020}{{Lee et~al.}}{{Lee, Yoon, Kim, Kim, Kim, So and Kang}}}
 \bibcite{lee2023liquid}{{11}{2023}{{Lee et~al.}}{{Lee, Kim and Kang}}}
@@ -149,12 +149,16 @@
 \bibcite{segal2020simple}{{20}{2020}{{Segal et~al.}}{{Segal, Efrat, Shoham, Globerson and Berant}}}
 \bibcite{DBLP:conf/iclr/SeoKFH17}{{21}{2017}{{Seo et~al.}}{{Seo, Kembhavi, Farhadi and Hajishirzi}}}
 \bibcite{shao2023enhancing}{{22}{2023}{{Shao et~al.}}{{Shao, Gong, Shen, Huang, Duan and Chen}}}
+\bibcite{tan2023can}{{23}{2023}{{Tan et~al.}}{{Tan, Min, Li, Li, Hu, Chen and Qi}}}
+\bibcite{DBLP:conf/emnlp/TrischlerYYBSS16}{{24}{2016}{{Trischler et~al.}}{{Trischler, Ye, Yuan, Bachman, Sordoni and Suleman}}}
+\bibcite{vaswani2017attention}{{25}{2017}{{Vaswani et~al.}}{{Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez, Kaiser and Polosukhin}}}
 \@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text  {BERT}_{base}$.\relax }}{10}{table.caption.8}\protected@file@percent }
 \newlabel{tab:bertsub}{{4}{10}{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text {BERT}_{base}$.\relax }{table.caption.8}{}}
 \@LN@col{1}
 \@LN@col{2}
-\bibcite{tan2023can}{{23}{2023}{{Tan et~al.}}{{Tan, Min, Li, Li, Hu, Chen and Qi}}}
-\bibcite{DBLP:conf/emnlp/TrischlerYYBSS16}{{24}{2016}{{Trischler et~al.}}{{Trischler, Ye, Yuan, Bachman, Sordoni and Suleman}}}
+\bibcite{DBLP:conf/nips/VinyalsFJ15}{{26}{2015}{{Vinyals et~al.}}{{Vinyals, Fortunato and Jaitly}}}
+\bibcite{DBLP:conf/iclr/Wang017a}{{27}{2017}{{Wang and Jiang}}{{}}}
+\bibcite{wei2023zero}{{28}{2023}{{Wei et~al.}}{{Wei, Cui, Cheng, Wang, Zhang, Huang, Xie, Xu, Chen, Zhang et~al.}}}
 \@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text  {RoBERTa}_{base}$.\relax }}{11}{table.caption.9}\protected@file@percent }
 \newlabel{tab:robertasub}{{5}{11}{Model performance on complete MultiSpanQA valid Subset with different answer types based on $\text {RoBERTa}_{base}$.\relax }{table.caption.9}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Ablations of $\text  {AUG}_{c}$ on different proportion for information concatenation, based on $\text  {BERT}_{base}$.\relax }}{11}{table.caption.10}\protected@file@percent }
@@ -163,10 +167,6 @@
 \@LN@col{2}
 \@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Ablations of $\text  {AUG}_{c}$ on different proportion for information concatenation, based on $\text  {RoBERTa}_{base}$.\relax }}{11}{table.caption.11}\protected@file@percent }
 \newlabel{tab:different_ratio_roberta}{{7}{11}{Ablations of $\text {AUG}_{c}$ on different proportion for information concatenation, based on $\text {RoBERTa}_{base}$.\relax }{table.caption.11}{}}
-\bibcite{vaswani2017attention}{{25}{2017}{{Vaswani et~al.}}{{Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez, Kaiser and Polosukhin}}}
-\bibcite{DBLP:conf/nips/VinyalsFJ15}{{26}{2015}{{Vinyals et~al.}}{{Vinyals, Fortunato and Jaitly}}}
-\bibcite{DBLP:conf/iclr/Wang017a}{{27}{2017}{{Wang and Jiang}}{{}}}
-\bibcite{wei2023zero}{{28}{2023}{{Wei et~al.}}{{Wei, Cui, Cheng, Wang, Zhang, Huang, Xie, Xu, Chen, Zhang et~al.}}}
 \bibcite{DBLP:conf/iclr/XiongZS17}{{29}{2017}{{Xiong et~al.}}{{Xiong, Zhong and Socher}}}
 \bibcite{yoo2021gpt3mix}{{30}{2021}{{Yoo et~al.}}{{Yoo, Park, Kang, Lee and Park}}}
 \bibcite{yoon2022}{{31}{2022}{{Yoon et~al.}}{{Yoon, Jackson, Lagerberg and Kang}}}

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.1.14)  31 MAR 2024 17:23
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.1.14)  31 MAR 2024 21:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1338,8 +1338,8 @@ Underfull \vbox (badness 5077) has occurred while \output is active []
 
  [2])
 (./method.tex
-File: overview.png Graphic file (type bmp)
-<overview.png>
+File: overview_v2.png Graphic file (type bmp)
+<overview_v2.png>
 
 Overfull \hbox (17.64072pt too wide) in paragraph at lines 5--6
  [][] 
@@ -1347,21 +1347,27 @@ Overfull \hbox (17.64072pt too wide) in paragraph at lines 5--6
 
 File: Prompts_construction.png Graphic file (type bmp)
 <Prompts_construction.png>
-[3]
 
 LaTeX Font Warning: Font shape `TU/lmr/b/it' in size <10.5> not available
 (Font)              Font shape `TU/lmr/b/sl' tried instead on input line 44.
 
+[3]
+Underfull \vbox (badness 6445) has occurred while \output is active []
+
 File: EntityInsert.png Graphic file (type bmp)
 <EntityInsert.png>
-
-Underfull \vbox (badness 2913) has occurred while \output is active []
-
- [4]
 File: RandomConcat.png Graphic file (type bmp)
 <RandomConcat.png>
 
-[5]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \vbox (badness 5475) has occurred while \output is active []
+
+ [5]
 Underfull \hbox (badness 1635) in paragraph at lines 119--120
 []\TU/lmr/m/n/10 From the model ensemble perspective, we first
  []
@@ -1396,15 +1402,12 @@ Underfull \hbox (badness 1454) in paragraph at lines 88--89
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 1502) has occurred while \output is active []
 
  [7]
 
 LaTeX Warning: Reference `tab:answer_counts' on page 8 undefined on input line 
 95.
-
-
-Underfull \vbox (badness 5231) has occurred while \output is active []
 
 
 Underfull \hbox (badness 2726) in paragraph at lines 102--102
@@ -1414,10 +1417,10 @@ Underfull \hbox (badness 2726) in paragraph at lines 102--102
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
+
+Underfull \vbox (badness 1377) has occurred while \output is active []
+
  [8]
-Underfull \vbox (badness 2772) has occurred while \output is active []
-
-
 Underfull \hbox (badness 1635) in paragraph at lines 216--217
 \TU/lmr/m/n/10 nate original contexts and continuation, on com-
  []
@@ -1465,11 +1468,11 @@ Package rerunfilecheck Info: File `paper.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  24702 strings out of 476683
- 469674 string characters out of 5803606
- 1908012 words of memory out of 5000000
+ 469698 string characters out of 5803606
+ 1907012 words of memory out of 5000000
  44477 multiletter control sequences out of 15000+600000
  565910 words of font info for 184 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 87i,13n,117p,1193b,635s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 87i,13n,117p,1172b,643s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on paper.pdf (12 pages).
